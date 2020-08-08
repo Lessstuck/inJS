@@ -1,0 +1,34 @@
+
+class Node(data, next = null)    {
+    this.data = data;
+    this.next = next;
+}
+
+
+class LinkedList  {
+    constructor()   {
+        this.length = 0;
+        this.head = null;
+    }
+    push(data)  {
+        this.length = this.length + 1;
+        if (this.head === null) {
+            this.head = new Node(data);
+        } else  {
+            let currentNode = new Node(data);
+            while (currentNode.next !== null)    {
+                currentNode = currentNode.next;
+            }
+            currentNode.next = new Node(data);
+        }
+    }
+}
+    
+
+function arrayToList(a) {
+    linkedList = new(LinkedList);
+    for (let i = 0; i < a.length; i++)  {
+        linkedList(a[i]).push;
+    }
+    return linkedList;
+}
