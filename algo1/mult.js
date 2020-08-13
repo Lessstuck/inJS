@@ -2,21 +2,27 @@
 const x = BigInt(process.argv[2]);
 const y = BigInt(process.argv[3]);
 let xs = x.toString();
-const xsl = xs.length;
+let xsl = xs.length;
 
-// print string, character by character
-process.stdout.write("stringy:  ");
-for (let i = 0; i < xsl; i++)    {
-    process.stdout.write(xs[i]);
-};
-console.log("");
+let a = bigSplit(x);
+let b = bigSplit(y);
 
-console.log("string: " + xs);
+console.log("Native JS Multiplication: " + (x * y));
+console.log("Karatsuba Multiplication: " + a);
+console.log("Karatsuba Multiplication: " + b);
 
-console.log("Native JS Multiplication: "  + (x * y));
-console.log("Grade School Multiplication: " + (x * y));
+// function kara(m, n) {
 
-function gradeSchoolMult(a, b) {
-    let al = a.length
+// }
 
+function bigSplit(number) {
+    number = number.toString()
+    len = number.length;
+    if (len < 2) {
+        console.log('too small');
+        return;
+    }
+    let a = number.slice(0, len/2);
+    let b = number.slice(len/2);
+    return [a, b];
 }
