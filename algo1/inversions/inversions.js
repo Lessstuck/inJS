@@ -1,17 +1,48 @@
 fs = require("fs");
 
-// let intArray = [];
+var numberArray = [];
 
-fs.readFile('./IntegerArray.txt', (err, data) => {
-    if (err) throw err;
-    console.log("type: " + typeof (data));
-    dataString = String(data);
-    // intArray = data.split("\n");
-    let re = /\r/g;
-    let dataStringArray = dataString.split(re);
-    for (let i = 0; i < 20; i++) {
 
-        console.log(Number(dataStringArray[i]));
+function readContent(callback) {
+    fs.readFile('./IntegerArray.txt', (err, data) => {
+        if (err) return callback(err);
+        dataString = String(data);
+        let re = /\r/g;
+        let dataStringArray = dataString.split(re);
+        let dataStringArrayLength = dataStringArray.length;
+        let dataArray = [];
+        for (let i = 0; i < dataStringArrayLength; i++) {
+            numberArray[i] = Number(dataStringArray[i]);
+            // console.log(numberArray[i]);
+        };
+        callback(null, data);
+    });
+}
+
+readContent(function (err, data) {
+    let A = [];
+    let B = [];
+    let C = [];
+    let len = numberArray.length;
+    function recurse(C) {
+        if (len < 2) {
+            return 0;
+        }
+        for (let j = 0; j < len / 2; j++) {
+            A[j] = C[j];
+        }
+        for (let k = len / 2; k < len; k++) {
+            B[k] = C[k];
+        }
+        len = Math.floor(len / 2);
+        recurse(A);
+        recurse(B);
     }
 
+    console.log(`length: ${len}`);
+    console.log(`A ${A}`);
+    console.log(`C ${C}`);
 });
+
+
+
