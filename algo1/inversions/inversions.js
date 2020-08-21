@@ -32,7 +32,7 @@ readContent(function (err, data) {
             A[j] = C[j];
         }
         for (let k = 0; k < len; k++) {
-            B[k] = C[k + len/2;
+            B[k] = C[k + len/2];
         }
         len = Math.floor(len / 2);
         recurse(A);
