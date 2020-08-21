@@ -31,8 +31,8 @@ readContent(function (err, data) {
         for (let j = 0; j < len / 2; j++) {
             A[j] = C[j];
         }
-        for (let k = len / 2; k < len; k++) {
-            B[k] = C[k];
+        for (let k = 0; k < len; k++) {
+            B[k] = C[k + len/2;
         }
         len = Math.floor(len / 2);
         recurse(A);
