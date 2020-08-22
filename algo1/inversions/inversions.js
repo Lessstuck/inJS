@@ -5,7 +5,7 @@ var len;
 
 // read text file of numbers and convert to array of integers
 function readContent(callback) {
-    fs.readFile('./IntegerArray.txt', (err, data) => {
+    fs.readFile('./IntegerArraySmall.txt', (err, data) => {
         if (err) return callback(err);
         dataString = String(data);
         let re = /\r/g;
@@ -19,34 +19,35 @@ function readContent(callback) {
     });
 }
 
-
 readContent(function (err, data) {
     let A = []; // left side of C
     let B = []; // right side of C
     len = numberArray.length;
     let sorted = mergeSort(numberArray);
-    for (let k = 0; k < 20; k++)    {
-        console.log("sorted: " + sorted[k]);
+    len = numberArray.length;
+    for (let k = 0; k < len; k++)    {
+        console.log("sorted: " + numberArray[k]);
     }
 });
 
 function mergeSort(C) {
-    // console.log(`insidelength: ${len}`);
     let A = [];
     let B = [];
-    if (len <= 2) {
+    if (len < 2) {
         return C;
     }
+    console.log(`insidelength: ${len}`);
     for (let j = 0; j < len / 2; j++) {
         A[j] = C[j];
     }
-    for (let k = 0; k < len; k++) {
+    for (let k = 0; k < len / 2; k++) {
         B[k] = C[k + len / 2];
     }
+    console.log(`A: ${A}`);
+    console.log(`B: ${B}`);
     len = Math.floor(len / 2);
     return merge(mergeSort(A), mergeSort(B));
 }
-
 
 function merge(A, B) {
     var lena = A.length;
@@ -70,7 +71,9 @@ function merge(A, B) {
             } else if (A[i] > B[j]) {
                 merged[k] = B[j];
                 j++;
-            } else {
+            } else { // if elements are non-distinct
+                merged[k] = A[i];
+                i++;
             }
     };
     return merged;
