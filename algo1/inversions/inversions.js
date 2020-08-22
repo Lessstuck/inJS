@@ -41,20 +41,9 @@ function mergeSort(C) {
     var mid = Math.floor(C.length / 2);
     var A = mergeSort(C.slice(0, mid));
     var B = mergeSort(C.slice(mid));
-
-    // for (let j = 0; j < len / 2; j++) {
-    //     A[j] = C[j];
-    // }
-    // for (let k = 0; k < len / 2; k++) {
-    //     B[k] = C[k + len / 2];
-    // }
     console.log(`A: ${A}`);
     console.log(`B: ${B}`);
-    // len = Math.floor(len / 2);
-    let sortedA = mergeSort(A);
-    // let sortedB = mergeSort(B);
-    let checkitout = merge(A, B);
-    return checkitout;
+    return merge(A, B);;
 }
 
 function merge(A, B) {
