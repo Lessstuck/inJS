@@ -1,6 +1,6 @@
 // arbitrary test arguments: two sorted arrays
-let a = [1, 4, 5];
-let b = [2, 3, 6];
+let a = [4];
+let b = [2];
 
 function merge(A, B) {
     var lena = A.length;
