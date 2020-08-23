@@ -1,11 +1,16 @@
+// reads text file with a bunch of numbers
+// converts to array and sorts in increasing order using mergeSort
+// counts inversions in original array while mergeSorting
+
 fs = require("fs");
 
 var numberArray = [];
 var len;
+var inversionCount = 0;  // for inversion count
 
 // read text file of numbers and convert to array of integers
 function readContent(callback) {
-    fs.readFile('./IntegerArraySmall.txt', (err, data) => {
+    fs.readFile('./IntegerArray.txt', (err, data) => {
         if (err) return callback(err);
         dataString = String(data);
         let re = /\r/g;
@@ -23,9 +28,7 @@ readContent(function (err, data) {
     len = numberArray.length;
     let sorted = mergeSort(numberArray);
     len = numberArray.length;
-    for (let k = 0; k < len; k++)    {
-        console.log("sorted: " + sorted[k]);
-    }
+    console.log(`inversions: ${inversionCount}`);
 });
 
 function mergeSort(C) {
@@ -35,15 +38,11 @@ function mergeSort(C) {
     var mid = Math.floor(C.length / 2);
     var A = mergeSort(C.slice(0, mid));
     var B = mergeSort(C.slice(mid));
-    console.log(`A: ${A}`);
-    console.log(`B: ${B}`);
     var mergeSorted = merge(A, B);
-    console.log(`mergeSorted: ${mergeSorted}`);
     return mergeSorted;
 }
 
 function merge(left, right) {
-    console.log(`left: ${left}, right: ${right}`)
     var lena = left.length;
     var lenb = right.length;
     let merged = [];
@@ -64,6 +63,7 @@ function merge(left, right) {
                 i++;
             } else if (left[i] > right[j]) {
                 merged[k] = right[j];
+                inversionCount = inversionCount + (lena - i); // for inversion count
                 j++;
             } else { // if elements are non-distinct
                 merged[k] = left[i];
