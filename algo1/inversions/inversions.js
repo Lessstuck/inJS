@@ -20,56 +20,53 @@ function readContent(callback) {
 }
 
 readContent(function (err, data) {
-    let A = []; // left side of C
-    let B = []; // right side of C
     len = numberArray.length;
     let sorted = mergeSort(numberArray);
     len = numberArray.length;
     for (let k = 0; k < len; k++)    {
-        console.log("sorted: " + numberArray[k]);
+        console.log("sorted: " + sorted[k]);
     }
 });
 
 function mergeSort(C) {
-    // let A = [];
-    // let B = [];
     if (C.length < 2) {
         return C;
     }
-    console.log(`Clength: ${C.length}`);
-
     var mid = Math.floor(C.length / 2);
     var A = mergeSort(C.slice(0, mid));
     var B = mergeSort(C.slice(mid));
     console.log(`A: ${A}`);
     console.log(`B: ${B}`);
-    return merge(A, B);;
+    var mergeSorted = merge(A, B);
+    console.log(`mergeSorted: ${mergeSorted}`);
+    return mergeSorted;
 }
 
-function merge(A, B) {
-    var lena = A.length;
-    var lenb = B.length;
+function merge(left, right) {
+    console.log(`left: ${left}, right: ${right}`)
+    var lena = left.length;
+    var lenb = right.length;
     let merged = [];
     let i = 0;
     let j = 0;
     let k;
     for (k = 0; k < (lena + lenb); k++) {
         if (i >= lena) {
-            merged[k] = B[j];
+            merged[k] = right[j];
             j++;
         }
         else if (j >= lenb) {
-            merged[k] = A[i];
+            merged[k] = left[i];
             i++;
         } else
-            if (A[i] < B[j]) {
-                merged[k] = A[i];
+            if (left[i] < right[j]) {
+                merged[k] = left[i];
                 i++;
-            } else if (A[i] > B[j]) {
-                merged[k] = B[j];
+            } else if (left[i] > right[j]) {
+                merged[k] = right[j];
                 j++;
             } else { // if elements are non-distinct
-                merged[k] = A[i];
+                merged[k] = left[i];
                 i++;
             }
     };
