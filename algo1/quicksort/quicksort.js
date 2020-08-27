@@ -10,16 +10,17 @@ var comparisonCount = 0;  // for comparison count
 
 // read text file of numbers and convert to array of integers
 function readContent(callback) {
-    fs.readFile('./IntegerArray.txt', (err, data) => {
+    fs.readFile('./QuickSort.txt', (err, data) => {
         if (err) return callback(err);
         dataString = String(data);
-        let re = /\r/g;
+        let re = /\r\n/g;
         let dataStringArray = dataString.split(re);
         let dataStringArrayLength = dataStringArray.length;
         let dataArray = [];
         for (let i = 0; i < dataStringArrayLength; i++) {
             numberArray[i] = Number(dataStringArray[i]);
         };
+        console.log(numberArray);
         callback(null, data);
     });
 }
@@ -28,6 +29,9 @@ readContent(function (err, data) {
     len = numberArray.length;
     let sorted = quickSort(numberArray);
     len = numberArray.length;
+    for (let i; i < 5; i++) {
+        console.log(`array: ${numberArray[i]}`)
+    };
     console.log(`comparisons: ${comparisonCount}`);
 });
 
