@@ -2,6 +2,8 @@
 // converts to array and sorts in increasing order using quickSort
 // counts comparisons while quicksorting
 
+const { randomFill } = require("crypto");
+
 fs = require("fs");
 
 var numberArray = [];
@@ -20,7 +22,6 @@ function readContent(callback) {
         for (let i = 0; i < dataStringArrayLength; i++) {
             numberArray[i] = Number(dataStringArray[i]);
         };
-        console.log(numberArray);
         callback(null, data);
     });
 }
@@ -29,50 +30,28 @@ readContent(function (err, data) {
     len = numberArray.length;
     let sorted = quickSort(numberArray);
     len = numberArray.length;
-    for (let i; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
         console.log(`array: ${numberArray[i]}`)
     };
-    console.log(`comparisons: ${comparisonCount}`);
+    console.log(`comparisons: ${len}`);
 });
 
-function quickSort(A, l, f) {
-    // if (C.length < 2) {
-    //     return C;
-    // }
-    // var mid = Math.floor(C.length / 2);
-    // var A = mergeSort(C.slice(0, mid));
-    // var B = mergeSort(C.slice(mid));
-    // var mergeSorted = merge(A, B);
-    // return mergeSorted;
+function partition(A, l, r) {
+    let p = A[l];
+    let i = l + r;
+    for (let j = l + 1; j <= r; j++) {
+        if (A[j] < p) {
+            let temp = A[i];
+            A[i] = A[j];
+            A[j] = temp;
+        }
+    }
 }
 
-// function merge(left, right) {
-//     var lena = left.length;
-//     var lenb = right.length;
-//     let merged = [];
-//     let i = 0;
-//     let j = 0;
-//     let k;
-//     for (k = 0; k < (lena + lenb); k++) {
-//         if (i >= lena) {
-//             merged[k] = right[j];
-//             j++;
-//         }
-//         else if (j >= lenb) {
-//             merged[k] = left[i];
-//             i++;
-//         } else
-//             if (left[i] < right[j]) {
-//                 merged[k] = left[i];
-//                 i++;
-//             } else if (left[i] > right[j]) {
-//                 merged[k] = right[j];
-//                 inversionCount = inversionCount + (lena - i); // for inversion count
-//                 j++;
-//             } else { // if elements are non-distinct
-//                 merged[k] = left[i];
-//                 i++;
-//             }
-//     };
-//     return merged;
-// }
+function quickSort(A) {
+    let p = A[0];
+    let m = 0;
+    let n = len;
+    partition(A, m, n);
+    // return merged;
+}
