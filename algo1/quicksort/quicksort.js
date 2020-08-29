@@ -29,7 +29,7 @@ function readContent(callback) {
 readContent(function (err, data) {
     len = numberArray.length;
     quickSort(numberArray, 0, len - 1);  // first quickSort call
-    for (let i = 0; i < 5; i++) {
+    for (let i = 9990; i < 10000; i++) {
         console.log(`array: ${numberArray[i]}`);
     };
     console.log(`comparisons: ${len}`);
@@ -37,25 +37,28 @@ readContent(function (err, data) {
 
 function partition(A, l, r) {
     let p = A[l];
-    let i = l - 1;
+    let i = l + 1;
     for (let j = l + 1; j <= r; j++) {
         if (A[j] < p) {
-                i++;
-            let temp = A[i]; // swap
-            A[i] = A[j];
-            A[j] = temp;
+            swap(A[i], A[j]);
+            i++; 
         }
     }
-    let tmp = A[i + 1]; // swap
-    A[i + 1] = A[r];
-    A[r] = tmp;
-    return (i + 1);
+    swap(A[i - 1, A[r]]);
+    return (i - 1);
 }
 
 function quickSort(A, l, r) {
-    if (l < r) {
-        let pIndex = partition(A, l, r);
-        quickSort(A, l, pIndex - 1);
-        quickSort(A, pIndex + 1, r);
+    if (l >= r) {
+        return;
     }
+    let pIndex = partition(A, l, r);
+    quickSort(A, l, pIndex - 1);
+    quickSort(A, pIndex + 1, r);
+}
+
+function swap(X, Y) {
+    let temp = X;
+    Y = X;
+    X = temp;
 }
