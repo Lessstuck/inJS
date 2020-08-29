@@ -8,7 +8,6 @@ fs = require("fs");
 
 var numberArray = [];
 var len;
-var sorted = [];
 var comparisonCount = 0;  // for comparison count
 
 // read text file of numbers and convert to array of integers
@@ -29,7 +28,7 @@ function readContent(callback) {
 
 readContent(function (err, data) {
     len = numberArray.length;
-    quickSort(numberArray, 0, len - 1);
+    quickSort(numberArray, 0, len - 1);  // first quickSort call
     for (let i = 0; i < 5; i++) {
         console.log(`array: ${numberArray[i]}`);
     };
@@ -38,18 +37,19 @@ readContent(function (err, data) {
 
 function partition(A, l, r) {
     let p = A[l];
-    let i = l + 1;
+    let i = l - 1;
     for (let j = l + 1; j <= r; j++) {
         if (A[j] < p) {
-            i++;
+                i++;
             let temp = A[i]; // swap
             A[i] = A[j];
             A[j] = temp;
         }
     }
-    // let temp = A[i + 1]; // swap
-    // A[i + 1] = A[r];
-    // A[r] = temp;
+    let tmp = A[i + 1]; // swap
+    A[i + 1] = A[r];
+    A[r] = tmp;
+    return (i + 1);
 }
 
 function quickSort(A, l, r) {
