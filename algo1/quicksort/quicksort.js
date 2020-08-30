@@ -35,11 +35,11 @@ readContent(function (err, data) {
 });
 
 function partition(A, l, r) {
-    let p = A[r];
+    let p = A[l];
     let i = l + 1;
     for (let j = l + 1; j <= r; j++) {
+        // comparisonCount++;
         if (A[j] < p) {
-            comparisonCount++;
             swap(A, i, j);
             i++; 
         }
@@ -52,7 +52,8 @@ function quickSort(A, l, r) {
     if (l >= r) {
         return;
     }
-    i = choosePivot(A, l, r)
+    comparisonCount = comparisonCount + (r - l + 1 - 1);
+    i = choosePivot(A, l, r);
     swap(A, i, l);
     let j = partition(A, l, r);
     quickSort(A, l, j - 1);
@@ -66,5 +67,8 @@ function swap(Z, x, y) {
 }
 
 function choosePivot(A, l, r) {
-    return l;
+    // return l;
+    // return r;
+    // return (Math.floor(Math.random() * (r - l)) + l);
+    return (l + Math.floor((r - l) / 2));
 }
