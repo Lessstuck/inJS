@@ -2,17 +2,16 @@
 // converts to array and sorts in increasing order using quickSort
 // counts comparisons while quicksorting
 
-// const { randomFill } = require("crypto");
-
 fs = require("fs");
 
 var numberArray = [];
+let A = [];
 var len;
 var comparisonCount = 0;  // for comparison count
 
 // read text file of numbers and convert to array of integers
 function readContent(callback) {
-    fs.readFile('./QuickSort.txt', (err, data) => {
+    fs.readFile('./QuickSortSmall.txt', (err, data) => {
         if (err) return callback(err);
         dataString = String(data);
         let re = /\r\n/g;
@@ -29,7 +28,7 @@ function readContent(callback) {
 readContent(function (err, data) {
     len = numberArray.length;
     quickSort(numberArray, 0, len - 1);  // first quickSort call
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
         console.log(`array: ${numberArray[i]}`);
     };
     console.log(`comparisons: ${len}`);
@@ -40,7 +39,7 @@ function partition(A, l, r) {
     let i = l + 1;
     for (let j = l + 1; j <= r; j++) {
         if (A[j] < p) {
-            swap(A[j], A[i]);
+            swap(A[i], A[j]);
             i++; 
         }
     }
@@ -61,8 +60,8 @@ function quickSort(A, l, r) {
 
 function swap(X, Y) {
     let temp = X;
-    Y = X;
-    X = temp;
+    X = Y;
+    Y = temp;
 }
 
 function choosePivot(A, l, r) {
