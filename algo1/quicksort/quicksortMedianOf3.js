@@ -28,10 +28,10 @@ function readContent(callback) {
 readContent(function (err, data) {
     len = numberArray.length;
     quickSort(numberArray, 0, len - 1);  // first quickSort call
-    for (let a = 0; a < 30; a++)    {
-        console.log(`${numberArray[a]}, `);
-    }
     console.log(`comparisons: ${comparisonCount}`);
+    for (k = 5000; k < 5000 + 20; k++)    {
+        console.log(`${numberArray[k]}`);
+    }
 });
 
 function partition(A, l, r) {
@@ -53,7 +53,9 @@ function quickSort(A, l, r) {
         return;
     }
     comparisonCount = comparisonCount + (r - l + 1 - 1);
-    i = choosePivot(A, l, r);
+    h = choosePivot(A, l, r);
+    // m = (l + Math.floor((r - l) / 2));
+    i = medianOfThree(A, l, h, r);
     swap(A, i, l);
     let j = partition(A, l, r);
     quickSort(A, l, j - 1);
@@ -67,8 +69,32 @@ function swap(Z, x, y) {
 }
 
 function choosePivot(A, l, r) {
-    return l;    // pivot is left-most member
+    // return l;    // pivot is left-most member
     // return r;    // pivot is right-most member
     // return (Math.floor(Math.random() * (r - l)) + l);    // pivot is random member
-    // return (l + Math.floor((r - l) / 2));   // pivot is median of 3
+    return (l + Math.floor((r - l) / 2));   // pivot is median of 3
+}
+
+function medianOfThree(A, l, m, r) {
+    L = A[l];
+    M = A[m];
+    R = A[r];
+    if (L < M && M < R) {
+        return m;
+    }
+    else if (R < M && M < L) {
+        return m;
+    }
+    else if (M < L && L < R) {
+        return l;
+    }
+    else if (R < L && L < M) {
+        return l;
+    }
+    else if (M < R && R < L) {
+        return r;
+    }
+    else if (L < R && R < M) {
+        return r;
+    };
 }
