@@ -29,16 +29,15 @@ readContent(function (err, data) {
     len = numberArray.length;
     quickSort(numberArray, 0, len - 1);  // first quickSort call
     console.log(`comparisons: ${comparisonCount}`);
-    for (k = 5000; k < 5000 + 20; k++)    {
-        console.log(`${numberArray[k]}`);
-    }
+    // for (k = 9990; k < len; k++)    {
+    //     console.log(`${numberArray[k]}`);
+    // }
 });
 
 function partition(A, l, r) {
     let p = A[l];
     let i = l + 1;
     for (let j = l + 1; j <= r; j++) {
-        // comparisonCount++;
         if (A[j] < p) {
             swap(A, i, j);
             i++; 
@@ -52,10 +51,8 @@ function quickSort(A, l, r) {
     if (l >= r) {
         return;
     }
-    comparisonCount = comparisonCount + (r - l + 1 - 1);
+    comparisonCount = comparisonCount + (r - l + 1 - 1); // add m - 1, where m is length of array
     h = choosePivot(A, l, r);
-    // m = (l + Math.floor((r - l) / 2));
-    i = medianOfThree(A, l, h, r);
     swap(A, i, l);
     let j = partition(A, l, r);
     quickSort(A, l, j - 1);
@@ -69,18 +66,21 @@ function swap(Z, x, y) {
 }
 
 function choosePivot(A, l, r) {
-    // return l;    // pivot is left-most member
-    // return r;    // pivot is right-most member
-    // return (Math.floor(Math.random() * (r - l)) + l);    // pivot is random member
-    return (l + Math.floor((r - l) / 2));   // pivot is median of 3
+    let  m = (l + Math.floor((r - l) / 2));
+    i = medianOfThree(A, l, m, r);
 }
 
+// takes an array & 3 indices
+// evalutes all three and finds their median value
+// returns index of median
+// there's got to be a better way to implement this!
 function medianOfThree(A, l, m, r) {
     L = A[l];
     M = A[m];
     R = A[r];
     if (L < M && M < R) {
         return m;
+    return r;
     }
     else if (R < M && M < L) {
         return m;
@@ -96,5 +96,7 @@ function medianOfThree(A, l, m, r) {
     }
     else if (L < R && R < M) {
         return r;
+    } else {
+        return m;
     };
 }

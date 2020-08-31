@@ -28,7 +28,7 @@ function readContent(callback) {
 readContent(function (err, data) {
     len = numberArray.length;
     quickSort(numberArray, 0, len - 1);  // first quickSort call
-    for (let a = 0; a < 30; a++)    {
+    for (let a = 9990; a < 10000; a++)    {
         console.log(`${numberArray[a]}, `);
     }
     console.log(`comparisons: ${comparisonCount}`);
@@ -66,9 +66,10 @@ function swap(Z, x, y) {
     Z[y] = temp;
 }
 
+// Compare pivot-choosing algorithms by enabling one line at a time
 function choosePivot(A, l, r) {
-    return l;    // pivot is left-most member
+    // return l;    // pivot is left-most member
     // return r;    // pivot is right-most member
-    // return (Math.floor(Math.random() * (r - l)) + l);    // pivot is random member
-    // return (l + Math.floor((r - l) / 2));   // pivot is median of 3
+    return (Math.floor(Math.random() * (r - l)) + l);    // pivot is random member
+    // return (l + Math.floor((r - l) / 2));   // pivot is the middle number
 }
