@@ -25,6 +25,7 @@ function readContent(callback) {
     });
 }
 
+// after text file is read and converted to an integer array,
 readContent(function (err, data) {
     len = numberArray.length;
     quickSort(numberArray, 0, len - 1);  // first quickSort call
@@ -38,7 +39,7 @@ function partition(A, l, r) {
     let p = A[l];
     let i = l + 1;
     for (let j = l + 1; j <= r; j++) {
-        // comparisonCount++;
+        // comparisonCount++;   // alternate location for increment
         if (A[j] < p) {
             swap(A, i, j);
             i++; 
@@ -52,7 +53,7 @@ function quickSort(A, l, r) {
     if (l >= r) {
         return;
     }
-    comparisonCount = comparisonCount + (r - l + 1 - 1);
+    comparisonCount = comparisonCount + (r - l + 1 - 1);    // add array length minus 1
     i = choosePivot(A, l, r);
     swap(A, i, l);
     let j = partition(A, l, r);
