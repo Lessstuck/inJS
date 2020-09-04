@@ -8,18 +8,17 @@ let nl = /\n/g;
 let tb = /\t/g;
 let fileArray = [];
 let fileArrayThingy = [];
-let fileArrayNumber = [];
+let fileNumberArray = [];
 let arrayOfArrays = [];
 
-let fileStringLines = fileString.split(cr);
-for (let i = 2; i >= 0; i--)    {
-    let fileStringLine = fileStringLines[i];
-    fileArray = fileStringLine.split(tb);
-    for (let j = 0; j < 10; j++) {
-        fileArrayNumber[j] = Number(fileArray[j]);
-    };
-    arrayOfArrays.push(fileArrayNumber);
+let fileStringLines = fileString.split(cr); // 
+for (let i = 0; i < 4; i++)    {  
+    fileStringArray = fileStringLines[i].split(tb);
+    fileStringArray.pop(); // delete tab at end of line
+    // for (let j = 0; j < fileStringArray.length; j++) {
+    for (let j = 0; j < fileStringArray.length; j++) {
+        fileNumberArray[j] = Number(fileStringArray[j]);
+    } 
+    arrayOfArrays.push(fileNumberArray);
+    console.log(`Length: ${arrayOfArrays.length}; Content:  ${arrayOfArrays[0]}`);
 };
-
-console.log(`${arrayOfArrays[0][3]}`);
-
