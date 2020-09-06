@@ -26,8 +26,8 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     }
     arrayOfArrays[i] = fileNumberArray;
 };
-
-randomEdge = (arrayOfArrays) => {
+console.log(`randomEdge: ${randomEdge(arrayOfArrays)}`);
+function randomEdge(arrayOfArrays)  {
     var outerArrayLength = arrayOfArrays.length;
     var outerArrayChoice = Math.floor(Math.random() * outerArrayLength);
     var innerArrayLength = arrayOfArrays[outerArrayChoice].length; 
@@ -36,7 +36,7 @@ randomEdge = (arrayOfArrays) => {
     var chosenEdge = [outerArrayChoice, innerArrayChoice];
     return (chosenEdge);
 }
-console.log(`randomEdge: ${randomEdge(arrayOfArrays)}`);
+
 
 // display vertex number and last edge (other vertex number)
 // for (let k = 0; k < 4; k++) {
