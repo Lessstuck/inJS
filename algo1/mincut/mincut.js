@@ -19,7 +19,7 @@ for (let i = 0; i < 4; i++)    {
     if (i > 0) {
         fileStringArray.shift(); // delete newline at beginning
     }
-    console.log(`${fileStringArray}`);
+    // console.log(`${fileStringArray}`);
     fileNumberArray = []
     for (let j = 0; j < fileStringArray.length; j++) {
         fileNumberArray[j] = Number(fileStringArray[j]);
@@ -27,11 +27,16 @@ for (let i = 0; i < 4; i++)    {
     arrayOfArrays[i] = fileNumberArray;
 };
 
-for (let m = 0; m < 4; m++) {
-    var innerArrayLength = arrayOfArrays[m].length;
-    for (let n = 0; n < 4; n++)  {
-        console.log(`Length: ${innerArrayLength}; Content:  ${Number(arrayOfArrays[m][n])}`);
-    }
-    
-    
+for (let k = 0; k < 4; k++) {
+    var innerArrayLength = arrayOfArrays[k].length;
+    // for (let l = 0; l < 4; l++)  {
+    console.log(`${Number(arrayOfArrays[k][0])} ${Number(arrayOfArrays[k][innerArrayLength - 1])}`);
+    // }   
 }
+
+// for (let m = 0; m < 4; m++) {
+//     var innerArrayLength = arrayOfArrays[m].length;
+//     for (let n = 0; n < 4; n++)  {
+//         console.log(`${Number(arrayOfArrays[m][n])}`);
+//     }   
+// }
