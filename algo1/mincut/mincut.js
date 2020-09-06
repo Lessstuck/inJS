@@ -49,17 +49,19 @@ function randomEdge(arrayOfArrays) {
 function merge(chosenEdge) {
     let v1 = chosenEdge[0];
     let tail = arrayOfArrays[v1 - 1];   // edges are counted from 1, but indices from 0
-    console.log(`tail ${tail}`);
     let v2 = chosenEdge[1];
-    let head = arrayOfArrays[v2 - 1];
-    console.log(`head ${head}`);
+    let head = arrayOfArrays[v2 - 1];   // edges are counted from 1, but indices from 0
+
+    // remve v2 from tail to avoid self-loop
+    let index = tail.indexOf(v2);
+    tail.splice(index, 1);
+
     arrayOfArrays.push(tail);
     let merged = arrayOfArrays[arrayOfArrays.length - 1];
 
-    // for (let i = 1; i < arrayOfArrays[v1].length; i++) {
-    //     console.log(`${arrayOfArrays[v1 - 1][i]}`);
-    // }
-    
-    // console.log(`merged: ${merged}`);
+    for (let i = 1; i < head.length; i++) {
+        // console.log(`head loop: ${head[i]}`);
+
+    }
     return merged;
 }
