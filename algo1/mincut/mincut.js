@@ -1,8 +1,6 @@
 var fs = require("fs");
 
-var fileText = fs.readFileSync('./kargerMinCut.txt');
 
-let fileString = String(fileText);
 let cr = /\r/g;
 let nl = /\n/g;
 let tb = /\t/g;
@@ -12,6 +10,9 @@ let fileArrayThingy = [];
 let fileNumberArray = [];
 let arrayOfArrays = [[]];
 
+// read an format input, from text to array of arrays of integers
+var fileText = fs.readFileSync('./kargerMinCut.txt');
+let fileString = String(fileText);
 let fileStringLines = fileString.split(cr); // 
 for (let i = 0; i < fileStringLines.length; i++)    {  
     fileStringArray = fileStringLines[i].split(sp);
@@ -26,7 +27,11 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     }
     arrayOfArrays[i] = fileNumberArray;
 };
-console.log(`randomEdge: ${randomEdge(arrayOfArrays)}`);
+
+let chosenEdge = randomEdge(arrayOfArrays);
+console.log(`randomEdge: ${chosenEdge}`);
+
+
 function randomEdge(arrayOfArrays)  {
     var outerArrayLength = arrayOfArrays.length;
     var outerArrayChoice = Math.floor(Math.random() * outerArrayLength);
@@ -37,18 +42,6 @@ function randomEdge(arrayOfArrays)  {
     return (chosenEdge);
 }
 
-
-// display vertex number and last edge (other vertex number)
-// for (let k = 0; k < 4; k++) {
-//     var innerArrayLength = arrayOfArrays[k].length;
-//     // for (let l = 0; l < 4; l++)  {
-//     console.log(`${Number(arrayOfArrays[k][0])} ${Number(arrayOfArrays[k][innerArrayLength - 1])}`);
-//     // }   
-// }
-
-// for (let m = 0; m < 4; m++) {
-//     var innerArrayLength = arrayOfArrays[m].length;
-//     for (let n = 0; n < 4; n++)  {
-//         console.log(`${Number(arrayOfArrays[m][n])}`);
-//     }   
-// }
+function merge(chosenEdge) {
+    
+}
