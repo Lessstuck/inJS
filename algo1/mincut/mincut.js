@@ -27,12 +27,24 @@ for (let i = 0; i < 4; i++)    {
     arrayOfArrays[i] = fileNumberArray;
 };
 
-for (let k = 0; k < 4; k++) {
-    var innerArrayLength = arrayOfArrays[k].length;
-    // for (let l = 0; l < 4; l++)  {
-    console.log(`${Number(arrayOfArrays[k][0])} ${Number(arrayOfArrays[k][innerArrayLength - 1])}`);
-    // }   
+randomEdge = (arrayOfArrays) => {
+    var outerArrayLength = arrayOfArrays.length;
+    var outerArrayChoice = Math.floor(Math.random() * outerArrayLength);
+    var innerArrayLength = arrayOfArrays[outerArrayChoice].length; 
+    var innerArrayChoice = Math.floor(Math.random() * innerArrayLength);
+    // console.log(`outerArrayChoice: ${outerArrayChoice} --- innerArrayChoice: ${innerArrayChoice}`);
+    var chosenEdge = [outerArrayChoice, innerArrayChoice];
+    return (chosenEdge);
 }
+console.log(`randomEdge: ${randomEdge(arrayOfArrays)}`);
+
+// display vertex number and last edge (other vertex number)
+// for (let k = 0; k < 4; k++) {
+//     var innerArrayLength = arrayOfArrays[k].length;
+//     // for (let l = 0; l < 4; l++)  {
+//     console.log(`${Number(arrayOfArrays[k][0])} ${Number(arrayOfArrays[k][innerArrayLength - 1])}`);
+//     // }   
+// }
 
 // for (let m = 0; m < 4; m++) {
 //     var innerArrayLength = arrayOfArrays[m].length;
