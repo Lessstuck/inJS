@@ -29,8 +29,8 @@ for (let i = 0; i < fileStringLines.length; i++)    {
 
 // random contraction 
 let chosenEdge = randomEdge(arrayOfArrays);
-merge(chosenEdge);
-console.log(`chosenEdge: ${chosenEdge[0]} ${chosenEdge[1]} merged: ${merge(chosenEdge)}`);
+merged = merge(chosenEdge);
+console.log(`chosenEdge: ${chosenEdge[0]} ${chosenEdge[1]} merged: ${merged}`);
 
 
 function randomEdge(arrayOfArrays) {
@@ -48,13 +48,18 @@ function randomEdge(arrayOfArrays) {
 
 function merge(chosenEdge) {
     let v1 = chosenEdge[0];
+    let tail = arrayOfArrays[v1 - 1];   // edges are counted from 1, but indices from 0
+    console.log(`tail ${tail}`);
     let v2 = chosenEdge[1];
-    arrayOfArrays.push(arrayOfArrays[v1 - 1]);
+    let head = arrayOfArrays[v2 - 1];
+    console.log(`head ${head}`);
+    arrayOfArrays.push(tail);
     let merged = arrayOfArrays[arrayOfArrays.length - 1];
-    // for (let i = 0; i < arrayOfArrays[v1].length; i++) {
+
+    // for (let i = 1; i < arrayOfArrays[v1].length; i++) {
     //     console.log(`${arrayOfArrays[v1 - 1][i]}`);
     // }
     
-
+    // console.log(`merged: ${merged}`);
     return merged;
 }
