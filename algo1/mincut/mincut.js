@@ -13,7 +13,7 @@ let fileNumberArray = [];
 let arrayOfArrays = [[]];
 
 let fileStringLines = fileString.split(cr); // 
-for (let i = 0; i < 4; i++)    {  
+for (let i = 0; i < fileStringLines.length; i++)    {  
     fileStringArray = fileStringLines[i].split(sp);
     fileStringArray.pop(); // delete tab at end
     if (i > 0) {
