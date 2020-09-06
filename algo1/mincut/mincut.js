@@ -20,7 +20,6 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     if (i > 0) {
         fileStringArray.shift(); // delete newline at beginning
     }
-    // console.log(`${fileStringArray}`);
     fileNumberArray = []
     for (let j = 0; j < fileStringArray.length; j++) {
         fileNumberArray[j] = Number(fileStringArray[j]);
@@ -28,20 +27,34 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     arrayOfArrays[i] = fileNumberArray;
 };
 
+// random contraction 
 let chosenEdge = randomEdge(arrayOfArrays);
-console.log(`randomEdge: ${chosenEdge}`);
+merge(chosenEdge);
+console.log(`chosenEdge: ${chosenEdge[0]} ${chosenEdge[1]} merged: ${merge(chosenEdge)}`);
 
 
-function randomEdge(arrayOfArrays)  {
+function randomEdge(arrayOfArrays) {
+    // choose inner array = [0] vertex
     var outerArrayLength = arrayOfArrays.length;
-    var outerArrayChoice = Math.floor(Math.random() * outerArrayLength);
-    var innerArrayLength = arrayOfArrays[outerArrayChoice].length; 
-    var innerArrayChoice = Math.floor(Math.random() * innerArrayLength);
-    // console.log(`outerArrayChoice: ${outerArrayChoice} --- innerArrayChoice: ${innerArrayChoice}`);
+    var outerArrayChoice = Math.floor(Math.random() * outerArrayLength - 1);
+    let innerArray = arrayOfArrays[outerArrayChoice - 1];
+    // choose element of inner array [i] = vertices connected by one edge
+    var innerArrayLength = arrayOfArrays[outerArrayChoice - 1].length; 
+    var innerArrayPosition = Math.floor(Math.random() * innerArrayLength - 1) + 1;  // choosing from all except first
+    var innerArrayChoice = innerArray[innerArrayPosition];
     var chosenEdge = [outerArrayChoice, innerArrayChoice];
     return (chosenEdge);
 }
 
 function merge(chosenEdge) {
+    let v1 = chosenEdge[0];
+    let v2 = chosenEdge[1];
+    arrayOfArrays.push(arrayOfArrays[v1 - 1]);
+    let merged = arrayOfArrays[arrayOfArrays.length - 1];
+    // for (let i = 0; i < arrayOfArrays[v1].length; i++) {
+    //     console.log(`${arrayOfArrays[v1 - 1][i]}`);
+    // }
     
+
+    return merged;
 }
