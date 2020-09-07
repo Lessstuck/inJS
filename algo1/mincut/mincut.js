@@ -7,7 +7,7 @@ let sp = /\s+/g
 let fileArray = [];
 let fileArrayThingy = [];
 let fileNumberArray = [];
-var arrayOfArrays = [[]];
+var arrayOfArrays = new Array;
 
 // read an format input, from text to array of arrays of integers
 var fileText = fs.readFileSync('./kargerMinCut.txt');
@@ -38,7 +38,7 @@ function rContract(arrayOfArrays) {
     var v2 = chosenEdge[1];
     merged = merge(chosenEdge);
     arrayOfArrays[chosenEdge[0]] = merged; // merge replaces tail
-    arrayOfArrays.splice(chosenEdge[1], 1);
+    arrayOfArrays.splice(chosenEdge[1], 1); // delete head
     arrayOfArrays.pop(); // delete merged array
     // renumber after splice
     if (arrayOfArrays.length > 2) {
