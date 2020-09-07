@@ -26,10 +26,10 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     arrayOfArrays[i] = fileNumberArray;
 };
 
-// rContract(arrayOfArrays);
-console.log(`result ${arrayOfArrays[0]} ${arrayOfArrays.length} `);
+rContract(arrayOfArrays);
 
-// function rContract(arrayOfArrays) {
+
+function rContract(arrayOfArrays) {
     if (arrayOfArrays.length < 2) {
         return arrayOfArrays;
     }
@@ -39,7 +39,7 @@ console.log(`result ${arrayOfArrays[0]} ${arrayOfArrays.length} `);
     merged = merge(chosenEdge);
     arrayOfArrays[chosenEdge[0]] = merged; // merge replaces tail
     arrayOfArrays.splice(chosenEdge[1], 1);
-    // console.log(`chosenEdge: ${chosenEdge[0]} ${chosenEdge[1]} merged: ${merged}`);
+    arrayOfArrays.pop(); // delete merged array
     // renumber after splice
     if (arrayOfArrays.length > 2) {
         for (let i = 2; i < arrayOfArrays.length; i++) {
@@ -55,9 +55,9 @@ console.log(`result ${arrayOfArrays[0]} ${arrayOfArrays.length} `);
         }
 
     }
-//     rContract(arrayOfArrays);
-// }
-
+    rContract(arrayOfArrays);
+}
+console.log(`result ${arrayOfArrays[0]} ${arrayOfArrays.length} `);
 
 function randomEdge(arrayOfArrays) {
     // choose inner array = [0] vertex
