@@ -74,7 +74,7 @@ function randomEdge(arrayOfArrays) {
     // choose element of inner array [i] = vertices connected by one edge
     var innerArrayLength = innerArray.length; 
     console.log(`innerArrayLength: ${innerArrayLength}`);
-    var innerArrayPosition = Math.floor(Math.random() * innerArrayLength - 1) + 1;  // choosing from all except first
+    var innerArrayPosition = Math.floor(Math.random() * (innerArrayLength - 1)) + 1;  // choosing from all except first
     var innerArrayVertex = innerArray[innerArrayPosition]; //  number of vertex
     var chosenEdge = [outerArrayChoice, innerArray[0], innerArrayPosition, innerArrayVertex]; // outer index, vertex; innervindex, vertex
     console.log(`chosenEdge: ${chosenEdge}`);
