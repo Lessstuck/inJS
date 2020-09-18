@@ -48,10 +48,9 @@ function rContract(arrayOfArrays) {
         var headValue = chosenEdge[3]; // head value (vertex number)
         // merge the two vertices into one
         merged = merge(chosenEdge);
-        console.log(`merged: ${merged}`);
         console.log();
-        arrayOfArrays[chosenEdge[0]] = merged; // merge replaces tail
-        arrayOfArrays.splice(chosenEdge[1], 1); // delete head
+        arrayOfArrays[tailIndex] = merged; // merge replaces tail
+        arrayOfArrays.splice(headIndex, 1); // delete head
         arrayOfArrays.pop(); // delete merged array
         // renumber after splice
         if (arrayOfArrays.length <= 2) {
@@ -99,18 +98,34 @@ function merge(chosenEdge) {
     var tailValue = chosenEdge[1]; // tail value (vertex number)
     var headIndex = chosenEdge[2]; // head index
     var headValue = chosenEdge[3]; // head value (vertex number)
-    // remve head vertex number from tail, tail vertex number from head to delete chosen edge
+    // remove head value (vertex number) from tail, tail value (vertex number) from head to delete chosen edge
     let index;
-    index = arrayOfArrays[tailIndex].indexOf(headValue);
-    arrayOfArrays[tailIndex].splice(index, 1);
-    index = arrayOfArrays[headIndex].indexOf(tailValue); // because tail index < head index; previous splice
-    arrayOfArrays[headIndex].splice(index, 1);
+    for (let j = 1; j < arrayOfArrays[tailIndex].length; j++)   {
+        if (arrayOfArrays[tailIndex][j] == headValue)   {
+            arrayOfArrays[tailIndex].splice(j, 1); 
+        }
+    }
+    for (let j = 1; j < arrayOfArrays[headIndex].length; j++) {
+        if (arrayOfArrays[headIndex][j] == tailValue) {
+            arrayOfArrays[headIndex].splice(j, 1);
+        }
+    }
     // assemble new vertex at end of array of arrays
     arrayOfArrays.push(arrayOfArrays[tailIndex]); // start new array with tail
-    let merged = arrayOfArrays[arrayOfArrays.length - 1];  // -2 (splices) and +1 new array = -1
+    let merged = arrayOfArrays[arrayOfArrays.length - 1];  
     console.log(`merged, first version: ${merged}`);
-    for (let i = 1; i < headIndex.length; i++) {
-        merged.push(headIndex[i]);
+    let headArrayIndex;
+    for (let k = 0; k < arrayOfArrays.length; k++)  {
+        if (arrayOfArrays[k][0] == headValue) {
+            headArrayIndex = k;
+        }
     }
+    console.log(`headArrayIndex: ${headArrayIndex}`);
+    // let headLength = arrayOfArrays[headArrayIndex].length;
+    // for (let i = 1; i < headLength; i++) {
+    //     let j = arrayOfArrays[headArrayIndex][i];
+    //     merged.push(j);
+    // }
+    console.log(`merged: ${merged}`);
     return merged;
 }
