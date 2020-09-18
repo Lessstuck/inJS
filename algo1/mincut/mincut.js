@@ -25,9 +25,9 @@ for (let i = 0; i < fileStringLines.length; i++)    {
         fileNumberArray[j] = Number(fileStringArray[j]); // convert to array of numbers
     }
     arrayOfArrays[i] = fileNumberArray;
-    console.log(`fileStringArray: ${fileStringArray}`);
+    // console.log(`fileStringArray: ${fileStringArray}`);
 };
-console.log(`arrayOfArrays[5][1]: ${arrayOfArrays[5][1]}`);
+// console.log(`arrayOfArrays[5][1]: ${arrayOfArrays[5][1]}`);
 
 // main function call
 rContract(arrayOfArrays);
@@ -35,13 +35,13 @@ rContract(arrayOfArrays);
 // main function (recursice)
 function rContract(arrayOfArrays) {
     for (let a = 0; a < arrayOfArrays.length; a++) {
-        console.log(`arrayOfArrays[a]: ${arrayOfArrays[a]}`);
+        console.log(`arrayOfArrays[${a}]: ${arrayOfArrays[a]}`);
     }
     if (arrayOfArrays.length <= 2) {
         return arrayOfArrays;
     } else {
         let chosenEdge = randomEdge(arrayOfArrays);
-        console.log(`chosenEdge: ${chosenEdge};`)
+        // console.log(`chosenEdge: ${chosenEdge}`);
         var tailIndex = chosenEdge[0]; // tail index
         var tailValue = chosenEdge[1]; // tail value (vertex number)
         var headIndex = chosenEdge[2]; // head index
