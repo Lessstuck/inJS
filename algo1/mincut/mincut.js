@@ -27,7 +27,6 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     arrayOfArrays[i] = fileNumberArray;
     // console.log(`fileStringArray: ${fileStringArray}`);
 };
-// console.log(`arrayOfArrays[5][1]: ${arrayOfArrays[5][1]}`);
 
 // main function call
 rContract(arrayOfArrays);
@@ -42,36 +41,13 @@ function rContract(arrayOfArrays) {
     } else {
         let chosenEdge = randomEdge(arrayOfArrays);
         // console.log(`chosenEdge: ${chosenEdge}`);
-        var tailIndex = chosenEdge[0]; // tail index
-        var tailValue = chosenEdge[1]; // tail value (vertex number)
-        var headIndex = chosenEdge[2]; // head index
-        var headValue = chosenEdge[3]; // head value (vertex number)
-        // merge the two vertices into one
-        merged = merge(chosenEdge);
-        console.log();
-        arrayOfArrays[tailIndex] = merged; // merge replaces tail
-        arrayOfArrays.splice(headIndex, 1); // delete head
-        arrayOfArrays.pop(); // delete merged array
-        // renumber after splice
-        if (arrayOfArrays.length <= 2) {
-            return arrayOfArrays;
-        } else  {
-            for (let i = 0; i < arrayOfArrays.length; i++) {
-                var innerArrayLength = arrayOfArrays[i].length;
-                for (let j = 1; j < innerArrayLength - 1; j++) {    // skipping first value in iteration
-                    if (arrayOfArrays[i][j] == headValue) {  // match first value (vertex number) of head array
-                        arrayOfArrays[i][j] = tailValue;   // ••• replace second vertex with first vertex
-                    } else if (arrayOfArrays[i][j] > headValue) {   // ••• shifted vertex numbers reduced by one
-                        arrayOfArrays[i][j] = arrayOfArrays[i][j] - 1;
-
-                    }
-                }
-            }
-            rContract(arrayOfArrays);
-        }
-
+        // var tailIndex = chosenEdge[0]; // tail index
+        // var tailValue = chosenEdge[1]; // tail value (vertex number)
+        // var headIndex = chosenEdge[2]; // head index
+        // var headValue = chosenEdge[3]; // head value (vertex number)
+        merge(arrayOfArrays);
+        rContract(arrayOfArrays);
     }
-
 }
 
 // choose an edge at random, return indices and values
@@ -98,34 +74,38 @@ function merge(chosenEdge) {
     var tailValue = chosenEdge[1]; // tail value (vertex number)
     var headIndex = chosenEdge[2]; // head index
     var headValue = chosenEdge[3]; // head value (vertex number)
-    // remove head value (vertex number) from tail, tail value (vertex number) from head to delete chosen edge
+    // remove head value (vertex number) from tail
     let index;
     for (let j = 1; j < arrayOfArrays[tailIndex].length; j++)   {
         if (arrayOfArrays[tailIndex][j] == headValue)   {
             arrayOfArrays[tailIndex].splice(j, 1); 
         }
     }
-    for (let j = 1; j < arrayOfArrays[headIndex].length; j++) {
-        if (arrayOfArrays[headIndex][j] == tailValue) {
-            arrayOfArrays[headIndex].splice(j, 1);
-        }
-    }
-    // assemble new vertex at end of array of arrays
-    arrayOfArrays.push(arrayOfArrays[tailIndex]); // start new array with tail
-    let merged = arrayOfArrays[arrayOfArrays.length - 1];  
-    console.log(`merged, first version: ${merged}`);
+    // find index of array with first element same as headValue
     let headArrayIndex;
-    for (let k = 0; k < arrayOfArrays.length; k++)  {
+    for (let k = 0; k < arrayOfArrays.length; k++) {
         if (arrayOfArrays[k][0] == headValue) {
             headArrayIndex = k;
         }
     }
-    console.log(`headArrayIndex: ${headArrayIndex}`);
-    // let headLength = arrayOfArrays[headArrayIndex].length;
-    // for (let i = 1; i < headLength; i++) {
-    //     let j = arrayOfArrays[headArrayIndex][i];
-    //     merged.push(j);
-    // }
-    console.log(`merged: ${merged}`);
-    return merged;
-}
+    // delete tail value(vertex number) from head, push to merged tail
+    for (let j = 1; j < arrayOfArrays[headArrayIndex].length; j++) {
+        if (arrayOfArrays[headArrayIndex][j] == tailValue) {
+            arrayOfArrays[headArrayIndex].splice(j, 1);
+            arrayOfArrays[tailIndex].push(arrayOfArrays[headArrayIndex][j]);
+        }
+    }
+    // delete head
+    arrayOfArrays.splice(headArrayIndex, 1);
+    console.log(`arrayOfArrays[tailIndex]: ${arrayOfArrays[tailIndex]}`);
+    // remove headValue from arrayOfArrys
+    for (let i = 0; i < arrayOfArrays.length; i++) {
+        var innerArrayLength = arrayOfArrays[i].length;
+        for (let j = 1; j < innerArrayLength; j++) {    // skipping first value in iteration
+            if (arrayOfArrays[i][j] == headValue) {
+                arrayOfArrays[i].splice( j, 1);
+            }
+        }
+    }
+    return arrayOfArrays;
+    };
