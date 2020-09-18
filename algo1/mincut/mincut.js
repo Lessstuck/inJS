@@ -28,43 +28,54 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     console.log(`fileStringArray: ${fileStringArray}`);
 };
 console.log(`arrayOfArrays[5][1]: ${arrayOfArrays[5][1]}`);
+
+// main function call
 rContract(arrayOfArrays);
 
+// main function (recursice)
 function rContract(arrayOfArrays) {
+    for (let a = 0; a < arrayOfArrays.length; a++) {
+        console.log(`arrayOfArrays[a]: ${arrayOfArrays[a]}`);
+    }
     if (arrayOfArrays.length <= 2) {
         return arrayOfArrays;
     } else {
         let chosenEdge = randomEdge(arrayOfArrays);
-        var i1 = chosenEdge[0]; // index of tail
-        var v1 = chosenEdge[1]; // tail vertex number, not index
-        var i2 = chosenEdge[2]; // index of head
-        var v2 = chosenEdge[3]; // head vertex number, not index
+        console.log(`chosenEdge: ${chosenEdge};`)
+        var tailIndex = chosenEdge[0]; // tail index
+        var tailValue = chosenEdge[1]; // tail value (vertex number)
+        var headIndex = chosenEdge[2]; // head index
+        var headValue = chosenEdge[3]; // head value (vertex number)
+        // merge the two vertices into one
         merged = merge(chosenEdge);
         console.log(`merged: ${merged}`);
+        console.log();
         arrayOfArrays[chosenEdge[0]] = merged; // merge replaces tail
         arrayOfArrays.splice(chosenEdge[1], 1); // delete head
         arrayOfArrays.pop(); // delete merged array
         // renumber after splice
-        if (arrayOfArrays.length > 2) {
+        if (arrayOfArrays.length <= 2) {
+            return arrayOfArrays;
+        } else  {
             for (let i = 0; i < arrayOfArrays.length; i++) {
                 var innerArrayLength = arrayOfArrays[i].length;
                 for (let j = 1; j < innerArrayLength - 1; j++) {    // skipping first value in iteration
-                    if (arrayOfArrays[i][j] == arrayOfArrays[i2][0]) {  // match first value (vertex number) of head array
-                        arrayOfArrays[i][j] = arrayOfArrays[i1][0];   // replace second vertex with first vertex
-                    } else if (arrayOfArrays[i][j] > arrayOfArrays[v2][0]) {   // shifted vertex numbers reduced by one
+                    if (arrayOfArrays[i][j] == headValue) {  // match first value (vertex number) of head array
+                        arrayOfArrays[i][j] = tailValue;   // ••• replace second vertex with first vertex
+                    } else if (arrayOfArrays[i][j] > headValue) {   // ••• shifted vertex numbers reduced by one
                         arrayOfArrays[i][j] = arrayOfArrays[i][j] - 1;
 
                     }
                 }
             }
-
+            rContract(arrayOfArrays);
         }
-        rContract(arrayOfArrays);
+
     }
 
 }
 
-
+// choose an edge at random, return indices and values
 function randomEdge(arrayOfArrays) {
     // choose inner array = [0] vertex
     var outerArrayLength = arrayOfArrays.length;
@@ -73,7 +84,7 @@ function randomEdge(arrayOfArrays) {
     console.log(`innerArray: ${innerArray}`);
     // choose element of inner array [i] = vertices connected by one edge
     var innerArrayLength = innerArray.length; 
-    console.log(`innerArrayLength: ${innerArrayLength}`);
+    // console.log(`innerArrayLength: ${innerArrayLength}`);
     var innerArrayPosition = Math.floor(Math.random() * (innerArrayLength - 1)) + 1;  // choosing from all except first
     var innerArrayVertex = innerArray[innerArrayPosition]; //  number of vertex
     var chosenEdge = [outerArrayChoice, innerArray[0], innerArrayPosition, innerArrayVertex]; // outer index, vertex; innervindex, vertex
@@ -82,23 +93,24 @@ function randomEdge(arrayOfArrays) {
 
 }
 
+// contract the two vertices of the chosen edge
 function merge(chosenEdge) {
-    let tail = chosenEdge[0]; // outer array index
-    let tailVertex = chosenEdge[1]; // vertex number
-    let head = chosenEdge[2]; // outer array index 
-    let headVertex = chosenEdge[3]; // vertex number
+    var tailIndex = chosenEdge[0]; // tail index
+    var tailValue = chosenEdge[1]; // tail value (vertex number)
+    var headIndex = chosenEdge[2]; // head index
+    var headValue = chosenEdge[3]; // head value (vertex number)
     // remve head vertex number from tail, tail vertex number from head to delete chosen edge
     let index;
-    index = arrayOfArrays[tail].indexOf(headVertex);
-    arrayOfArrays[tail].splice(index, 1);
-    index = arrayOfArrays[head].indexOf(tailVertex); // because tail index < head index; previous splice
-    arrayOfArrays[head].splice(index, 1);
+    index = arrayOfArrays[tailIndex].indexOf(headValue);
+    arrayOfArrays[tailIndex].splice(index, 1);
+    index = arrayOfArrays[headIndex].indexOf(tailValue); // because tail index < head index; previous splice
+    arrayOfArrays[headIndex].splice(index, 1);
     // assemble new vertex at end of array of arrays
-    arrayOfArrays.push(arrayOfArrays[tail]); // start new array with tail
+    arrayOfArrays.push(arrayOfArrays[tailIndex]); // start new array with tail
     let merged = arrayOfArrays[arrayOfArrays.length - 1];  // -2 (splices) and +1 new array = -1
     console.log(`merged, first version: ${merged}`);
-    for (let i = 1; i < head.length; i++) {
-        merged.push(head[i]);
+    for (let i = 1; i < headIndex.length; i++) {
+        merged.push(headIndex[i]);
     }
     return merged;
 }
