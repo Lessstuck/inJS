@@ -9,6 +9,7 @@ let fileArray = [];
 let fileArrayThingy = [];
 let fileNumberArray = [];
 var arrayOfArrays = new Array;
+var originalArrayOfArrays = new Array;
 
 // read an format input, from text to array of arrays of integers
 var fileText = fs.readFileSync('./kargerMinCut.txt');
@@ -25,14 +26,22 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     for (let j = 0; j < fileStringArray.length; j++) {
         fileNumberArray[j] = Number(fileStringArray[j]); // convert to array of numbers
     }
-    arrayOfArrays[i] = fileNumberArray;
+    originalArrayOfArrays.push(fileNumberArray);
 };
 
 // main function call
-rContract(arrayOfArrays);
-let cuts = arrayOfArrays[0].length - 1;
-console.log(`cuts: ${cuts}`);
-
+let minCut = new Array;
+for (let test = 0; test < 50; test++) {
+    for (let j = 0; j < originalArrayOfArrays.length; j++) {
+        arrayOfArrays[j] = originalArrayOfArrays[j].slice();
+    }
+    rContract(arrayOfArrays);
+    let cuts = arrayOfArrays[0].length - 1;
+    minCut.push(cuts);
+    // console.log(`cuts: ${minCut}`);
+}
+console.log(`cuts: ${Math.min(...minCut)}`);
+    
 // contraction function
 function rContract(arrayOfArrays) {
     if (arrayOfArrays.length <= 2) {
