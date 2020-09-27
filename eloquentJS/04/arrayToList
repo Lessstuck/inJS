@@ -1,12 +1,16 @@
 
-class Node(data, next = null)    {
-    this.data = data;
-    this.next = next;
-}
+
+
+class Node  {
+    constructor(data, next)  {
+        this.data = data;
+        this.next = null;
+    }
+};
 
 
 class LinkedList  {
-    constructor()   {
+    constructor(length, head)   {
         this.length = 0;
         this.head = null;
     }
@@ -22,13 +26,15 @@ class LinkedList  {
             currentNode.next = new Node(data);
         }
     }
-}
+};
     
 
 function arrayToList(a) {
-    linkedList = new(LinkedList);
+    let linkedList = new LinkedList(0, null);
     for (let i = 0; i < a.length; i++)  {
-        linkedList(a[i]).push;
+        linkedList.push(a[i]);
     }
     return linkedList;
-}
+};
+
+console.log(`list: ${arrayToList([1, 2, 3])}`);
