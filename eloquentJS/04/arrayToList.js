@@ -1,54 +1,37 @@
-class Node  {
-    constructor(data, next)  {
+class ListNode  {
+    constructor(data)  {
         this.data = data;
         this.next = null;
     }
 };
 
-
 class LinkedList  {
-    constructor(length, head)   {
-        this.length = 0;
-        this.head = null;
-    }
-    push(data)  {
-        this.length = this.length + 1;
-        if (this.head === null) {
-            this.head = new Node(data, null);
-        }
-        // } else  {
-        //     let currentNode = new Node(data);
-        //     while (currentNode.next !== null)    {
-        //         currentNode = currentNode.next;
-        //     }
-        //     currentNode.next = new Node(data);
-        // }
-    }
-    get(node) {
-        
+    constructor(head = null)   {
+        this.head = head;
     }
 };
-    
+   
+// assemble test list
+let node1 = new ListNode(2);
+let node2 = new ListNode(5);
+node1.next = node2;
+let list = new LinkedList(node1);
 
-function arrayToList(a) {
-    let linkedList = new LinkedList(0, null);
-    for (let i = 0; i < a.length; i++)  {
-        linkedList.push(a[i]);
-    }
-    return linkedList;
-};
+console.log(list.head.next.data);   // returns 5!
 
-function listToArray(l)  {
-    let a = [];
-    let node = l.head;
-    // do {
-    console.log(`length: ${l.length} --- data: ${node.data} --- head: ${node.next}`);
-    // node = node.head;
-    // console.log(`data: ${node.data}`);
-    //     // node = node.next;
-    //     // a[i] = l.data;
-    // } while (node.head != null);
+// function arrayToList(a) {
+//     let linkedList = new LinkedList(0, null);
+//     for (let i = 0; i < a.length; i++)  {
+//         linkedList.push(a[i]);
+//     }
+//     return linkedList;
+// };
 
-}
+// function listToArray(l)  {
+//     let a = [];
+//     let node = l.head;
+//     // do {
+//     console.log(`length: ${l.length} --- data: ${node.data} --- head: ${node.next}`)
+// }
 
-listToArray(arrayToList([2, 3, 5]));
+// listToArray(arrayToList([2, 3, 5]));
