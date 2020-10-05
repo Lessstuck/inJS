@@ -11,21 +11,20 @@ class LinkedList  {
     }
 };
    
-// assemble test list
-let node1 = new ListNode(2);
-let node2 = new ListNode(5);
-node1.next = node2;
-let list = new LinkedList(node1);
 
-console.log(list.head.next.data);   // returns 5!
+let node = [];
+function arrayToList(arr) {
+    node[0] = new ListNode;
+    for (let i = 1; i < arr.length; i++)  {
+        node[i] = new ListNode(arr[i]);
+        node[i - 1].next = node[i];
+    }
+    let list = new LinkedList(node[0]);
+    return list;
+};
 
-// function arrayToList(a) {
-//     let linkedList = new LinkedList(0, null);
-//     for (let i = 0; i < a.length; i++)  {
-//         linkedList.push(a[i]);
-//     }
-//     return linkedList;
-// };
+let arr = [2, 3, 5];
+console.log(arrayToList(arr).head.next.data); 
 
 // function listToArray(l)  {
 //     let a = [];
