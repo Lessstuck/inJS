@@ -27,7 +27,18 @@ class LinkedList  {
         newList.head.next = this.head;
         return newList;
     }
-
+    nth(n) {
+        let count = 0;
+        let node = this.head;
+        let countIt = () => {
+            if (node.next == null || count >= n) return node.data;
+            else {
+                count++;
+                node = node.next;
+                countIt();
+            }
+        }
+    } 
 };
    
 let nodes = [];
@@ -52,5 +63,7 @@ function listToArray(list) {
     return arr;
 }
 
-console.log(listToArray(arrayToList([2, 4, 5, 7]).prepend(12)));
-console.log(listToArray(arrayToList([2, 3, 5])));
+// tests
+// console.log(listToArray(arrayToList([2, 4, 5, 7]).prepend(12)));
+// console.log(listToArray(arrayToList([2, 3, 5])));
+console.log(arrayToList([2, 4, 5, 7]).nth(2));
