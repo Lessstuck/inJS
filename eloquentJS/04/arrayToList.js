@@ -40,8 +40,8 @@ console.log(arrayToList(arr).head.data);
 function listToArray(list) {
     let arr = [];
     node = list.head;
-    arr.push(node.data);
-    while (node.next) {
+    // arr.push(node.data);
+    while (node) {
         arr.push(node.data);
         node = node.next;
     }
