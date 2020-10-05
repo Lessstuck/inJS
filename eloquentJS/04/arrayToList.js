@@ -9,9 +9,17 @@ class LinkedList  {
     constructor(head = null)   {
         this.head = head;
     }
+    size()   {
+        let count = 0;
+        let node = this.head;
+        while (node) {
+            count++;
+            node = node.next;
+        }
+        return count;
+    }
 };
    
-
 let node = [];
 function arrayToList(arr) {
     node[0] = new ListNode;
@@ -26,11 +34,16 @@ function arrayToList(arr) {
 let arr = [2, 3, 5];
 console.log(arrayToList(arr).head.next.data); 
 
-// function listToArray(l)  {
-//     let a = [];
-//     let node = l.head;
-//     // do {
-//     console.log(`length: ${l.length} --- data: ${node.data} --- head: ${node.next}`)
-// }
+function listToArray(list)  {
+    let arr = [];
+//     let delist = list.head;
+//     let i = 0;
+//     while (delist.next) {
+//         arr.push(delist.data);
+//         // i++;
+//     }
+    return arr;
+}
 
-// listToArray(arrayToList([2, 3, 5]));
+console.log(arrayToList([2, 4, 5, 7]).size());
+console.log(listToArray(arrayToList([2, 3, 5])));
