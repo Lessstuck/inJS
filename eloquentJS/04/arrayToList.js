@@ -21,21 +21,25 @@ class LinkedList  {
     getFirst() {
         return this.head;
     }
+    prepend(data) {
+        let node = new ListNode(data);
+        let newList = new LinkedList(node);
+        newList.head.next = this.head;
+        return newList;
+    }
+
 };
    
-let node = [];
+let nodes = [];
 function arrayToList(arr) {
-    node[0] = new ListNode(arr[0]);
+    nodes[0] = new ListNode(arr[0]);
     for (let i = 1; i < arr.length; i++)  {
-        node[i] = new ListNode(arr[i]);
-        node[i - 1].next = node[i];
+        nodes[i] = new ListNode(arr[i]);
+        nodes[i - 1].next = nodes[i];
     }
-    let list = new LinkedList(node[0]);
+    let list = new LinkedList(nodes[0]);
     return list;
 };
-
-let arr = [2, 3, 5];
-console.log(arrayToList(arr).head.data); 
 
 function listToArray(list) {
     let arr = [];
@@ -48,5 +52,5 @@ function listToArray(list) {
     return arr;
 }
 
-// console.log(arrayToList([2, 4, 5, 7]).size());
+console.log(listToArray(arrayToList([2, 4, 5, 7]).prepend(12)));
 console.log(listToArray(arrayToList([2, 3, 5])));
