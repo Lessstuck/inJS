@@ -1,4 +1,4 @@
-let arr = [2, 4, 2];
+let arr = [2, 4, 8];
 
 // test for number being even
 function test(i) {
@@ -13,28 +13,15 @@ function everything(arr, test) {
         }
     }
     return true;
-}
+};
 
-// inverts a Boolean function
-// function negate(a) {
-//     return !a();
-// }
-
-// function test2(a) {
-//     console.log(negate((a == a)));
-// }
-
-// homemade every function using some
+// // homemade every function using some
 function everything2(arr, test) {
-    // someTestFalse = negate(arr.some(test));
-    if (arr.some(negate(test)) == true) {
+    if (arr.some(e => !test(e))) {   // how to invert a function!
         return false;
     } else return true;
-}
+};
 
-// test2(arr);
+// compare tests
 console.log(everything(arr, test));
-// console.log(everything2(arr, test));
-// console.log(test2(arr));
-// console.log(test(arr));
-// console.log(negate(test(arr)));
+console.log(everything2(arr, test));
