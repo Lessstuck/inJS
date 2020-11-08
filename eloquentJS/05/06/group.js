@@ -24,6 +24,11 @@ class Group {
             this.members.splice(i, 1);
         }
     }
+    from(interableObject) {
+        for (var x of interableObject) {
+            this.add(x);
+        }
+    }
 }
 
 let groupy = new Group;
@@ -34,3 +39,6 @@ console.log(groupy.members);
 groupy.delete("goo");
 groupy.delete("foo");
 console.log(groupy.has("foo"));
+groupy.add("foo");
+groupy.from(['blork', 5, "boop"]);
+console.log(groupy.members);
