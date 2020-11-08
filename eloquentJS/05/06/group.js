@@ -1,17 +1,36 @@
 class Group {
     constructor() {
-        this.group = Object.create(null);
+        this.members = [];
     }
     has(member) {
-        if (member in this.group) {
+        if (this.members.includes(member)) {
             return true;
         }
         else {
             return false;
         }
     }
-    set(member):
-        if (!this.group.has(member))   {
-            member this.group;
+    add(member) {
+        if (!(this.has(member))) {
+            this.members.push(member);
         }
+    }
+    delete(member) {
+        if (!(this.has(member))) {
+            console.log(`Sorry, ${member} is not in the group.`);
+        }
+        else {
+            let i = this.members.indexOf(member);
+            this.members.splice(i, 1);
+        }
+    }
 }
+
+let groupy = new Group;
+groupy.add("foo");
+console.log(groupy.has("foo"));
+groupy.add("foo");
+console.log(groupy.members);
+groupy.delete("goo");
+groupy.delete("foo");
+console.log(groupy.has("foo"));
