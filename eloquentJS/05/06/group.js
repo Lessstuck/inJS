@@ -24,21 +24,24 @@ class Group {
             this.members.splice(i, 1);
         }
     }
-    from(interableObject) {
-        for (var x of interableObject) {
-            this.add(x);
+    static from(iterableObject) {
+        let fromGroup = new Group;
+        for (let value of iterableObject) {
+            fromGroup.add(value);
         }
+        return fromGroup;
     }
 }
 
-let groupy = new Group;
-groupy.add("foo");
-console.log(groupy.has("foo"));
-groupy.add("foo");
-console.log(groupy.members);
-groupy.delete("goo");
-groupy.delete("foo");
-console.log(groupy.has("foo"));
-groupy.add("foo");
-groupy.from(['blork', 5, "boop"]);
-console.log(groupy.members);
+// let groupy = new Group;
+// groupy.add("foo");
+// console.log(groupy.has("foo"));
+// groupy.add("foo");
+// console.log(groupy.members);
+// groupy.delete("goo");
+// groupy.delete("foo");
+// console.log(groupy.has("foo"));
+// groupy.add("foo");
+
+let zippy =  Group.from(["blork", 5, "boop"]);
+console.log(zippy.members);
