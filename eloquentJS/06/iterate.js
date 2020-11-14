@@ -34,13 +34,23 @@ class Group {
 }
 
 class GroupIterator {
-    constructor(group) {
+    constructor( group) {
         this.group = group;
+        this.counter = 0;
     }
     next() {
-        let value = 666;
-        return { value, done: false }
+
+        if (this.counter == this.group.members.length)   {
+            return { done: true };
+        }
+        this.counter++;
+        return {done: false };
     }
+    
+}
+
+Group.prototype[Symbol.iterator] = function() {
+    return new GroupIterator(this);
 }
 
 let zippy =  Group.from(["blork", 5, "boop"]);
