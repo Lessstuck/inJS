@@ -24,6 +24,9 @@ class Group {
             this.members.splice(i, 1);
         }
     }
+    [Symbol.iterator]()  {
+    return new GroupIterator(this);
+    }
     static from(iterableObject) {
         let fromGroup = new Group;
         for (let value of iterableObject) {
@@ -49,9 +52,9 @@ class GroupIterator {
     
 }
 
-Group.prototype[Symbol.iterator] = function() {
-    return new GroupIterator(this);
-}
+// Group.prototype[Symbol.iterator] = function() {
+//     return new GroupIterator(this);
+// }
 
 let zippy =  Group.from(["blork", 5, "boop"]);
 console.log(zippy.members);
