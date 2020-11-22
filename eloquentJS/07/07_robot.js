@@ -33,13 +33,13 @@ var VillageState = class VillageState {
   }
 
   move(destination) {
-    if (!roadGraph[this.place].includes(destination)) {
+    if (!roadGraph[this.place].includes(destination)) { // if there's a road including here & there, then go there
       return this;
     } else {
-      let parcels = this.parcels.map(p => {
-        if (p.place != this.place) return p;
-        return {place: destination, address: p.address};
-      }).filter(p => p.place != p.address);
+      let parcels = this.parcels.map(p => { // for each parcel
+        if (p.place != this.place) return p; // if parcel location (place) is not robot location (place), include in new parcels
+        return {place: destination, address: p.address}; // the new state will set the parcel's place to the destination, parcel address unchanged
+      }).filter(p => p.place != p.address);  // drop off packages, by only copying only ons without this place as the address
       return new VillageState(destination, parcels);
     }
   }
@@ -97,12 +97,12 @@ function routeRobot(state, memory) {
 
 function findRoute(graph, from, to) {
   let work = [{at: from, route: []}];
-  for (let i = 0; i < work.length; i++) {
-    let {at, route} = work[i];
-    for (let place of graph[at]) {
-      if (place == to) return route.concat(place);
+  for (let i = 0; i < work.length; i++) { // each time findRoute is called, review contents of work
+    let { at, route } = work[i]; // pick an object in work, and name its elements "at" and "route"
+    for (let place of graph[at]) { // look at all places from graph location "at"  (?)
+      if (place == to) return route.concat(place);  // place is end of route, return route
       if (!work.some(w => w.at == place)) {
-        work.push({at: place, route: route.concat(place)});
+        work.push({at: place, route: route.concat(place)});  // add place to route
       }
     }
   }
