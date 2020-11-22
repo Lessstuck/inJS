@@ -120,22 +120,34 @@ function goalOrientedRobot({place, parcels}, route) {
   return {direction: route[0], memory: route.slice(1)};
 }
 
+function goalOrientedRobot2({ place, parcels }, route) {
+  if (route.length == 0) {
+    let state = { place, parcels };
+    let parcel = parcels[0];
+    if (parcel.place != place) {
+      route = findRoute(roadGraph, place, parcel.place);
+    } else {
+      route = findRoute(roadGraph, place, parcel.address);
+    }
+  }
+  return { direction: route[0], memory: route.slice(1) };
+}
 
 function compareRobots(robot1, memory1, robot2, memory2) {
   let state = VillageState.random();
   let robot1Count = 0;
   for (let i = 0; i < 1000; i++) {
-    robot1Count += runRobot(state, randomRobot, memory1);
+    robot1Count += runRobot(state, goalOrientedRobot, memory1);
   }
   robot1Count /= 1000;
 
   let robot2Count = 0;
   for (let i = 0; i < 1000; i++) {
-    robot2Count += runRobot(state, goalOrientedRobot, memory2);
+    robot2Count += runRobot(state, goalOrientedRobot2, memory2);
   }
   robot2Count /= 1000;
 
-  console.log("routeRobot: " + robot1Count + " goalOrientedRobot: " + robot2Count);
+  console.log("goalOrientedRobot: " + robot1Count + " goalOrientedRobot2: " + robot2Count);
 }
 
 compareRobots(routeRobot, [], goalOrientedRobot, []);
