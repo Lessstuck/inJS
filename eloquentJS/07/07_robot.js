@@ -68,7 +68,7 @@ function randomRobot(state) {
   return {direction: randomPick(roadGraph[state.place])};
 }
 
-VillageState.random = function(parcelCount = 5) {
+VillageState.random = function(parcelCount = 4) {
   let parcels = [];
   for (let i = 0; i < parcelCount; i++) {
     let address = randomPick(Object.keys(roadGraph));
@@ -109,18 +109,17 @@ function findRoute(graph, from, to) {
 }
 //   route = findRoute2(roadGraph, place, state);
 function findRoute2(graph, state) {
-  // let parcelRouteNearest = [];
-  console.log(state.parcels);
-  for (let parcel of state.parcels) {
-    let route = findRoute(graph, state.place, parcel.address);
-    //   if (route.length > parcelRouteNearest.length) {
-    //   } else {
-    //     parcelRouteNearest = route;
-    //   }
-    // }
-    // console.log(parcelRouteNearest);
-    return route;
+  let route;
+  let parcelRouteNearest = findRoute(graph, state.place, state.parcels[0].address);
+  for (let i = 1; i < state.parcels.length; i++) {
+    let route = findRoute(graph, state.place, state.parcels[i].address);
+    console.log(route);
+    if (route.length < parcelRouteNearest.length) {
+      parcelRouteNearest = route;
+    } 
   }
+  console.log("parcelRouteNearest: " + parcelRouteNearest);
+  return parcelRouteNearest;
 }
 
 function goalOrientedRobot({place, parcels}, route) {
@@ -136,39 +135,36 @@ function goalOrientedRobot({place, parcels}, route) {
 }
 
 function goalOrientedRobot2({ place, parcels }, route) {
-  let routes = [{route: route, routeLength: route.length, routePickup: true}];
-  // for (let i = 0; i < parcels.length; i++)  {
-    if (route.length == 0) {
-      let parcel = parcels[0];  // pick a parcel, any parcel
-      if (parcel.place != place) {  // if parcel is not located at robot location,
-        route = findRoute(roadGraph, place, parcel.place);  // find route from robot location to parcel location - pick up
-        routes[0] = { route: route, routeLength: route.length, routePickup: true};    // was routes[i]   <------
-      } else {
-        route = findRoute(roadGraph, place, parcel.address); // otherwise, find route from robot location to parcel destination - deliver
-        // routes[i] = route;
-        routes[0] = { route: route, routeLength: route.length, routePickup: false };    // was routes[i]   <------
-      }
-    }
-  // }
-  // for (let i = 0; i < 5; i++){
-    console.log(routes[0].routeLength);
-  // }
+  let state = { place, parcels };
+  let routes = [{ route: route, routeLength: route.length, routePickup: true }];
+  if (route.length == 0) {
+    findRoute2(roadGraph, state);
+    // let parcel = parcels[0];  // pick a parcel, any parcel
+    // if (parcel.place != place) {  // if parcel is not located at robot location,
+    //   route = findRoute(roadGraph, place, parcel.place);  // find route from robot location to parcel location - pick up
+    //   routes[0] = { route: route, routeLength: route.length, routePickup: true };    // was routes[i]   <------
+    // } else {
+    //   route = findRoute(roadGraph, place, parcel.address); // otherwise, find route from robot location to parcel destination - deliver
+    //   // routes[i] = route;
+    //   routes[0] = { route: route, routeLength: route.length, routePickup: false };    // was routes[i]   <------
+    // }
+  }
   return { direction: routes[0].route[0], memory: routes[0].route.slice(1) };  // take first step in route
 }
 
 function compareRobots(robot1, memory1, robot2, memory2) {
   let state = VillageState.random();
   let robot1Count = 0;
-  for (let i = 0; i < 1000; i++) {
-    robot1Count += runRobot(state, goalOrientedRobot, memory1);
-  }
-  robot1Count /= 1000;
+  // for (let i = 0; i < 1000; i++) {
+  //   robot1Count += runRobot(state, goalOrientedRobot, memory1);
+  // }
+  // robot1Count /= 1000;
 
   let robot2Count = 0;
-  for (let i = 0; i < 1000; i++) {
+  // for (let i = 0; i < 1000; i++) {
     robot2Count += runRobot(state, goalOrientedRobot2, memory2);
-  }
-  robot2Count /= 1000;
+  // }
+  // robot2Count /= 1000;
 
   console.log("goalOrientedRobot: " + robot1Count + " goalOrientedRobot2: " + robot2Count);
 }
