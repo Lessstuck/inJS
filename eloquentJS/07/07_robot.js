@@ -34,19 +34,24 @@ var VillageState = class VillageState {
 
   move(destination) {
     if (!roadGraph[this.place].includes(destination)) { // if there's a road including here & there, then go there
+      console.log("AAAAAAA")
       return this;
     } else {
       let parcels = this.parcels.map(p => { // for each parcel
         if (p.place != this.place) return p; // if parcel location (place) is not robot location (place), include in new parcels
-        return {place: destination, address: p.address}; // the new state will set the parcel's place to the destination, parcel address unchanged
+        console.log("BBBBBB");
+        return { place: destination, address: p.address }; // the new state will set the parcel's place to the destination, parcel address unchanged
       }).filter(p => p.place != p.address);  // drop off packages, by only copying only ones without this place as the address
+      console.log("moved parcels: " + parcels);
+      console.log("CCCCCC");
       return new VillageState(destination, parcels);
     }
   }
 }
 
 function runRobot(state, robot, memory) {
-  for (let turn = 0;; turn++) {
+  for (let turn = 0; ; turn++) {
+    console.log("memory: " + memory);
     if (state.parcels.length == 0) {
       console.log(`Done in ${turn} turns`);
       return turn;
@@ -54,7 +59,9 @@ function runRobot(state, robot, memory) {
     }
     let action = robot(state, memory);
     state = state.move(action.direction);
+    console.log(state);
     memory = action.memory;
+    console.log("statePostAction: " + state);
     console.log(`Moved to ${action.direction}`);
   }
 }
@@ -107,18 +114,20 @@ function findRoute(graph, from, to) {
     }
   }
 }
-//   route = findRoute2(roadGraph, place, state);
+
 function findRoute2(graph, state) {
-  let route;
   let parcelRouteNearest = findRoute(graph, state.place, state.parcels[0].address);
+  // console.log(parcelRouteNearest);
   for (let i = 1; i < state.parcels.length; i++) {
-    let route = findRoute(graph, state.place, state.parcels[i].address);
-    console.log(route);
+    route = findRoute(graph, state.place, state.parcels[i].address);
+    // console.log(route);
     if (route.length < parcelRouteNearest.length) {
       parcelRouteNearest = route;
+      // console.log(route);
     } 
   }
-  console.log("parcelRouteNearest: " + parcelRouteNearest);
+  console.log(parcelRouteNearest);
+  console.log("\n");
   return parcelRouteNearest;
 }
 
@@ -136,20 +145,12 @@ function goalOrientedRobot({place, parcels}, route) {
 
 function goalOrientedRobot2({ place, parcels }, route) {
   let state = { place, parcels };
-  let routes = [{ route: route, routeLength: route.length, routePickup: true }];
   if (route.length == 0) {
-    findRoute2(roadGraph, state);
-    // let parcel = parcels[0];  // pick a parcel, any parcel
-    // if (parcel.place != place) {  // if parcel is not located at robot location,
-    //   route = findRoute(roadGraph, place, parcel.place);  // find route from robot location to parcel location - pick up
-    //   routes[0] = { route: route, routeLength: route.length, routePickup: true };    // was routes[i]   <------
-    // } else {
-    //   route = findRoute(roadGraph, place, parcel.address); // otherwise, find route from robot location to parcel destination - deliver
-    //   // routes[i] = route;
-    //   routes[0] = { route: route, routeLength: route.length, routePickup: false };    // was routes[i]   <------
-    // }
+    route = findRoute2(roadGraph, state);
+    let thang = 1;
   }
-  return { direction: routes[0].route[0], memory: routes[0].route.slice(1) };  // take first step in route
+  console.log("route: " + route);
+  return { direction: route[0], memory: route.slice(1) };  // take first step in route
 }
 
 function compareRobots(robot1, memory1, robot2, memory2) {
