@@ -33,42 +33,29 @@ var VillageState = class VillageState {
   }
 
   move(destination) {
-    if (!roadGraph[this.place].includes(destination)) { // if there's a road including here & there, then go there
-      console.log("AAAAAAA")
+    if (!roadGraph[this.place].includes(destination)) {
       return this;
     } else {
-      let parcels = this.parcels.map(p => { // for each parcel
-        if (p.place != this.place) return p; // if parcel location (place) is not robot location (place), include in new parcels
-        console.log("BBBBBB");
-        return { place: destination, address: p.address }; // the new state will set the parcel's place to the destination, parcel address unchanged
-      }).filter(p => p.place != p.address);  // drop off packages, by only copying only ones without this place as the address
-      console.log("moved parcels: " + parcels);
-      console.log("CCCCCC");
+      let parcels = this.parcels.map(p => {
+        if (p.place != this.place) return p;
+        return {place: destination, address: p.address};
+      }).filter(p => p.place != p.address);
       return new VillageState(destination, parcels);
     }
   }
 }
 
 function runRobot(state, robot, memory) {
-  for (let turn = 0; ; turn++) {
-    console.log("memory: " + memory);
+  for (let turn = 0;; turn++) {
     if (state.parcels.length == 0) {
-      console.log(`Done in ${turn} turns`);
-<<<<<<< HEAD
+      // console.log(`Done in ${turn} turns`);
       return turn;
-=======
->>>>>>> parent of a972bbb... first execise done
       break;
     }
     let action = robot(state, memory);
     state = state.move(action.direction);
-    console.log(state);
     memory = action.memory;
-<<<<<<< HEAD
-    console.log("statePostAction: " + state);
-=======
->>>>>>> parent of a972bbb... first execise done
-    console.log(`Moved to ${action.direction}`);
+    // console.log(`Moved to ${action.direction}`);
   }
 }
 
@@ -81,7 +68,7 @@ function randomRobot(state) {
   return {direction: randomPick(roadGraph[state.place])};
 }
 
-VillageState.random = function(parcelCount = 4) {
+VillageState.random = function(parcelCount = 10) {
   let parcels = [];
   for (let i = 0; i < parcelCount; i++) {
     let address = randomPick(Object.keys(roadGraph));
@@ -110,74 +97,70 @@ function routeRobot(state, memory) {
 
 function findRoute(graph, from, to) {
   let work = [{at: from, route: []}];
-  for (let i = 0; i < work.length; i++) { // each time findRoute is called, review contents of work
-    let { at, route } = work[i]; // pick an object in work, and name its elements "at" and "route"
-    for (let place of graph[at]) { // look at all places from graph location "at"  (?)
-      if (place == to) return route.concat(place);  // place is end of route, return route
+  for (let i = 0; i < work.length; i++) {
+    let {at, route} = work[i];
+    for (let place of graph[at]) {
+      if (place == to) return route.concat(place);
       if (!work.some(w => w.at == place)) {
-        work.push({at: place, route: route.concat(place)});  // add place to route
+        work.push({at: place, route: route.concat(place)});
       }
     }
   }
 }
 
-function findRoute2(graph, state) {
-  let parcelRouteNearest = findRoute(graph, state.place, state.parcels[0].address);
-  // console.log(parcelRouteNearest);
-  for (let i = 1; i < state.parcels.length; i++) {
-    route = findRoute(graph, state.place, state.parcels[i].address);
-    // console.log(route);
-    if (route.length < parcelRouteNearest.length) {
-      parcelRouteNearest = route;
-      // console.log(route);
-    } 
-  }
-  console.log(parcelRouteNearest);
-  console.log("\n");
-  return parcelRouteNearest;
-}
-
 function goalOrientedRobot({place, parcels}, route) {
   if (route.length == 0) {
-    let parcel = parcels[0];  // pick a parcel, any parcel
-    if (parcel.place != place) {  // if parcel is not located at robot location,
-      route = findRoute(roadGraph, place, parcel.place);  // find route from robot location to parcel location - pick up
+    let parcel = parcels[0];
+    if (parcel.place != place) {
+      route = findRoute(roadGraph, place, parcel.place);
     } else {
-      route = findRoute(roadGraph, place, parcel.address); // otherwise, find route from robot location to parcel destination - deliver
+      route = findRoute(roadGraph, place, parcel.address);
     }
   }
-  return {direction: route[0], memory: route.slice(1)};  // done. ready for next parcel
+  return {direction: route[0], memory: route.slice(1)};
 }
 
-<<<<<<< HEAD
 function goalOrientedRobot2({ place, parcels }, route) {
-  let state = { place, parcels };
   if (route.length == 0) {
-    route = findRoute2(roadGraph, state);
-    let thang = 1;
+    // Find route for each parcel
+    let routes = parcels.map(parcel => {
+      if (parcel.place != place) {
+        return {
+          route: findRoute(roadGraph, place, parcel.place),
+          pickup: true
+        };
+      } else {
+        return {
+          route: findRoute(roadGraph, place, parcel.address),
+          pickup: false
+        };
+      };
+    });
+    // This determines the precedence a route gets when choosing.
+    // Route length counst negatively; routes that pick up a package get a bonus.
+    function score({ route, pickup }) {
+      return (pickup ? 0.5 : 0) - route.length;
+    }
+    route = routes.reduce((a, b) => score(a) > score > (b) ? a : b).route;
   }
-  console.log("route: " + route);
-  return { direction: route[0], memory: route.slice(1) };  // take first step in route
-}
+  return { direction: route[0], memory: route.slice(1) };
+};
 
 function compareRobots(robot1, memory1, robot2, memory2) {
   let state = VillageState.random();
   let robot1Count = 0;
-  // for (let i = 0; i < 1000; i++) {
-  //   robot1Count += runRobot(state, goalOrientedRobot, memory1);
-  // }
-  // robot1Count /= 1000;
+  for (let i = 0; i < 10000; i++) {
+    robot1Count += runRobot(state, goalOrientedRobot, memory1);
+  }
+  robot1Count /= 10000;
 
   let robot2Count = 0;
-  // for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 10000; i++) {
     robot2Count += runRobot(state, goalOrientedRobot2, memory2);
-  // }
-  // robot2Count /= 1000;
+  }
+  robot2Count /= 10000;
 
   console.log("goalOrientedRobot: " + robot1Count + " goalOrientedRobot2: " + robot2Count);
-=======
-function compareRobots(robot1, memory1, robot2, memory2) {
-  // Your code here
->>>>>>> parent of a972bbb... first execise done
 }
+
 compareRobots(goalOrientedRobot, [], goalOrientedRobot2, []);
