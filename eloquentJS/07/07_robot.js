@@ -54,14 +54,20 @@ function runRobot(state, robot, memory) {
     console.log("memory: " + memory);
     if (state.parcels.length == 0) {
       console.log(`Done in ${turn} turns`);
+<<<<<<< HEAD
       return turn;
+=======
+>>>>>>> parent of a972bbb... first execise done
       break;
     }
     let action = robot(state, memory);
     state = state.move(action.direction);
     console.log(state);
     memory = action.memory;
+<<<<<<< HEAD
     console.log("statePostAction: " + state);
+=======
+>>>>>>> parent of a972bbb... first execise done
     console.log(`Moved to ${action.direction}`);
   }
 }
@@ -143,6 +149,7 @@ function goalOrientedRobot({place, parcels}, route) {
   return {direction: route[0], memory: route.slice(1)};  // done. ready for next parcel
 }
 
+<<<<<<< HEAD
 function goalOrientedRobot2({ place, parcels }, route) {
   let state = { place, parcels };
   if (route.length == 0) {
@@ -168,5 +175,9 @@ function compareRobots(robot1, memory1, robot2, memory2) {
   // robot2Count /= 1000;
 
   console.log("goalOrientedRobot: " + robot1Count + " goalOrientedRobot2: " + robot2Count);
+=======
+function compareRobots(robot1, memory1, robot2, memory2) {
+  // Your code here
+>>>>>>> parent of a972bbb... first execise done
 }
 compareRobots(goalOrientedRobot, [], goalOrientedRobot2, []);
