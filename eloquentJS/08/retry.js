@@ -3,7 +3,8 @@ function primitiveMultiply(x, y) {
     if (rando < .2) {
         return (x * y);
     }
-    return ("rando");
+    // return ("rando");
+    throw new Error("MultiplicationFailure: " + rando);
 };
 let retried = primitiveMultiply(3, 5)
 console.log(retried);
