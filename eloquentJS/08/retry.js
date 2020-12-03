@@ -6,5 +6,16 @@ function primitiveMultiply(x, y) {
     // return ("rando");
     throw new Error("MultiplicationFailure: " + rando);
 };
-let retried = primitiveMultiply(3, 5)
-console.log(retried);
+
+function retry(x, y) {
+    let retried;
+    try {
+        return primitiveMultiply(3, 5);
+        // retried = primitiveMultiply(3, 5);
+        // console.log(retried);
+    } catch (error) {
+        return retry(x, y);
+    }
+}
+
+console.log(retry(3.5));
