@@ -1,0 +1,7 @@
+/ca(r|t)/
+/pr?op/
+/ferr(et|y|ari)/
+/\b\w+ious\b/
+/\s(\.|,|:|;)/
+/\w{7,}/
+/\b([a-d]*|[f-z]*|[A-D]|[F-Z])*\b/
