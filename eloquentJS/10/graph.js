@@ -1,7 +1,7 @@
-// let edges = [[]];
 
 exports.buildGraph = function(edges) {
-  let graph = Object.create(null);
+  // let graph = Object.create(null);
+  let graph = [];
   function addEdge(from, to) {
     if (graph[from] == null) {
       graph[from] = [to];
@@ -10,9 +10,7 @@ exports.buildGraph = function(edges) {
     }
   }
   for (let i = 0; i < edges.length; i++) {
-    for (j = 0; j < edges[i].length; j++) {
       addEdge(edges[i][0], edges[i][1]);
-    }
   }
   return graph;
 }
