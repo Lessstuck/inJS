@@ -1,4 +1,4 @@
-let edges = [[]];
+// let edges = [[]];
 
 exports.buildGraph = function(edges) {
   let graph = Object.create(null);
@@ -9,10 +9,9 @@ exports.buildGraph = function(edges) {
       graph[from].push(to);
     }
   }
-  for (let i; i < edges.length; i++) {
-    for (let [from, to] of edges[i]) {
-      addEdge(from, to);
-      addEdge(to, from);
+  for (let i = 0; i < edges.length; i++) {
+    for (j = 0; j < edges[i].length; j++) {
+      addEdge(edges[i][0], edges[i][1]);
     }
   }
   return graph;
