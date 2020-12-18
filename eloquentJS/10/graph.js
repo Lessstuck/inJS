@@ -8,9 +8,9 @@ exports.buildGraph = function(edges) {
       graph.push([from, to]);
     }
   }
-  for (let i = 0; i < edges.length; i++) {
-    addEdge(edges[i][0], edges[i][1]);
-    addEdge(edges[i][1], edges[i][0]);
+  for (let [from, to] of edges.map(r => r.split("-"))) {
+    addEdge(from, to);
+    addEdge(to, from);
   }
   return graph;
 }
