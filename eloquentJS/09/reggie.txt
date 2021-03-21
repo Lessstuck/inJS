@@ -1,7 +1,3 @@
-/ca(r|t)/
-/pr?op/
-/ferr(et|y|ari)/
-/\b\w+ious\b/
-/\s(\.|,|:|;)/
-/\w{7,}/
-/\b([a-d]*|[f-z]*|[A-D]|[F-Z])*\b/
+version https://git-lfs.github.com/spec/v1
+oid sha256:a01e847be1f91c5660f24aaedc09a63a76f0f794e1a946831242aa8245d2f9da
+size 107
