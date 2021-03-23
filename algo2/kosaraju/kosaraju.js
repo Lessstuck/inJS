@@ -2,13 +2,7 @@ var fs = require("fs");
 
 let cr = /\r|\n/g;
 let sp = /\s|\t/g;
-let nl = /\n/g;
-let tb = /\t/g;
-// let sp = /\s+/g
-let fileArray = [];
-let fileArrayThingy = [];
 let fileNumberArray = [];
-var arrayOfArrays = new Array;
 var inputEdgeArray = new Array;
 
 // read an text file, convert to array of arrays of integers
