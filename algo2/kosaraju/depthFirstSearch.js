@@ -13,4 +13,9 @@ for (let i = 0; i < maxVertex; i++) {
     visitedVertices[i] = 0;
 }
 
-console.log(visitedVertices)
+// start at highest numbered vertex for kosaraju algorithm
+for (let i = maxVertex; i > 0; i--) {
+    if (visitedVertices[adjacencyList[i - 1][1]] == 0) {
+        console.log(i)
+    }
+}
