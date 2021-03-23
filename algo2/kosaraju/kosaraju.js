@@ -20,7 +20,6 @@ for (let i = 0; i < fileStringLines.length; i++)    {
 };
 let originalLength = inputEdgeArray.length;
 let maxVertex = inputEdgeArray[originalLength - 1][0];
-// console.log(maxVertex);
 
 // convert to adjacency list
 let adjacencyList = [[1, 0]];
