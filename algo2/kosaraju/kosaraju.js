@@ -35,13 +35,14 @@ let vertex;
 for (let i = 0; i < maxVertex; i++) {
     adjacencyList[i] = [i + 1, 0];
 }
-// iterate through inputEdgeArray
+// reverse edges & iterate through inputEdgeArray
 for (let i = 0; i < originalLength; i++)    {
-    let originalVertex = inputEdgeArray[i][0];   // vertex number
-    if (adjacencyList[originalVertex - 1][1] == 0) {        // overwrite intial state
-        adjacencyList[originalVertex - 1][1] = inputEdgeArray[i][1];
+    [inputEdgeArray[i][0], inputEdgeArray[i][1]] = [inputEdgeArray[i][1], inputEdgeArray[i][0]] // Destructure to reverse edges
+    let inputVertex = inputEdgeArray[i][0];   // vertex number
+    if (adjacencyList[inputVertex - 1][1] == 0) {        // overwrite intial state
+        adjacencyList[inputVertex - 1][1] = inputEdgeArray[i][1];
     } else {
-        adjacencyList[originalVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
+        adjacencyList[inputVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
     }
 }
 console.log(adjacencyList)
