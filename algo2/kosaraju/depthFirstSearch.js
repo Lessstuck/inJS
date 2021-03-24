@@ -15,7 +15,16 @@ for (let i = 0; i < maxVertex; i++) {
 
 // start at highest numbered vertex for kosaraju algorithm
 for (let i = maxVertex; i > 0; i--) {
-    if (visitedVertices[adjacencyList[i - 1][1]] == 0) {
-        console.log(i)
-    }
+    DFS(adjacencyList, i);
 }
+
+function DFS(adjacencyList, startVertex) {
+    visitedVertices[adjacencyList[startVertex - 1][1]] = 1;
+    adjacencyList[startVertex - 1].shift();   
+    adjacencyList[startVertex - 1].forEach(element => {
+        if (visitedVertices[element] == 0)   {
+            DFS(adjacencyList, element);
+        } 
+    });
+}
+console.log(visitedVertices)
