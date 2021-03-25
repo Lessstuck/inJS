@@ -18,10 +18,12 @@ for (let i = maxVertex; i > 0; i--) {
     DFS(adjacencyList, i);
 }
 
+var connectedNodes = new Array;
 function DFS(adjacencyList, startVertex) {
     let startVertexIndex = startVertex - 1;
-    visitedVertices[adjacencyList[startVertexIndex][1]] = 1;
-    let connectedNodes = adjacencyList[startVertexIndex];
+    console.log(`startVertexIndex: ${startVertexIndex}`);
+    visitedVertices[startVertexIndex] = 1;
+    connectedNodes = [...adjacencyList[startVertexIndex]];
     connectedNodes.shift();
     connectedNodes.forEach(element => {
         if (visitedVertices[element - 1] == 0)   {
