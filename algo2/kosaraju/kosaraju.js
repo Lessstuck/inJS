@@ -19,7 +19,7 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     inputEdgeArray.push(fileNumberArray);
 };
 let originalLength = inputEdgeArray.length;
-let maxVertex = inputEdgeArray[originalLength - 1][0];
+let maxVertex = inputEdgeArray[originalLength - 1][0];  // assuming a continuous increasing set of array first elements
 
 // convert to adjacency list
 let adjacencyList = [[1, 0]];
@@ -28,8 +28,9 @@ let vertex;
 for (let i = 0; i < maxVertex; i++) {
     adjacencyList[i] = [i + 1, 0];
 }
+
 // reverse edges & iterate through inputEdgeArray
-for (let i = 0; i < originalLength; i++)    {
+for (let i = 0; i < originalLength; i++) {
     [inputEdgeArray[i][0], inputEdgeArray[i][1]] = [inputEdgeArray[i][1], inputEdgeArray[i][0]] // Destructure to reverse edges
     let inputVertex = inputEdgeArray[i][0];   // vertex number
     if (adjacencyList[inputVertex - 1][1] == 0) {        // overwrite intial state
@@ -38,4 +39,5 @@ for (let i = 0; i < originalLength; i++)    {
         adjacencyList[inputVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
     }
 }
+console.log("reverse adjacencyList: ");
 console.log(adjacencyList)
