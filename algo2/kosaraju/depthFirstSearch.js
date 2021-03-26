@@ -33,12 +33,12 @@ function DFS(adjacencyList, startVertex) {
     connectedNodes.shift(); // remove the first vertex 
     connectedNodes.forEach(element => {
         if (visitedVertices[element - 1] == 0) {
-            // finishingTime++;
-            console.log("finishingTime" + finishingTime);
+            console.log("finishingTime: " + finishingTime);
             DFS(adjacencyList, element);
         } else {
             finishingTime++;
-            finishingTimes[element - 1] = finishingTime;
+            console.log("finishingTime: " + finishingTime);
+            finishingTimes[startVertex - 1] = finishingTime;
             console.log("startVertexIndex: " + startVertexIndex + "\n " + "finishingTimes: " + finishingTimes + "\n\n");
         }
     });
