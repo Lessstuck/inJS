@@ -42,16 +42,6 @@ function DFS(adjacencyList, startVertex) {
     let startVertexIndex = startVertex - 1;
     console.log("\n")
     console.log(`DFS begin startVertex: ${startVertex}`);
-    // if (goingBack == true) {   // going back means calling DFS on visted vertex
-    //     finishingTime++;
-    //     finishingTimes[startVertex - 1] = finishingTime;
-    //     console.log("going back finishingTimes: " + finishingTimes + "\n\n");
-    //     if (previousVertices.length != 0) {   // set of of previous vertices must not be empty
-    //         DFS(adjacencyList, previousVertices.pop());
-    //     }
-
-    //     leaders[startVertex] = 0; // fix this when coding DFS #2
-    // }
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
     connectedNodes = [...adjacencyList[startVertexIndex]];
     connectedNodes.shift(); // remove the first vertex 
@@ -63,13 +53,15 @@ function DFS(adjacencyList, startVertex) {
             DFS(adjacencyList, element);
         }
     });
-    // if no more unvisited vertices, go back
+    // if no more unvisited vertices,
+    if (goingBack == false) {    // if already going back, set finish time and go back
+        previousVertices.pop();
+    }
     goingBack = true;
     finishingTime++;
     finishingTimes[startVertex - 1] = finishingTime;
     console.log("end-of-the-line finishingTime: " + finishingTime);
-    console.log("startVertexIndex: " + startVertexIndex + "\n " + "finishingTimes: " + finishingTimes + "\n\n");
-    previousVertices.pop();
+    console.log("finishingTimes: " + finishingTimes + "\n\n");
     if (previousVertices.length != 0) {   // set of of previous vertices must not be empty
         DFS(adjacencyList, previousVertices.pop());
     }
