@@ -42,21 +42,22 @@ function DFS(adjacencyList, startVertex) {
     let startVertexIndex = startVertex - 1;
     console.log("\n")
     console.log(`DFS begin startVertex: ${startVertex}`);
-    if (goingBack == true) {   // going back means calling DFS on visted vertex
-        finishingTime++;
-        finishingTimes[startVertex - 1] = finishingTime;
-        console.log("going back finishingTimes: " + finishingTimes + "\n\n");
-        if (previousVertices.length != 0) {   // set of of previous vertices must not be empty
-            DFS(adjacencyList, previousVertices.pop());
-        }
+    // if (goingBack == true) {   // going back means calling DFS on visted vertex
+    //     finishingTime++;
+    //     finishingTimes[startVertex - 1] = finishingTime;
+    //     console.log("going back finishingTimes: " + finishingTimes + "\n\n");
+    //     if (previousVertices.length != 0) {   // set of of previous vertices must not be empty
+    //         DFS(adjacencyList, previousVertices.pop());
+    //     }
 
-        leaders[startVertex] = 0; // fix this when coding DFS #2
-    }
+    //     leaders[startVertex] = 0; // fix this when coding DFS #2
+    // }
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
     connectedNodes = [...adjacencyList[startVertexIndex]];
     connectedNodes.shift(); // remove the first vertex 
     connectedNodes.forEach(element => {
         if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
+            goingBack = false;
             console.log("finishingTime: " + finishingTime);
             previousVertices.push(element);
             DFS(adjacencyList, element);
