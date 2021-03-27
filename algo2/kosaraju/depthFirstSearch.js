@@ -31,6 +31,10 @@ for (let i = 0; i < maxVertex; i++) {
 
 // start at highest numbered vertex for kosaraju algorithm
 for (let i = maxVertex; i > 0; i--) {
+    if (visitedVertices[i - 1] == 1) {
+        console.log('next!');
+        continue;
+    }
     goingBack = false;
     previousVertices = [];
     leaders[i] = i;
@@ -53,15 +57,16 @@ function DFS(adjacencyList, startVertex) {
             DFS(adjacencyList, element);
         }
     });
-    // if no more unvisited vertices,
-    if (goingBack == false) {    // if already going back, set finish time and go back
-        previousVertices.pop();
-    }
-    goingBack = true;
+    // if no more unvisited vertices, either we've reached an end, or we're going back
+    console.log(`starting vertex: ${startVertex} going back: ${goingBack}`);
+    // if (goingBack == false) {   
+    //     goingBack = true;
+    // }
     finishingTime++;
     finishingTimes[startVertex - 1] = finishingTime;
     console.log("end-of-the-line finishingTime: " + finishingTime);
     console.log("finishingTimes: " + finishingTimes + "\n\n");
+    previousVertices.pop();
     if (previousVertices.length != 0) {   // set of of previous vertices must not be empty
         DFS(adjacencyList, previousVertices.pop());
     }
