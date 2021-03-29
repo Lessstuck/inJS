@@ -18,6 +18,7 @@ let previousVertices = new Array;
 let finishingTime = 0;
 let finishingTimes = new Array;
 for (let i = 0; i < maxVertex; i++) {
+    previousVertices[0] = i;
     finishingTimes[i] = 0;
 }
 
@@ -32,42 +33,31 @@ for (let i = 0; i < maxVertex; i++) {
 // start at highest numbered vertex for kosaraju algorithm
 for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
-        console.log('next!');
         continue;
     }
     goingBack = false;
-    previousVertices = [];
+    previousVertices[0] = i;  
     leaders[i] = i;
     DFS(adjacencyList, i);
 }
+console.log(finishingTimes);
 
 var connectedNodes = new Array;
 function DFS(adjacencyList, startVertex) {
     let startVertexIndex = startVertex - 1;
-    console.log("\n")
-    console.log(`DFS begin startVertex: ${startVertex}`);
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
     connectedNodes = [...adjacencyList[startVertexIndex]];
     connectedNodes.shift(); // remove the first vertex 
     connectedNodes.forEach(element => {
         if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
             goingBack = false;
-            console.log("finishingTime: " + finishingTime);
             previousVertices.push(element);
             DFS(adjacencyList, element);
         }
     });
     // if no more unvisited vertices, either we've reached an end, or we're going back
-    console.log(`starting vertex: ${startVertex} going back: ${goingBack}`);
-    // if (goingBack == false) {   
-    //     goingBack = true;
-    // }
     finishingTime++;
     finishingTimes[startVertex - 1] = finishingTime;
-    console.log("end-of-the-line finishingTime: " + finishingTime);
-    console.log("finishingTimes: " + finishingTimes + "\n\n");
-    previousVertices.pop();
-    if (previousVertices.length != 0) {   // set of of previous vertices must not be empty
-        DFS(adjacencyList, previousVertices.pop());
-    }
+    previousVertices.pop()
+    let previousLength = previousVertices.length;
 }
