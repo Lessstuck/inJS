@@ -23,21 +23,33 @@ let maxVertex = inputEdgeArray[originalLength - 1][0];  // assuming a continuous
 
 // convert to adjacency list
 let adjacencyList = [[1, 0]];
-let vertex;
+let adjacencyListRev = [[1, 0]];
 // build adjacencyList template
 for (let i = 0; i < maxVertex; i++) {
     adjacencyList[i] = [i + 1, 0];
 }
+for (let i = 0; i < maxVertex; i++) {
+    adjacencyListRev[i] = [i + 1, 0];
+}
 
-// reverse edges & iterate through inputEdgeArray
+// iterate through inputEdgeArray
 for (let i = 0; i < originalLength; i++) {
-    [inputEdgeArray[i][0], inputEdgeArray[i][1]] = [inputEdgeArray[i][1], inputEdgeArray[i][0]] // Destructure to reverse edges
     let inputVertex = inputEdgeArray[i][0];   // vertex number
     if (adjacencyList[inputVertex - 1][1] == 0) {        // overwrite intial state
         adjacencyList[inputVertex - 1][1] = inputEdgeArray[i][1];
     } else {
         adjacencyList[inputVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
     }
+    // reverse edges and interate through inputEdgeArrray
+    [inputEdgeArray[i][0], inputEdgeArray[i][1]] = [inputEdgeArray[i][1], inputEdgeArray[i][0]] // Destructure to reverse edges
+    inputVertex = inputEdgeArray[i][0];   // vertex number
+    if (adjacencyListRev[inputVertex - 1][1] == 0) {        // overwrite intial state
+        adjacencyListRev[inputVertex - 1][1] = inputEdgeArray[i][1];
+    } else {
+        adjacencyListRev[inputVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
+    }
 }
-console.log("reverse adjacencyList: ");
+console.log("adjacencyList: ");
 console.log(adjacencyList)
+console.log("adjacencyListRev: ");
+console.log(adjacencyListRev)
