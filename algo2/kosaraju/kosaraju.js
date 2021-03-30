@@ -5,7 +5,7 @@ let sp = /\s|\t/g;
 let fileNumberArray = [];
 var inputEdgeArray = new Array;
 
-// read an text file, convert to array of arrays of integers
+// read text file, convert to array of arrays of integers
 var fileText = fs.readFileSync('./kosarajuGraphSmall.txt');
 let fileString = String(fileText);
 let fileStringLines = fileString.split(cr); // 
@@ -21,7 +21,8 @@ for (let i = 0; i < fileStringLines.length; i++)    {
 let originalLength = inputEdgeArray.length;
 let maxVertex = inputEdgeArray[originalLength - 1][0];  // assuming a continuous increasing set of array first elements
 
-// convert to adjacency list
+// convert to adjacency lists
+
 let adjacencyList = [[1, 0]];
 let adjacencyListRev = [[1, 0]];
 // build adjacencyList template
@@ -31,7 +32,6 @@ for (let i = 0; i < maxVertex; i++) {
 for (let i = 0; i < maxVertex; i++) {
     adjacencyListRev[i] = [i + 1, 0];
 }
-
 // iterate through inputEdgeArray
 for (let i = 0; i < originalLength; i++) {
     let inputVertex = inputEdgeArray[i][0];   // vertex number
@@ -59,6 +59,7 @@ for (let i = 0; i < maxVertex; i++) {
 }
 let previousVertices = new Array;
 
+// result of first DFS
 let finishingTime = 0;
 let finishingTimes = new Array;
 for (let i = 0; i < maxVertex; i++) {
@@ -66,11 +67,10 @@ for (let i = 0; i < maxVertex; i++) {
     finishingTimes[i] = 0;
 }
 
-let goingBack = false;
-
+// result of second DFS
 let leader = 0;
 let leaders = new Array;
-for (let i = 0; i < maxVertex; i++) {
+for (let i = maxVertex; i > 0; i++) {
     leaders[i] = 0;
 }
 
@@ -79,12 +79,20 @@ for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
         continue;
     }
-    goingBack = false;
     previousVertices[0] = i;
     leaders[i] = i;
     DFS(adjacencyListRev, i);
 }
 console.log(finishingTimes);
+
+for (let i = maxVertex; i > 0; i--) {
+    if (visitedVertices[i - 1] == 1) {
+        continue;
+    }
+    previousVertices[0] = i;
+    leaders[i] = i;
+    DFS(adjacencyListRev, i);
+};
 
 var connectedNodes = new Array;
 function DFS(adjacencyListRev, startVertex) {
@@ -94,7 +102,6 @@ function DFS(adjacencyListRev, startVertex) {
     connectedNodes.shift(); // remove the first vertex 
     connectedNodes.forEach(element => {
         if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
-            goingBack = false;
             previousVertices.push(element);
             DFS(adjacencyListRev, element);
         }
@@ -104,4 +111,9 @@ function DFS(adjacencyListRev, startVertex) {
     finishingTimes[finishingTime - 1] = startVertex;
     previousVertices.pop();
     let previousLength = previousVertices.length;
-}
+};
+
+// second DFS - can this be refactored so there is only one?
+function DFS2(adjacencyList, startVertex) {
+        let x = 4;
+    };

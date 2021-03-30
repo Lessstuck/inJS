@@ -22,8 +22,6 @@ for (let i = 0; i < maxVertex; i++) {
     finishingTimes[i] = 0;
 }
 
-let goingBack = false;
-
 let leader = 0;
 let leaders = new Array;
 for (let i = 0; i < maxVertex; i++) {
@@ -35,7 +33,6 @@ for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
         continue;
     }
-    goingBack = false;
     previousVertices[0] = i;  
     leaders[i] = i;
     DFS(adjacencyList, i);
@@ -50,7 +47,6 @@ function DFS(adjacencyList, startVertex) {
     connectedNodes.shift(); // remove the first vertex 
     connectedNodes.forEach(element => {
         if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
-            goingBack = false;
             previousVertices.push(element);
             DFS(adjacencyList, element);
         }
