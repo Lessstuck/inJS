@@ -55,9 +55,9 @@ function DFS(adjacencyList, startVertex) {
             DFS(adjacencyList, element);
         }
     });
-    // if no more unvisited vertices, either we've reached an end, or we're going back
+    // if no more unvisited vertices, go back
     finishingTime++;
-    finishingTimes[startVertex - 1] = finishingTime;
-    previousVertices.pop()
+    finishingTimes[finishingTime - 1] = startVertex;
+    previousVertices.pop();
     let previousLength = previousVertices.length;
 }
