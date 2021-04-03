@@ -7,6 +7,7 @@ let inputEdgeArray = new Array;
 let inputEdgeArrayRev = new Array;
 let fileStringLines = new Array;
 var connectedNodes = new Array;
+let startVertexIndex;
 
 // read text file, convert to array of arrays of integers
 var fileText = fs.readFileSync('kosarajuGraphSmall.txt');
@@ -65,13 +66,6 @@ for (let i = 0; i < maxVertex; i++) {
     finishingTimes[i] = 0;
 }
 
-// set up leader array for second DFS
-let leader = 0;
-let leaders = new Array;
-for (let i = 0; i < maxVertex; i++) {
-    leaders[i] = 0;
-}
-
 // start at highest numbered vertex for first DFS
 for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
@@ -104,18 +98,26 @@ for (let i = 0; i < maxVertex; i++) {
     visitedVertices[i] = 0;
 }
 
+// set up leader array for second DFS
+let leader = 0;
+let leaders = new Array;
+for (let i = 0; i < maxVertex; i++) {
+    leaders[i] = 0;
+}
+
 // start at highest numbered vertex for second DFS
 for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
         continue;
     }
+    leader = i;
     DFS2(adjacencyList, i);
 };
 
 console.log(leaders);
 
 function DFS(adjacencyListRev, startVertex) {
-    let startVertexIndex = startVertex - 1;
+    startVertexIndex = startVertex - 1;
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
     connectedNodes = [...adjacencyListRev[startVertexIndex]];
     connectedNodes.shift(); // remove the first vertex 
@@ -132,14 +134,16 @@ function DFS(adjacencyListRev, startVertex) {
 };
 
 function DFS2(adjacencyList, startVertex) {
-    let startVertexIndex = startVertex - 1;
+    startVertexIndex = startVertex - 1;
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
-    leaders[startVertexIndex] = startVertex;
+    leaders[startVertexIndex] = leader;
     connectedNodes = [...adjacencyList[startVertexIndex]];
     connectedNodes.shift(); // remove the first vertex 
     connectedNodes.forEach(element => {
         if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
+            leaders[element - 1] = leader;
             DFS(adjacencyList, element);
         }
     });
+    leaders[startVertexIndex] = leader;
 };
