@@ -2,16 +2,19 @@ var fs = require("fs");
 
 let cr = /\r|\n/g;
 let sp = /\s|\t/g;
-let fileNumberArray = [];
-var inputEdgeArray = new Array;
+let fileNumberArray = new Array;
+let inputEdgeArray = new Array;
+let fileStringLines = new Array;
 
 // read text file, convert to array of arrays of integers
 var fileText = fs.readFileSync('./kosarajuGraphSmall.txt');
 let fileString = String(fileText);
-let fileStringLines = fileString.split(cr); // 
+fileStringLines = fileString.split(cr);
+console.log(`fileStringLines: ${fileStringLines}`)
 for (let i = 0; i < fileStringLines.length; i++)    {  
     fileStringArray = fileStringLines[i].split(sp);
     fileStringArray.pop();
+    console.log(`fileStringArray: ${fileStringArray}`)
     fileNumberArray = []
     for (let j = 0; j < fileStringArray.length; j++) {
         fileNumberArray[j] = Number(fileStringArray[j]); // convert to array of numbers
@@ -20,6 +23,7 @@ for (let i = 0; i < fileStringLines.length; i++)    {
 };
 let originalLength = inputEdgeArray.length;
 let maxVertex = inputEdgeArray[originalLength - 1][0];  // assuming a continuous increasing set of array first elements
+
 
 // convert to adjacency lists
 
@@ -34,12 +38,6 @@ for (let i = 0; i < maxVertex; i++) {
 }
 // iterate through inputEdgeArray
 for (let i = 0; i < originalLength; i++) {
-    let inputVertex = inputEdgeArray[i][0];   // vertex number
-    if (adjacencyList[inputVertex - 1][1] == 0) {        // overwrite intial state
-        adjacencyList[inputVertex - 1][1] = inputEdgeArray[i][1];
-    } else {
-        adjacencyList[inputVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
-    }
     // reverse edges and interate through inputEdgeArrray
     [inputEdgeArray[i][0], inputEdgeArray[i][1]] = [inputEdgeArray[i][1], inputEdgeArray[i][0]] // Destructure to reverse edges
     inputVertex = inputEdgeArray[i][0];   // vertex number
@@ -49,6 +47,7 @@ for (let i = 0; i < originalLength; i++) {
         adjacencyListRev[inputVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
     }
 }
+
 // Depth first search of reversed graph
 // Assuming that the vertex numbers are natural numbers,
 // increasing, with none skipped,
@@ -59,7 +58,7 @@ for (let i = 0; i < maxVertex; i++) {
 }
 let previousVertices = new Array;
 
-// result of first DFS
+// set up finishing time array
 let finishingTime = 0;
 let finishingTimes = new Array;
 for (let i = 0; i < maxVertex; i++) {
@@ -67,32 +66,60 @@ for (let i = 0; i < maxVertex; i++) {
     finishingTimes[i] = 0;
 }
 
-// result of second DFS
+// set up leader array for second DFS
 let leader = 0;
 let leaders = new Array;
-for (let i = maxVertex; i > 0; i++) {
+for (let i = 0; i < maxVertex; i++) {
     leaders[i] = 0;
 }
 
-// start at highest numbered vertex for kosaraju algorithm
+// start at highest numbered vertex for first DFS
 for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
         continue;
     }
     previousVertices[0] = i;
-    leaders[i] = i;
     DFS(adjacencyListRev, i);
 }
-console.log(finishingTimes);
+console.log(`finishing times: ${finishingTimes}`);
+console.log(adjacencyListRev);
 
-for (let i = maxVertex; i > 0; i--) {
-    if (visitedVertices[i - 1] == 1) {
-        continue;
-    }
-    previousVertices[0] = i;
-    leaders[i] = i;
-    DFS(adjacencyListRev, i);
-};
+// reset visitedVertices for second DFS
+for (let i = 0; i < maxVertex; i++) {
+    visitedVertices[i] = 0;
+}
+
+// start at highest finishing time for second DFS
+// for (let i = maxVertex; i > 0; i--) {
+//     if (visitedVertices[i - 1] == 1) {
+//         continue;
+//     }
+
+//     leaders[i] = finishingTimes[i];
+//     DFS2(adjacencyListRev, i);
+// };
+
+// remap edge array to finishing times ---------------------------
+originalLength = inputEdgeArray.length;
+maxVertex = inputEdgeArray[originalLength - 1][0];
+
+console.log(inputEdgeArray + "\n");
+for (let x = 0; x < originalLength; x++)    {
+    inputEdgeArray[x][0] = finishingTimes[inputEdgeArray[x][0]];
+    inputEdgeArray[x][1] = finishingTimes[inputEdgeArray[x][1]];
+}
+console.log(inputEdgeArray + "\n");
+
+// iterate through inputEdgeArray in original edge order   ----   use translated edgeArray  ------
+// for (let i = 0; i < originalLength; i++) {
+//     inputVertex = inputEdgeArray[i][0];   // vertex number
+//     if (adjacencyList[inputVertex - 1][1] == 0) {        // overwrite intial state
+//         adjacencyList[inputVertex - 1][1] = inputEdgeArray[i][1];
+//     } else {
+//         adjacencyList[inputVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
+//     }
+// }
+
 
 var connectedNodes = new Array;
 function DFS(adjacencyListRev, startVertex) {
@@ -108,12 +135,11 @@ function DFS(adjacencyListRev, startVertex) {
     });
     // if no more unvisited vertices, go back
     finishingTime++;
-    finishingTimes[finishingTime - 1] = startVertex;
+    finishingTimes[startVertex - 1] = finishingTime;
     previousVertices.pop();
-    let previousLength = previousVertices.length;
 };
 
 // second DFS - can this be refactored so there is only one?
 function DFS2(adjacencyList, startVertex) {
-        let x = 4;
+    // console.log(finishingTimes[startVertex - 1]);
     };
