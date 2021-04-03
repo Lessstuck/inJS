@@ -6,6 +6,7 @@ let fileNumberArray = new Array;
 let inputEdgeArray = new Array;
 let inputEdgeArrayRev = new Array;
 let fileStringLines = new Array;
+var connectedNodes = new Array;
 
 // read text file, convert to array of arrays of integers
 var fileText = fs.readFileSync('kosarajuGraphSmall.txt');
@@ -79,22 +80,6 @@ for (let i = maxVertex; i > 0; i--) {
     previousVertices[0] = i;
     DFS(adjacencyListRev, i);
 }
-console.log(`finishing times: ${finishingTimes}`);
-
-// reset visitedVertices for second DFS
-for (let i = 0; i < maxVertex; i++) {
-    visitedVertices[i] = 0;
-}
-
-// start at highest finishing time for second DFS
-// for (let i = maxVertex; i > 0; i--) {
-//     if (visitedVertices[i - 1] == 1) {
-//         continue;
-//     }
-
-//     leaders[i] = finishingTimes[i];
-//     DFS2(adjacencyListRev, i);
-// };
 
 // remap edge array to finishing times
 originalLength = inputEdgeArray.length;
@@ -113,8 +98,22 @@ for (let i = 0; i < originalLength; i++) {
         adjacencyList[inputVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
     }
 }
-console.log(adjacencyList);
-var connectedNodes = new Array;
+
+// reset visitedVertices for second DFS
+for (let i = 0; i < maxVertex; i++) {
+    visitedVertices[i] = 0;
+}
+
+// start at highest numbered vertex for second DFS
+for (let i = maxVertex; i > 0; i--) {
+    if (visitedVertices[i - 1] == 1) {
+        continue;
+    }
+    DFS2(adjacencyList, i);
+};
+
+console.log(leaders);
+
 function DFS(adjacencyListRev, startVertex) {
     let startVertexIndex = startVertex - 1;
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
@@ -132,7 +131,15 @@ function DFS(adjacencyListRev, startVertex) {
     previousVertices.pop();
 };
 
-// second DFS - can this be refactored so there is only one?
 function DFS2(adjacencyList, startVertex) {
-    // console.log(finishingTimes[startVertex - 1]);
-    };
+    let startVertexIndex = startVertex - 1;
+    visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
+    leaders[startVertexIndex] = startVertex;
+    connectedNodes = [...adjacencyList[startVertexIndex]];
+    connectedNodes.shift(); // remove the first vertex 
+    connectedNodes.forEach(element => {
+        if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
+            DFS(adjacencyList, element);
+        }
+    });
+};
