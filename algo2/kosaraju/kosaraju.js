@@ -30,50 +30,50 @@ for (let i = 0; i < originalLength; i++)    {
 }
 // convert to adjacency list
 let adjacencyList = [[1, 0]];
-let adjacencyListRev = [[1, 0]];
 // build adjacencyList template
 for (let i = 0; i < maxVertex; i++) {
     adjacencyList[i] = [i + 1, 0];
 }
 for (let i = 0; i < maxVertex; i++) {
-    adjacencyListRev[i] = [i + 1, 0];
+    adjacencyList[i] = [i + 1, 0];
 }
 // Build adjacency list from inputEdgeArrayRev
 for (let i = 0; i < originalLength; i++) {
     inputVertex = inputEdgeArrayRev[i][0];   // vertex number
-    if (adjacencyListRev[inputVertex - 1][1] == 0) {        // overwrite intial state
-        adjacencyListRev[inputVertex - 1][1] = inputEdgeArrayRev[i][1];
+    if (adjacencyList[inputVertex - 1][1] == 0) {        // overwrite intial state
+        adjacencyList[inputVertex - 1][1] = inputEdgeArrayRev[i][1];
     } else {
-        adjacencyListRev[inputVertex - 1].push(inputEdgeArrayRev[i][1]);  // add element to array
+        adjacencyList[inputVertex - 1].push(inputEdgeArrayRev[i][1]);  // add element to array
     }
 }
 
 // Depth first search of reversed graph
 // Assuming that the vertex numbers are natural numbers,
 // increasing, with none skipped,
-maxVertex = adjacencyListRev.length;
+maxVertex = adjacencyList.length;
 let visitedVertices = new Array;
 for (let i = 0; i < maxVertex; i++) {
     visitedVertices[i] = 0;
 }
-let previousVertices = new Array;
 
 // set up finishing time array
 let finishingTime = 0;
 let finishingTimes = new Array;
 for (let i = 0; i < maxVertex; i++) {
-    previousVertices[0] = i;
     finishingTimes[i] = 0;
 }
+
+console.log(adjacencyList);
 
 // start at highest numbered vertex for first DFS
 for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
         continue;
     }
-    previousVertices[0] = i;
-    DFS(adjacencyListRev, i);
+    DFS(adjacencyList, i);
 }
+console.log("done");
+console.log("finishTimes: " + finishingTimes);
 
 // remap edge array to finishing times
 originalLength = inputEdgeArray.length;
@@ -115,23 +115,29 @@ for (let i = maxVertex; i > 0; i--) {
 };
 
 console.log(leaders);
-
-function DFS(adjacencyListRev, startVertex) {
+let element;
+function DFS(adjacencyList, startVertex) {
     startVertexIndex = startVertex - 1;
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
-    connectedNodes = [...adjacencyListRev[startVertexIndex]];
+    connectedNodes = [...adjacencyList[startVertexIndex]];
     connectedNodes.shift(); // remove the first vertex 
-    connectedNodes.forEach(element => {
-        if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
-            previousVertices.push(element);
-            DFS(adjacencyListRev, element);
+    console.log(`startVertex: ${startVertex} connectedNodes: ${connectedNodes}`);
+    console.log(visitedVertices);
+    let el;
+    const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined))
+    if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
+        finishingTime++;
+        finishingTimes[startVertex - 1] = finishingTime;
+        console.log(" ---- finishTimes: " + finishingTimes);
+        return;
+    }
+    const nodeTest = (el => {
+        if (visitedVertices[el - 1] == 0) {   // if unvisited, recurse, going deeper
+            DFS(adjacencyList, el);
         }
     });
-    // if no more unvisited vertices, go back
-    finishingTime++;
-    finishingTimes[startVertex - 1] = finishingTime;
-    previousVertices.pop();
-};
+    connectedNodes.forEach(nodeTest);
+}
 
 function DFS2(adjacencyList, startVertex) {
     startVertexIndex = startVertex - 1;
