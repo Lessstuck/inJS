@@ -71,6 +71,9 @@ for (let i = maxVertex; i > 0; i--) {
         continue;
     }
     DFS(adjacencyList, i);
+    finishingTime++;
+    finishingTimes[i - 1] = finishingTime;
+    console.log(" ---- loop finishTimes: " + finishingTimes);
 }
 console.log("done");
 console.log("finishTimes: " + finishingTimes);
@@ -126,14 +129,19 @@ function DFS(adjacencyList, startVertex) {
     let el;
     const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined))
     if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
-        finishingTime++;
-        finishingTimes[startVertex - 1] = finishingTime;
-        console.log(" ---- finishTimes: " + finishingTimes);
+        // finishingTime++;
+        // finishingTimes[startVertex - 1] = finishingTime;
+        // console.log(" ---- finishTimes: " + finishingTimes);
         return;
     }
     const nodeTest = (el => {
         if (visitedVertices[el - 1] == 0) {   // if unvisited, recurse, going deeper
+            console.log(`preDFS el: ${el}`)
             DFS(adjacencyList, el);
+            console.log(`post DFS el: ${el}`)
+            finishingTime++;
+            finishingTimes[el - 1] = finishingTime;
+            console.log(" ---- finishTimes: " + finishingTimes);
         }
     });
     connectedNodes.forEach(nodeTest);
