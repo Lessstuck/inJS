@@ -61,8 +61,6 @@ for (let i = 0; i < maxVertex; i++) {
     finishingTimes[i] = 0;
 }
 
-console.log(adjacencyList);
-
 // start at highest numbered vertex for first DFS
 for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
@@ -71,12 +69,7 @@ for (let i = maxVertex; i > 0; i--) {
     DFS(adjacencyList, i);
     finishingTime++;
     finishingTimes[i - 1] = finishingTime;
-    console.log(" ---- loop finishTimes: " + finishingTimes);
 }
-console.log("done");
-console.log("finishTimes: " + finishingTimes);
-
-
 
 // Rebuild adjacency list
 for (let i = 0; i < maxVertex; i++) {
@@ -90,15 +83,13 @@ for (let i = 0; i < originalLength; i++) {
         adjacencyList[inputVertex - 1].push(inputEdgeArray[i][1]);  // … otherwise, add element to array
     }
 }
-
-console.log(adjacencyList)
 // remap adjacencyList using finishing times to adjacencyListMapped
 let adjacencyListLength = adjacencyList.length;
 let adjacencyListMapped = new Array; // build template
 for (let x = 0; x < adjacencyListLength; x++)   {
     adjacencyListMapped[x] = [0, 0];
 };
-console.log(adjacencyListMapped);
+
 let newVertex;
 for (let i = 0; i < adjacencyListLength; i++)   {
     let connectedNodesLength = adjacencyList[i].length;
@@ -108,7 +99,6 @@ for (let i = 0; i < adjacencyListLength; i++)   {
         adjacencyListMapped[adjacencyListMappedIndex][j] = newVertex;
     }
 }
-console.log(adjacencyListMapped);
 
 // reset visitedVertices for second DFS
 for (let i = 0; i < maxVertex; i++) {
@@ -128,10 +118,11 @@ for (let i = maxVertex; i > 0; i--) {
         continue;
     }
     leader = i;
-    DFS2(adjacencyList, i);
+    DFS2(adjacencyListMapped, i);
 };
 
 console.log(leaders);
+
 let element;
 function DFS(adjacencyList, startVertex) {
     startVertexIndex = startVertex - 1;
@@ -145,9 +136,7 @@ function DFS(adjacencyList, startVertex) {
     }
     const nodeTest = (el => {
         if (visitedVertices[el - 1] == 0) {   // if unvisited, recurse, going deeper
-            console.log(`preDFS el: ${el}`)
             DFS(adjacencyList, el);
-            console.log(`post DFS el: ${el}`)
             finishingTime++;
             finishingTimes[el - 1] = finishingTime;
         }
@@ -167,22 +156,8 @@ function DFS2(adjacencyListMapped, startVertex) {
     }
     const nodeTest = (el => {
         if (visitedVertices[el - 1] == 0) {   // if unvisited, recurse, going deeper
-            console.log(`preDFS el: ${el}`)
-            DFS(adjacencyListMapped, el);
-            console.log(`post DFS el: ${el}`)
-            // finishingTime++;
-            // finishingTimes[el - 1] = finishingTime;
+            DFS2(adjacencyListMapped, el);
         }
     });
     connectedNodes.forEach(nodeTest);
-
-    leaders[startVertexIndex] = leader;
-
-    // connectedNodes.forEach(element => {
-    //     if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
-    //         leaders[element - 1] = leader;
-    //         DFS(adjacencyList, element);
-    //     }
-    // });
-    // leaders[startVertexIndex] = leader;
 };
