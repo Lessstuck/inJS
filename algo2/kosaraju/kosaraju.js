@@ -34,16 +34,14 @@ let adjacencyList = [[1, 0]];
 for (let i = 0; i < maxVertex; i++) {
     adjacencyList[i] = [i + 1, 0];
 }
-for (let i = 0; i < maxVertex; i++) {
-    adjacencyList[i] = [i + 1, 0];
-}
+
 // Build adjacency list from inputEdgeArrayRev
 for (let i = 0; i < originalLength; i++) {
-    inputVertex = inputEdgeArrayRev[i][0];   // vertex number
-    if (adjacencyList[inputVertex - 1][1] == 0) {        // overwrite intial state
-        adjacencyList[inputVertex - 1][1] = inputEdgeArrayRev[i][1];
+    inputVertex = inputEdgeArrayRev[i][0];   // vertex number (test each edge)
+    if (adjacencyList[inputVertex - 1][1] == 0) {        // if first encounter of vertex …
+        adjacencyList[inputVertex - 1][1] = inputEdgeArrayRev[i][1];    // … set second element to second element
     } else {
-        adjacencyList[inputVertex - 1].push(inputEdgeArrayRev[i][1]);  // add element to array
+        adjacencyList[inputVertex - 1].push(inputEdgeArrayRev[i][1]);  // … otherwise, add element to array
     }
 }
 
@@ -78,23 +76,39 @@ for (let i = maxVertex; i > 0; i--) {
 console.log("done");
 console.log("finishTimes: " + finishingTimes);
 
-// remap edge array to finishing times
-originalLength = inputEdgeArray.length;
-maxVertex = inputEdgeArray[originalLength - 1][0];
-for (let x = 0; x < originalLength; x++)    {
-    inputEdgeArray[x][0] = finishingTimes[inputEdgeArray[x][0] - 1];
-    inputEdgeArray[x][1] = finishingTimes[inputEdgeArray[x][1] - 1];
-}
 
-// Rebuild adjacency list using remapped edgeArray
+
+// Rebuild adjacency list
+for (let i = 0; i < maxVertex; i++) {
+    adjacencyList[i] = [i + 1, 0];
+}
 for (let i = 0; i < originalLength; i++) {
-    inputVertex = inputEdgeArray[i][0];   // vertex number
-    if (adjacencyList[inputVertex - 1][1] == 0) {        // overwrite intial state
-        adjacencyList[inputVertex - 1][1] = inputEdgeArray[i][1];
+    inputVertex = inputEdgeArray[i][0];   // vertex number (test each edge)
+    if (adjacencyList[inputVertex - 1][1] == 0) {        // if first encounter of vertex …
+        adjacencyList[inputVertex - 1][1] = inputEdgeArray[i][1];    // … set second element to second element
     } else {
-        adjacencyList[inputVertex - 1].push(inputEdgeArray[i][1]);  // add element to array
+        adjacencyList[inputVertex - 1].push(inputEdgeArray[i][1]);  // … otherwise, add element to array
     }
 }
+
+console.log(adjacencyList)
+// remap adjacencyList using finishing times to adjacencyListMapped
+let adjacencyListLength = adjacencyList.length;
+let adjacencyListMapped = new Array; // build template
+for (let x = 0; x < adjacencyListLength; x++)   {
+    adjacencyListMapped[x] = [0, 0];
+};
+console.log(adjacencyListMapped);
+let newVertex;
+for (let i = 0; i < adjacencyListLength; i++)   {
+    let connectedNodesLength = adjacencyList[i].length;
+    adjacencyListMappedIndex = finishingTimes[adjacencyList[i][0] - 1] - 1;
+    for (let j = 0; j < connectedNodesLength; j++)  {
+        newVertex = finishingTimes[adjacencyList[i][j] - 1];
+        adjacencyListMapped[adjacencyListMappedIndex][j] = newVertex;
+    }
+}
+console.log(adjacencyListMapped);
 
 // reset visitedVertices for second DFS
 for (let i = 0; i < maxVertex; i++) {
@@ -124,14 +138,9 @@ function DFS(adjacencyList, startVertex) {
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
     connectedNodes = [...adjacencyList[startVertexIndex]];
     connectedNodes.shift(); // remove the first vertex 
-    console.log(`startVertex: ${startVertex} connectedNodes: ${connectedNodes}`);
-    console.log(visitedVertices);
     let el;
     const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined))
     if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
-        // finishingTime++;
-        // finishingTimes[startVertex - 1] = finishingTime;
-        // console.log(" ---- finishTimes: " + finishingTimes);
         return;
     }
     const nodeTest = (el => {
@@ -141,23 +150,39 @@ function DFS(adjacencyList, startVertex) {
             console.log(`post DFS el: ${el}`)
             finishingTime++;
             finishingTimes[el - 1] = finishingTime;
-            console.log(" ---- finishTimes: " + finishingTimes);
         }
     });
     connectedNodes.forEach(nodeTest);
 }
 
-function DFS2(adjacencyList, startVertex) {
+function DFS2(adjacencyListMapped, startVertex) {
     startVertexIndex = startVertex - 1;
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
     leaders[startVertexIndex] = leader;
-    connectedNodes = [...adjacencyList[startVertexIndex]];
-    connectedNodes.shift(); // remove the first vertex 
-    connectedNodes.forEach(element => {
-        if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
-            leaders[element - 1] = leader;
-            DFS(adjacencyList, element);
+    connectedNodes = [...adjacencyListMapped[startVertexIndex]];
+    connectedNodes.shift(); // remove the first vertex
+    const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined))
+    if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
+        return;
+    }
+    const nodeTest = (el => {
+        if (visitedVertices[el - 1] == 0) {   // if unvisited, recurse, going deeper
+            console.log(`preDFS el: ${el}`)
+            DFS(adjacencyListMapped, el);
+            console.log(`post DFS el: ${el}`)
+            // finishingTime++;
+            // finishingTimes[el - 1] = finishingTime;
         }
     });
+    connectedNodes.forEach(nodeTest);
+
     leaders[startVertexIndex] = leader;
+
+    // connectedNodes.forEach(element => {
+    //     if (visitedVertices[element - 1] == 0) {   // if unvisited, recurse, going deeper
+    //         leaders[element - 1] = leader;
+    //         DFS(adjacencyList, element);
+    //     }
+    // });
+    // leaders[startVertexIndex] = leader;
 };
