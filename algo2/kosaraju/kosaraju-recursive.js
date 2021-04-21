@@ -10,7 +10,7 @@ var connectedNodes = new Array;
 let startVertexIndex;
 
 // read text file, convert to array of arrays of integers
-var fileText = fs.readFileSync('kosarajuGraph.txt');
+var fileText = fs.readFileSync('kosarajuGraphSmall.txt');
 let fileString = String(fileText);
 fileStringLines = fileString.split(cr);
 for (let i = 0; i < fileStringLines.length; i++)    {  
@@ -44,39 +44,6 @@ for (let i = 0; i < originalLength; i++) {
         adjacencyList[inputVertex - 1].push(inputEdgeArrayRev[i][1]);  // … otherwise, add element to array
     }
 }
-
-
-
-
-
-// stackit does a depth-first search using a stack
-// call it on one vertex, it does some side effects, returns the next vertex
-let stacky = new Array;
-const stackit = (verty => {
-    stacky.push(verty); // add this vertex to stack
-    vertyIndex = verty - 1;
-    visitedVertices[vertyIndex] = 1;  // set this vertex to "visited"
-    connectedNodes = [...adjacencyList[vertyIndex]];
-    connectedNodes.shift(); // remove the first vertex 
-    let el;
-    const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined));
-    const nodeTest = (el => (visitedVertices[el - 1] == 0));
-    if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
-        finishingTime++;
-        finishingTimes[el - 1] = finishingTime;
-        return stacky.pop;
-    } else {
-        return (connectedNodes.find(nodeTest));
-    };
-});
-
-
-
-
-
-
-
-
 
 // Depth first search of reversed graph
 // Assuming that the vertex numbers are natural numbers,
@@ -156,6 +123,7 @@ for (let i = maxVertex; i > 0; i--) {
 
 console.log(leaders);
 
+let element;
 function DFS(adjacencyList, startVertex) {
     startVertexIndex = startVertex - 1;
     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
