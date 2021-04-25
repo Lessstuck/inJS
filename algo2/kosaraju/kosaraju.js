@@ -66,6 +66,8 @@ let stackitResult;
 
 // start at highest numbered vertex for first DFS
 //
+const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined));
+const nodeTest = (el => (visitedVertices[el - 1] == 0));
 for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
         continue;
@@ -80,17 +82,19 @@ for (let i = maxVertex; i > 0; i--) {
         console.log(adjacencyList[thisVertexIndex]);
         connectedNodes = [...adjacencyList[thisVertexIndex]];
         connectedNodes.shift(); // remove the first vertex 
-        const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined));
-        const nodeTest = (el => (visitedVertices[el - 1] == 0));
+
         if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
             finishingTime++;
             finishingTimes[thisVertexIndex] = finishingTime;
             console.log(finishingTimes);
-            thisVertex = stack.pop();
+            stack.pop();
+            thisVertex = stack[stack.length - 1];
+            console.log("End thisVertex: " + thisVertex + "stack: " + stack);
         } else {
             nextNode = connectedNodes.find(nodeTest);
             stack.push(nextNode); // add this vertex to stack
             thisVertex = nextNode;
+            console.log("New thisVertex: " + thisVertex + "stack: " + stack);
         };
     }
 }
