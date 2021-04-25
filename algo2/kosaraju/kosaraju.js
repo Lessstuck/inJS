@@ -13,7 +13,7 @@ let el = 0;
 let thisVertex;
 
 // read text file, convert to array of arrays of integers
-var fileText = fs.readFileSync('kosarajuGraph.txt');
+var fileText = fs.readFileSync('kosarajuGraphSmall.txt');
 let fileString = String(fileText);
 fileStringLines = fileString.split(cr);
 for (let i = 0; i < fileStringLines.length; i++)    {  
@@ -47,7 +47,7 @@ for (let i = 0; i < originalLength; i++) {
         adjacencyList[inputVertex - 1].push(inputEdgeArrayRev[i][1]);  // … otherwise, add element to array
     }
 }
-// Depth first search of reversed graph   <-----------------------------------
+// Depth first search of reversed graph   
 // Assuming that the vertex numbers are natural numbers,
 // increasing, with none skipped,
 maxVertex = adjacencyList.length;
@@ -92,6 +92,9 @@ for (let i = maxVertex; i > 0; i--) {
     }
 }
 
+//
+//          Second DFS
+//
 // Rebuild adjacency list
 for (let i = 0; i < maxVertex; i++) {
     adjacencyList[i] = [i + 1, 0];
@@ -136,27 +139,68 @@ for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
         continue;
     }
+    stack = [i];
+    thisVertex = i;
     leader = i;
-    DFS2(adjacencyListMapped, i);
-};
+    while (stack.length) {
+        thisVertexIndex = thisVertex - 1;
+        leaders[thisVertexIndex] = leader;
+        visitedVertices[thisVertexIndex] = 1;  // set this vertex to "visited"
+        connectedNodes = [...adjacencyListMapped[thisVertexIndex]];
+        connectedNodes.shift(); // remove the first vertex 
+        if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
+            stack.pop();
+            thisVertex = stack[stack.length - 1];
+        } else {
+            nextNode = connectedNodes.find(nodeTest);
+            stack.push(nextNode); // add this vertex to stack
+            thisVertex = nextNode;
+        };
+    }
+}
 
 console.log(leaders);
 
 
-function DFS2(adjacencyListMapped, startVertex) {
-    startVertexIndex = startVertex - 1;
-    visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
-    leaders[startVertexIndex] = leader;
-    connectedNodes = [...adjacencyListMapped[startVertexIndex]];
-    connectedNodes.shift(); // remove the first vertex
-    const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined))
-    if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
-        return;
-    }
-    const nodeTest = (el => {
-        if (visitedVertices[el - 1] == 0) {   // if unvisited, recurse, going deeper
-            DFS2(adjacencyListMapped, el);
-        }
-    });
-    connectedNodes.forEach(nodeTest);
-};
+// function DFS2(adjacencyListMapped, startVertex) {
+//     startVertexIndex = startVertex - 1;
+//     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
+//     leaders[startVertexIndex] = leader;
+//     connectedNodes = [...adjacencyListMapped[startVertexIndex]];
+//     connectedNodes.shift(); // remove the first vertex
+//     const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined))
+//     if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
+//         return;
+//     }
+//     const nodeTest = (el => {
+//         if (visitedVertices[el - 1] == 0) {   // if unvisited, recurse, going deeper
+//             DFS2(adjacencyListMapped, el);
+//         }
+//     });
+//     connectedNodes.forEach(nodeTest);
+// };
+
+
+// for (let i = maxVertex; i > 0; i--) {
+//     if (visitedVertices[i - 1] == 1) {
+//         continue;
+//     }
+//     stack = [i];
+//     thisVertex = i;
+//     leader = i;
+//     while (stack.length) {
+//         thisVertexIndex = thisVertex - 1;
+//         leaders[startVertexIndex] = leader;
+//         visitedVertices[thisVertexIndex] = 1;  // set this vertex to "visited"
+//         connectedNodes = [...adjacencyListMapped[thisVertexIndex]];
+//         connectedNodes.shift(); // remove the first vertex 
+//         if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
+//             stack.pop();
+//             thisVertex = stack[stack.length - 1];
+//         } else {
+//             nextNode = connectedNodes.find(nodeTest);
+//             stack.push(nextNode); // add this vertex to stack
+//             thisVertex = nextNode;
+//         };
+//     }
+// }
