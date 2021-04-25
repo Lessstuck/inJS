@@ -13,7 +13,7 @@ let el = 0;
 let thisVertex;
 
 // read text file, convert to array of arrays of integers
-var fileText = fs.readFileSync('kosarajuGraphSmall.txt');
+var fileText = fs.readFileSync('kosarajuGraph.txt');
 let fileString = String(fileText);
 fileStringLines = fileString.split(cr);
 for (let i = 0; i < fileStringLines.length; i++)    {  
@@ -72,34 +72,25 @@ for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
         continue;
     }
-    console.log("i: " + i);
     stack = [i];
     thisVertex = i;
     while (stack.length) {
         thisVertexIndex = thisVertex - 1;
         visitedVertices[thisVertexIndex] = 1;  // set this vertex to "visited"
-        console.log(thisVertex);
-        console.log(adjacencyList[thisVertexIndex]);
         connectedNodes = [...adjacencyList[thisVertexIndex]];
         connectedNodes.shift(); // remove the first vertex 
-
         if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
             finishingTime++;
             finishingTimes[thisVertexIndex] = finishingTime;
-            console.log(finishingTimes);
             stack.pop();
             thisVertex = stack[stack.length - 1];
-            console.log("End thisVertex: " + thisVertex + "stack: " + stack);
         } else {
             nextNode = connectedNodes.find(nodeTest);
             stack.push(nextNode); // add this vertex to stack
             thisVertex = nextNode;
-            console.log("New thisVertex: " + thisVertex + "stack: " + stack);
         };
     }
 }
-
-
 
 // Rebuild adjacency list
 for (let i = 0; i < maxVertex; i++) {
@@ -151,47 +142,6 @@ for (let i = maxVertex; i > 0; i--) {
 
 console.log(leaders);
 
-
-// stackit does a depth-first search using a stack
-// call it on one vertex, it does some side effects, returns the next vertex
-
-// function stackit(thisVertex) {
-//     thisVertexIndex = thisVertex - 1;
-//     visitedVertices[thisVertexIndex] = 1;  // set this vertex to "visited"
-//     connectedNodes = [...adjacencyList[thisVertexIndex]];
-//     connectedNodes.shift(); // remove the first vertex 
-//     const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined));
-//     const nodeTest = (el => (visitedVertices[el - 1] == 0));
-//     if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
-//         finishingTime++;
-//         finishingTimes[el - 1] = finishingTime;
-//         return stack.pop;
-//     } else {
-//         nextNode = connectedNodes.find(nodeTest);
-//         stack.push(nextNode); // add this vertex to stack
-//         return nextNode;
-//     };
-// };
-
-// function DFS(adjacencyList, startVertex) {
-//     startVertexIndex = startVertex - 1;
-//     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
-//     connectedNodes = [...adjacencyList[startVertexIndex]];
-//     connectedNodes.shift(); // remove the first vertex 
-//     let el;
-//     const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined))
-//     if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
-//         return;
-//     }
-//     const nodeTest = (el => {
-//         if (visitedVertices[el - 1] == 0) {   // if unvisited, recurse, going deeper
-//             DFS(adjacencyList, el);
-//             finishingTime++;
-//             finishingTimes[el - 1] = finishingTime;
-//         }
-//     });
-//     connectedNodes.forEach(nodeTest);
-// }
 
 function DFS2(adjacencyListMapped, startVertex) {
     startVertexIndex = startVertex - 1;
