@@ -134,6 +134,15 @@ let leaders = new Array;
 for (let i = 0; i < maxVertex; i++) {
     leaders[i] = 0;
 }
+
+// largest SCCs - submit sizes of each as solution of problem
+let max1 = 0; // leader of largest SCC
+let max2 = 0; // leader of second largest SCC
+let max3 = 0; // leader of third largest SCC
+let max4 = 0; // leader of fourth largest SCC
+let max5 = 0; // leader of fifth largest SCC
+let thisMax = 0;
+
 // start at highest numbered vertex for second DFS
 for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
@@ -142,6 +151,7 @@ for (let i = maxVertex; i > 0; i--) {
     stack = [i];
     thisVertex = i;
     leader = i;
+    thisMax = 1;
     while (stack.length) {
         thisVertexIndex = thisVertex - 1;
         leaders[thisVertexIndex] = leader;
@@ -153,54 +163,22 @@ for (let i = maxVertex; i > 0; i--) {
             thisVertex = stack[stack.length - 1];
         } else {
             nextNode = connectedNodes.find(nodeTest);
+            thisMax++;
             stack.push(nextNode); // add this vertex to stack
             thisVertex = nextNode;
         };
     }
+    if (thisMax > max1) {
+        max1 = thisMax;
+    } else if (thisMax > max2) {
+        max2 = thisMax;
+    } else if (thisMax > max3) {
+        max3 = thisMax;
+    } else if (thisMax > max4) {
+        max4 = thisMax;
+    } else if (thisMax > max5) {
+        max5 = thisMax;
+    }
 }
 
-console.log(leaders);
-
-
-// function DFS2(adjacencyListMapped, startVertex) {
-//     startVertexIndex = startVertex - 1;
-//     visitedVertices[startVertexIndex] = 1;  // set this vertex to "visited"
-//     leaders[startVertexIndex] = leader;
-//     connectedNodes = [...adjacencyListMapped[startVertexIndex]];
-//     connectedNodes.shift(); // remove the first vertex
-//     const vertest = (el => (visitedVertices[el - 1] == 1 || visitedVertices[el - 1] == undefined))
-//     if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
-//         return;
-//     }
-//     const nodeTest = (el => {
-//         if (visitedVertices[el - 1] == 0) {   // if unvisited, recurse, going deeper
-//             DFS2(adjacencyListMapped, el);
-//         }
-//     });
-//     connectedNodes.forEach(nodeTest);
-// };
-
-
-// for (let i = maxVertex; i > 0; i--) {
-//     if (visitedVertices[i - 1] == 1) {
-//         continue;
-//     }
-//     stack = [i];
-//     thisVertex = i;
-//     leader = i;
-//     while (stack.length) {
-//         thisVertexIndex = thisVertex - 1;
-//         leaders[startVertexIndex] = leader;
-//         visitedVertices[thisVertexIndex] = 1;  // set this vertex to "visited"
-//         connectedNodes = [...adjacencyListMapped[thisVertexIndex]];
-//         connectedNodes.shift(); // remove the first vertex 
-//         if (connectedNodes.every(vertest)) { // if no more unvisited vertices, go back
-//             stack.pop();
-//             thisVertex = stack[stack.length - 1];
-//         } else {
-//             nextNode = connectedNodes.find(nodeTest);
-//             stack.push(nextNode); // add this vertex to stack
-//             thisVertex = nextNode;
-//         };
-//     }
-// }
+console.log(`${max1},${max2},${max3},${max4},${max5}`);
