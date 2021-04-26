@@ -13,7 +13,7 @@ let el = 0;
 let thisVertex;
 
 // read text file, convert to array of arrays of integers
-var fileText = fs.readFileSync('kosarajuGraphSmall.txt');
+var fileText = fs.readFileSync('kosarajuGraphTest.txt');
 let fileString = String(fileText);
 fileStringLines = fileString.split(cr);
 for (let i = 0; i < fileStringLines.length; i++)    {  
@@ -47,6 +47,7 @@ for (let i = 0; i < originalLength; i++) {
         adjacencyList[inputVertex - 1].push(inputEdgeArrayRev[i][1]);  // … otherwise, add element to array
     }
 }
+
 // Depth first search of reversed graph   
 // Assuming that the vertex numbers are natural numbers,
 // increasing, with none skipped,
@@ -91,7 +92,7 @@ for (let i = maxVertex; i > 0; i--) {
         };
     }
 }
-
+console.log(finishingTimes);
 //
 //          Second DFS
 //
@@ -168,6 +169,7 @@ for (let i = maxVertex; i > 0; i--) {
             thisVertex = nextNode;
         };
     }
+    console.log(thisMax);
     if (thisMax > max1) {
         max1 = thisMax;
     } else if (thisMax > max2) {
@@ -181,4 +183,5 @@ for (let i = maxVertex; i > 0; i--) {
     }
 }
 
+console.log(leaders);
 console.log(`${max1},${max2},${max3},${max4},${max5}`);
