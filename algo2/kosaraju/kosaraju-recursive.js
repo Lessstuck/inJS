@@ -10,7 +10,7 @@ var connectedNodes = new Array;
 let startVertexIndex;
 
 // read text file, convert to array of arrays of integers
-var fileText = fs.readFileSync('kosarajuGraphSmall.txt');
+var fileText = fs.readFileSync('kosarajuGraphTest.txt');
 let fileString = String(fileText);
 fileStringLines = fileString.split(cr);
 for (let i = 0; i < fileStringLines.length; i++)    {  
@@ -45,6 +45,7 @@ for (let i = 0; i < originalLength; i++) {
     }
 }
 
+console.log(adjacencyList);
 // Depth first search of reversed graph
 // Assuming that the vertex numbers are natural numbers,
 // increasing, with none skipped,
@@ -112,6 +113,14 @@ for (let i = 0; i < maxVertex; i++) {
     leaders[i] = 0;
 }
 
+// largest SCCs - submit sizes of each as solution of problem
+let max1 = 0; // leader of largest SCC
+let max2 = 0; // leader of second largest SCC
+let max3 = 0; // leader of third largest SCC
+let max4 = 0; // leader of fourth largest SCC
+let max5 = 0; // leader of fifth largest SCC
+let thisMax = 0;
+
 // start at highest numbered vertex for second DFS
 for (let i = maxVertex; i > 0; i--) {
     if (visitedVertices[i - 1] == 1) {
@@ -122,6 +131,10 @@ for (let i = maxVertex; i > 0; i--) {
 };
 
 console.log(leaders);
+console.log(`${max1},${max2},${max3},${max4},${max5}`);
+
+
+
 
 let element;
 function DFS(adjacencyList, startVertex) {

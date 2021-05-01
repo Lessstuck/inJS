@@ -13,7 +13,7 @@ let el = 0;
 let thisVertex;
 
 // read text file, convert to array of arrays of integers
-var fileText = fs.readFileSync('kosarajuGraphTest.txt');
+var fileText = fs.readFileSync('kosarajuGraph.txt');
 let fileString = String(fileText);
 fileStringLines = fileString.split(cr);
 for (let i = 0; i < fileStringLines.length; i++)    {  
@@ -47,6 +47,8 @@ for (let i = 0; i < originalLength; i++) {
         adjacencyList[inputVertex - 1].push(inputEdgeArrayRev[i][1]);  // … otherwise, add element to array
     }
 }
+
+console.log(adjacencyList);
 
 // Depth first search of reversed graph   
 // Assuming that the vertex numbers are natural numbers,
@@ -143,6 +145,7 @@ let max3 = 0; // leader of third largest SCC
 let max4 = 0; // leader of fourth largest SCC
 let max5 = 0; // leader of fifth largest SCC
 let thisMax = 0;
+let theseMaxes = new Array;
 
 // start at highest numbered vertex for second DFS
 for (let i = maxVertex; i > 0; i--) {
@@ -169,19 +172,18 @@ for (let i = maxVertex; i > 0; i--) {
             thisVertex = nextNode;
         };
     }
-    console.log(thisMax);
-    if (thisMax > max1) {
-        max1 = thisMax;
-    } else if (thisMax > max2) {
-        max2 = thisMax;
-    } else if (thisMax > max3) {
-        max3 = thisMax;
-    } else if (thisMax > max4) {
-        max4 = thisMax;
-    } else if (thisMax > max5) {
-        max5 = thisMax;
-    }
+    console.log("thisMax: " + thisMax);
+    theseMaxes.push(thisMax);
 }
 
+// quick sort
+theseMaxes.sort();
+theseMaxes.reverse();
 console.log(leaders);
-console.log(`${max1},${max2},${max3},${max4},${max5}`);
+console.log(theseMaxes);
+for (let i = 0; i < 5; i++) {
+    if (theseMaxes[i] == undefined) {
+        theseMaxes[i] = 0;
+    }
+}
+console.log(`${theseMaxes[0]},${theseMaxes[1]},${theseMaxes[2]},${theseMaxes[3]},${theseMaxes[4]}`);
