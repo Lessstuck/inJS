@@ -1,4 +1,5 @@
 var fs = require("fs");
+const { copyFileSync } = require("fs");
 let cr = /\r|\n/g;
 let sp = /\s|\t/g;
 let fileNumberArray = new Array;
@@ -22,7 +23,12 @@ for (let i = 0; i < fileStringLines.length; i++)    {
     inputEdgeArray.push(fileNumberArray);
 };
 let originalLength = inputEdgeArray.length;
-let maxVertex = inputEdgeArray[originalLength - 1][0];  // assuming a continuous increasing set of array first elements
+let maxVertex = 0;
+for (let i = 0; i < originalLength; i++)    {
+    if (inputEdgeArray[i][0] > maxVertex) {
+        maxVertex = inputEdgeArray[i][0];
+    }
+}
 
 // Destructure to reverse edges
 for (let i = 0; i < originalLength; i++)    {
@@ -41,14 +47,12 @@ for (let i = 0; i < maxVertex; i++) {
 // Build adjacency list from inputEdgeArrayRev
 for (let i = 0; i < originalLength; i++) {
     inputVertex = inputEdgeArrayRev[i][0];   // vertex number (test each edge)
-    if (adjacencyList[inputVertex - 1][1] == 0) {        // if first encounter of vertex …
+    if (adjacencyList[inputVertex - 1][1] == 0 || adjacencyList[inputVertex - 1][1] == undefined) {        // if first encounter of vertex …
         adjacencyList[inputVertex - 1][1] = inputEdgeArrayRev[i][1];    // … set second element to second element
     } else {
         adjacencyList[inputVertex - 1].push(inputEdgeArrayRev[i][1]);  // … otherwise, add element to array
     }
 }
-
-console.log(adjacencyList);
 
 // Depth first search of reversed graph   
 // Assuming that the vertex numbers are natural numbers,
@@ -94,7 +98,7 @@ for (let i = maxVertex; i > 0; i--) {
         };
     }
 }
-console.log(finishingTimes);
+
 //
 //          Second DFS
 //
@@ -172,14 +176,12 @@ for (let i = maxVertex; i > 0; i--) {
             thisVertex = nextNode;
         };
     }
-    console.log("thisMax: " + thisMax);
     theseMaxes.push(thisMax);
 }
 
 // quick sort
 theseMaxes.sort();
 theseMaxes.reverse();
-console.log(leaders);
 console.log(theseMaxes);
 for (let i = 0; i < 5; i++) {
     if (theseMaxes[i] == undefined) {
