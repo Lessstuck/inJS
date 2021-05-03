@@ -1,4 +1,5 @@
 var fs = require("fs");
+const _ = require("lodash");
 const { copyFileSync } = require("fs");
 let cr = /\r|\n/g;
 let sp = /\s|\t/g;
@@ -178,14 +179,17 @@ for (let i = maxVertex; i > 0; i--) {
     }
     theseMaxes.push(thisMax);
 }
+// console.log(theseMaxes);
+// easy sort
+// let sorted = _.sortBy(theseMaxes, (el => theseMaxes[el]));
+let sorted = theseMaxes.sort(function (a, b) { return a - b });
+// console.log(sorted);
+sorted.reverse();
 
-// quick sort
-theseMaxes.sort();
-theseMaxes.reverse();
-console.log(theseMaxes);
+// format for assignment submission
 for (let i = 0; i < 5; i++) {
-    if (theseMaxes[i] == undefined) {
-        theseMaxes[i] = 0;
+    if (sorted[i] == undefined) {
+        sorted[i] = 0;
     }
 }
-console.log(`${theseMaxes[0]},${theseMaxes[1]},${theseMaxes[2]},${theseMaxes[3]},${theseMaxes[4]}`);
+console.log(`${sorted[0]},${sorted[1]},${sorted[2]},${sorted[3]},${sorted[4]}`);
