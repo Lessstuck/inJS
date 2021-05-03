@@ -1,5 +1,4 @@
 var fs = require("fs");
-const _ = require("lodash");
 const { copyFileSync } = require("fs");
 let cr = /\r|\n/g;
 let sp = /\s|\t/g;
@@ -55,9 +54,11 @@ for (let i = 0; i < originalLength; i++) {
     }
 }
 
-// Depth first search of reversed graph   
-// Assuming that the vertex numbers are natural numbers,
-// increasing, with none skipped,
+//
+// Depth first search of reversed graph
+//
+//
+// setup
 maxVertex = adjacencyList.length;
 let visitedVertices = new Array;
 for (let i = 0; i < maxVertex; i++) {
@@ -179,11 +180,9 @@ for (let i = maxVertex; i > 0; i--) {
     }
     theseMaxes.push(thisMax);
 }
-// console.log(theseMaxes);
-// easy sort
-// let sorted = _.sortBy(theseMaxes, (el => theseMaxes[el]));
+
+// hack so sort will work with array of numbers
 let sorted = theseMaxes.sort(function (a, b) { return a - b });
-// console.log(sorted);
 sorted.reverse();
 
 // format for assignment submission
