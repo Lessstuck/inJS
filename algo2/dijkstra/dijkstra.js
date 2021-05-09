@@ -8,7 +8,9 @@ let inputEdgeArrayRev = new Array;
 let fileStringLines = new Array;
 let fileStringArray = new Array;
 let fileStringChunks = new Array;
-// let x;
+let edgeNode = new Array;
+let edgeNodes = new Array;
+edgeNodes = [[0,0]];
 
 
 // read text file, convert to array of arrays of integers
@@ -18,11 +20,16 @@ fileStringLines = fileString.split(/\n/);
 fileStringLinesLength = fileStringLines.length - 1; // hack to remove final cr from file
 for (let i = 0; i < fileStringLinesLength; i++) {
     fileStringArray[i] = fileStringLines[i].split(sp);
+    fileStringArray[i].pop();
+    fileStringArray[i].pop();
+    fileStringArray[i][0] = Number(fileStringArray[i][0]);
+    // console.log(fileStringArray[i]);
+}
+for (let i = 0; i < fileStringLinesLength; i++) {
     let fileStringArrayLength = fileStringArray[i].length;
-    console.log(fileStringArrayLength)
-    for (let x in fileStringArray[i]) {
-    console.log(fileStringArray[i][1])
+    for (let j = 1; j < fileStringArrayLength; j++) {
+        edgeNode = fileStringArray[i][j].split(/,/);
+        fileStringArray[i][j] = [Number(edgeNode[0]), Number(edgeNode[1])];
     }
-
-    // inputEdgeArray.push(fileNumberArray);
 };
+fileNumberArray = fileStringArray;
