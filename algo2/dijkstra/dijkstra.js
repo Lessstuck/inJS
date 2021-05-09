@@ -33,22 +33,43 @@ for (let i = 0; i < fileStringLinesLength; i++) {
 };
 fileNumberArray = fileStringArray;
 
-let X = new Array;
-let V = new Array;
+// set up Dijkstra
+let X = [1]; // vertices processed so far (starting at 1)
+let V = new Array; // directed graph with positive lengths
 for (let i = 0; i < fileNumberArray.length; i++)    {
     V[i] = fileNumberArray[i]
 }
-let A = new Array;
-console.log(V[0]);
+let A = [0];  // shortest path distances
+let a = 0; // A index
 
-console.log("greedy: " + greedy(V, 1));
+let x;
+let greed = [0, 0]
+while (X.length != V.length) {
+    x = X.pop();
+    X.push(x); // hack to get last added vertex
+    console.log("x: " + " " + x)
+    greed = greedy(V, x)
+    console.log(greed[0] + " " + greed[1]);
+    if (greed[1] != 1000000) {
+        X.push(greed[0]);   // add to visted vertices
+        A.push(A[a] + greed[1]);  // add to shortest distances
+        a++;
+    }
+}
 
+
+console.log(X);
+console.log(A)
+
+// greedy criterion
 function greedy(V, v) {
     let min = 1000000;
     let minVertex = 1;
-    for (let i = 0; i < V[v - 1].length; i++) {
-        // console.log(V[i][0] + " " + V[i][1][0] + " " + V[i][1][1])
-        if (V[v - 1][i][1] < min) {
+    let len = (V[v - 1].length)
+    for (let i = 0; i < len; i++) {
+        if (V.includes(String(V[v - 1][i][1])))   {
+            continue;
+        } else if (V[v - 1][i][1] < min) {
             min = V[v - 1][i][1];
             minVertex = V[v - 1][i][0];
         }
