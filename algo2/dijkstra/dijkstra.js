@@ -23,7 +23,6 @@ for (let i = 0; i < fileStringLinesLength; i++) {
     fileStringArray[i].pop();
     fileStringArray[i].pop();
     fileStringArray[i][0] = Number(fileStringArray[i][0]);
-    // console.log(fileStringArray[i]);
 }
 for (let i = 0; i < fileStringLinesLength; i++) {
     let fileStringArrayLength = fileStringArray[i].length;
@@ -33,3 +32,28 @@ for (let i = 0; i < fileStringLinesLength; i++) {
     }
 };
 fileNumberArray = fileStringArray;
+
+let X = new Array;
+let V = new Array;
+for (let i = 0; i < fileNumberArray.length; i++)    {
+    V[i] = fileNumberArray[i]
+}
+let A = new Array;
+console.log(V[0]);
+
+console.log("greedy: " + greedy(V, 1));
+
+function greedy(V, v) {
+    let min = 1000000;
+    let minVertex = 1;
+    for (let i = 0; i < V[v - 1].length; i++) {
+        // console.log(V[i][0] + " " + V[i][1][0] + " " + V[i][1][1])
+        if (V[v - 1][i][1] < min) {
+            min = V[v - 1][i][1];
+            minVertex = V[v - 1][i][0];
+        }
+    }
+    return [minVertex, min]
+}
+
+
