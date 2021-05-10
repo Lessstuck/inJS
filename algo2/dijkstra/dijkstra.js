@@ -32,49 +32,59 @@ for (let i = 0; i < fileStringLinesLength; i++) {
     }
 };
 fileNumberArray = fileStringArray;
+fileNumberArrayLength = fileNumberArray.length;
 
-// set up Dijkstra
-let X = [1]; // vertices processed so far (starting at 1)
+//
+// Dijkstra setup
+let X = new Array; // vertices processed so far (starting at 1)
+for (let i = 0; i < fileNumberArrayLength; i++) {
+    X[i] = 1000000; // length of shortest path to i
+}
 let V = new Array; // directed graph with positive lengths
 for (let i = 0; i < fileNumberArray.length; i++)    {
     V[i] = fileNumberArray[i]
 }
-let A = [0];  // shortest path distances
-let a = 0; // A index
+// let A = [0];  // shortest path distances
+// let a = 0; // A index
+
+// console.log("V: " + V);
 
 let x;
-let greed = [0, 0]
-while (X.length != V.length) {
-    x = X.pop();
-    X.push(x); // hack to get last added vertex
-    console.log("x: " + " " + x)
-    greed = greedy(V, x)
-    console.log(greed[0] + " " + greed[1]);
-    if (greed[1] != 1000000) {
-        X.push(greed[0]);   // add to visted vertices
-        A.push(A[a] + greed[1]);  // add to shortest distances
-        a++;
-    }
+let vertexCount = 0;
+greedyChoice = [0, 0]
+let newVertex;
+let newLength;
+let pathLength;
+while (vertexCount <= V.length)  {
+    greedyChoice = greedyChoose(V, newVertex);
+    console.log(greedyChoice)
+    newVertex = greedyChoice[0];
+    newLength = greedyChoice[1];
+    pathLength = pathLength + newLength;
+    X[newVertex - 1] = pathLength;
+    vertexCount++;
 }
 
 
-console.log(X);
-console.log(A)
-
-// greedy criterion
-function greedy(V, v) {
+// console.log("X:    " + X);
+// console.log(A)
+// greedyChoose criterion
+function greedyChoose(V, v) {
     let min = 1000000;
     let minVertex = 1;
-    let len = (V[v - 1].length)
-    for (let i = 0; i < len; i++) {
-        if (V.includes(String(V[v - 1][i][1])))   {
+    let node = V[v - 1];
+    console.log("node: " + node);
+    // console.log("node.length): " + node.length);
+    for (let i = 1; i < 2; i++) {
+        // if (X.includes(String(V[v - 1][i][1]))) {
+        // console.log("deeper: " + X[i]);
+        if (X[i] != 1000000) {
             continue;
-        } else if (V[v - 1][i][1] < min) {
-            min = V[v - 1][i][1];
-            minVertex = V[v - 1][i][0];
+        } else {
+            // min = V[v][i][1];
+            // minVertex = V[v][i][0];
+            console.log("i: " + i)
         }
     }
     return [minVertex, min]
 }
-
-
