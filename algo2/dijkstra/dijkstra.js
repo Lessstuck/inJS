@@ -44,47 +44,52 @@ let V = new Array; // directed graph with positive lengths
 for (let i = 0; i < fileNumberArray.length; i++)    {
     V[i] = fileNumberArray[i]
 }
-// let A = [0];  // shortest path distances
-// let a = 0; // A index
+// console.log("V");
+// // console.log(V);
+// console.log(V[0]);
 
-// console.log("V: " + V);
+// console.log(V[0][1][0]);
+// console.log(V[0][1][1]);
 
 let x;
-let vertexCount = 0;
+let vertexCount = 1;
 greedyChoice = [0, 0]
-let newVertex;
-let newLength;
-let pathLength;
-while (vertexCount <= V.length)  {
+let newVertex = 1;
+let newLength = 1;
+let pathLength = 0;
+while (vertexCount <= V.length) {
+    console.log("vertexCount:");
+    console.log(vertexCount);
     greedyChoice = greedyChoose(V, newVertex);
-    console.log(greedyChoice)
+    console.log("greedyChoice: ");
+    console.log(greedyChoice);
     newVertex = greedyChoice[0];
     newLength = greedyChoice[1];
     pathLength = pathLength + newLength;
     X[newVertex - 1] = pathLength;
+    console.log("newVertex: " + newVertex + "  new distance: " + X[newVertex - 1]);
     vertexCount++;
 }
 
+console.log(X)
 
-// console.log("X:    " + X);
-// console.log(A)
 // greedyChoose criterion
 function greedyChoose(V, v) {
     let min = 1000000;
     let minVertex = 1;
     let node = V[v - 1];
-    console.log("node: " + node);
+    // console.log(node);
     // console.log("node.length): " + node.length);
-    for (let i = 1; i < 2; i++) {
-        // if (X.includes(String(V[v - 1][i][1]))) {
-        // console.log("deeper: " + X[i]);
+    for (let i = 1; i < node.length; i++) {
         if (X[i] != 1000000) {
             continue;
-        } else {
-            // min = V[v][i][1];
-            // minVertex = V[v][i][0];
-            console.log("i: " + i)
+        } else     {
+            if (node[i][1] < min) {
+                minVertex = node[i][0];
+                min = node[i][1];
+            }
         }
     }
+    console.log("minVertex: " + minVertex + "  " + "min: " + min)
     return [minVertex, min]
 }
