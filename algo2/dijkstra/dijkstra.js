@@ -3,45 +3,37 @@ let cr = /\r|\n/g;
 let sp = /\s|\t/g;
 let cm = /,/
 let fileNumberArray = new Array;
-let inputEdgeArray = new Array;
-let inputEdgeArrayRev = new Array;
 let fileStringLines = new Array;
 let fileStringArray = new Array;
-let fileStringChunks = new Array;
-
 
 // read text file, convert to array of arrays of integers
-let fileText = fs.readFileSync('dijkstraData.txt');
+let fileText = fs.readFileSync('dijkstraDataTest.txt');
 let fileString = String(fileText);
 fileStringLines = fileString.split(/\n/);
-fileStringLinesLength = fileStringLines.length - 1; // hack to remove final cr from file
+fileStringLinesLength = fileStringLines.length // - 1; // hack to remove final cr from file  <-- don't use on test.txt
 for (let i = 0; i < fileStringLinesLength; i++) {
     fileStringArray[i] = fileStringLines[i].split(sp);
     fileStringArray[i].pop();
-    fileStringArray[i].pop();
+    // fileStringArray[i].pop();   // one less pop for test.txt   <<----
     fileStringArray[i][0] = Number(fileStringArray[i][0]);
 }
 for (let i = 0; i < fileStringLinesLength; i++) {
     let fileStringArrayLength = fileStringArray[i].length;
     for (let j = 1; j < fileStringArrayLength; j++) {
-        edgehood
-         = fileStringArray[i][j].split(/,/);
-        fileStringArray[i][j] = [Number(edgehood
-            [0]), Number(edgehood
-            [1])];
+        edgehood = fileStringArray[i][j].split(/,/);
+        fileStringArray[i][j] = [Number(edgehood[0]), Number(edgehood[1])];
     }
 };
 fileNumberArray = fileStringArray;
 fileNumberArrayLength = fileNumberArray.length;
 
-//
 // Dijkstra setup
 let X = new Array; // vertices processed so far (starting at 1)
 for (let i = 0; i < fileNumberArrayLength; i++) {
-    X[i] = 1000000; // length of shortest path to i
+    X[i] = 1000000; // initial length of shortest path to i
 }
 let V = new Array; // directed graph with positive lengths
-for (let i = 0; i < fileNumberArray.length; i++)    {
+for (let i = 0; i < fileNumberArrayLength; i++)    {
     V[i] = fileNumberArray[i]
 }
 
@@ -49,8 +41,9 @@ let x;
 let vertexCount = 1;
 greedyChoice = [0, 0]
 let newVertex = 1;
-let newLength = 1;
 let pathLength = 0;
+X[0] = 0; // new! put path from 1 to 1 in X
+
 while (vertexCount <= V.length) {
     greedyChoice = greedyChoose(V, newVertex);
     newVertex = greedyChoice[0];
@@ -59,12 +52,14 @@ while (vertexCount <= V.length) {
     vertexCount++;
 }
 
-// Output for Problem Set
-let out = [7, 37, 59, 82, 99, 115, 133, 165, 188, 197];
-for (let i = 0; i < out.length - 1; i++) {
-    process.stdout.write(X[out[i]] + ",");
-}
-console.log(X[out[out.length - 1]]);
+console.log(X)
+
+// // Output for Problem Set                    <<----
+// let out = [7, 37, 59, 82, 99, 115, 133, 165, 188, 197];
+// for (let i = 0; i < out.length - 1; i++) {
+//     process.stdout.write(X[out[i]] + ",");
+// }
+// console.log(X[out[out.length - 1]]);
 
 // greedyChoose criterion
 function greedyChoose(V, v) {
