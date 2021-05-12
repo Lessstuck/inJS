@@ -8,9 +8,12 @@ let inputEdgeArrayRev = new Array;
 let fileStringLines = new Array;
 let fileStringArray = new Array;
 let fileStringChunks = new Array;
-let edgeNode = new Array;
-let edgeNodes = new Array;
-edgeNodes = [[0,0]];
+// // let edgehood
+//  = new Array;
+// // let edgehood
+// s = new Array;
+// // edgehood
+// s = [[0,0]];
 
 
 // read text file, convert to array of arrays of integers
@@ -27,8 +30,11 @@ for (let i = 0; i < fileStringLinesLength; i++) {
 for (let i = 0; i < fileStringLinesLength; i++) {
     let fileStringArrayLength = fileStringArray[i].length;
     for (let j = 1; j < fileStringArrayLength; j++) {
-        edgeNode = fileStringArray[i][j].split(/,/);
-        fileStringArray[i][j] = [Number(edgeNode[0]), Number(edgeNode[1])];
+        edgehood
+         = fileStringArray[i][j].split(/,/);
+        fileStringArray[i][j] = [Number(edgehood
+            [0]), Number(edgehood
+            [1])];
     }
 };
 fileNumberArray = fileStringArray;
@@ -44,12 +50,6 @@ let V = new Array; // directed graph with positive lengths
 for (let i = 0; i < fileNumberArray.length; i++)    {
     V[i] = fileNumberArray[i]
 }
-// console.log("V");
-// // console.log(V);
-// console.log(V[0]);
-
-// console.log(V[0][1][0]);
-// console.log(V[0][1][1]);
 
 let x;
 let vertexCount = 1;
@@ -57,39 +57,45 @@ greedyChoice = [0, 0]
 let newVertex = 1;
 let newLength = 1;
 let pathLength = 0;
-while (vertexCount <= V.length) {
-    console.log("vertexCount:");
-    console.log(vertexCount);
+while (vertexCount <= 6) {// V.length) {
     greedyChoice = greedyChoose(V, newVertex);
     console.log("greedyChoice: ");
     console.log(greedyChoice);
     newVertex = greedyChoice[0];
-    newLength = greedyChoice[1];
-    pathLength = pathLength + newLength;
+    pathLength = pathLength + greedyChoice[1];
     X[newVertex - 1] = pathLength;
-    console.log("newVertex: " + newVertex + "  new distance: " + X[newVertex - 1]);
+    console.log("newVertex: " + newVertex + "  new distance: " + pathLength);
+    console.log("X[newVertex - 1]: " + X[newVertex - 1]);
     vertexCount++;
 }
 
-console.log(X)
+// snooping
+for (let x = 0; x < 200; x++)   {
+    if (X[x - 1] != 1000000) {
+        console.log(x + " " + X[x - 1])
+    }
+}
+
+
 
 // greedyChoose criterion
 function greedyChoose(V, v) {
     let min = 1000000;
     let minVertex = 1;
-    let node = V[v - 1];
-    // console.log(node);
-    // console.log("node.length): " + node.length);
-    for (let i = 1; i < node.length; i++) {
-        if (X[i] != 1000000) {
+    let hood = V[v - 1];
+    for (let i = 1; i < hood
+        .length; i++) {
+        console.log("i: " + i + "  X[hood[i][0] - 1]: " + X[hood[i][0] - 1] + " minVertex: " + minVertex + " min: " + min + " hood: " + hood[i]);
+        if (X[hood[i][0] - 1] != 1000000) {
+            console.log("taken")
             continue;
         } else     {
-            if (node[i][1] < min) {
-                minVertex = node[i][0];
-                min = node[i][1];
+            if (hood[i][1] < min) {
+                console.log("minny: " + hood[i])
+                minVertex = hood[i][0];
+                min = hood[i][1];
             }
         }
     }
-    console.log("minVertex: " + minVertex + "  " + "min: " + min)
     return [minVertex, min]
 }
