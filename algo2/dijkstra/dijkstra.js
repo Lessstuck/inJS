@@ -8,12 +8,6 @@ let inputEdgeArrayRev = new Array;
 let fileStringLines = new Array;
 let fileStringArray = new Array;
 let fileStringChunks = new Array;
-// // let edgehood
-//  = new Array;
-// // let edgehood
-// s = new Array;
-// // edgehood
-// s = [[0,0]];
 
 
 // read text file, convert to array of arrays of integers
@@ -57,20 +51,16 @@ greedyChoice = [0, 0]
 let newVertex = 1;
 let newLength = 1;
 let pathLength = 0;
-while (vertexCount <= 6) {// V.length) {
+while (vertexCount <= V.length) {
     greedyChoice = greedyChoose(V, newVertex);
-    console.log("greedyChoice: ");
-    console.log(greedyChoice);
     newVertex = greedyChoice[0];
     pathLength = pathLength + greedyChoice[1];
     X[newVertex - 1] = pathLength;
-    console.log("newVertex: " + newVertex + "  new distance: " + pathLength);
-    console.log("X[newVertex - 1]: " + X[newVertex - 1]);
     vertexCount++;
 }
 
 // snooping
-for (let x = 0; x < 200; x++)   {
+for (let x = 1; x <= 200; x++)   {
     if (X[x - 1] != 1000000) {
         console.log(x + " " + X[x - 1])
     }
@@ -83,18 +73,12 @@ function greedyChoose(V, v) {
     let min = 1000000;
     let minVertex = 1;
     let hood = V[v - 1];
-    for (let i = 1; i < hood
-        .length; i++) {
-        console.log("i: " + i + "  X[hood[i][0] - 1]: " + X[hood[i][0] - 1] + " minVertex: " + minVertex + " min: " + min + " hood: " + hood[i]);
+    for (let i = 1; i < hood.length; i++) {
         if (X[hood[i][0] - 1] != 1000000) {
-            console.log("taken")
             continue;
-        } else     {
-            if (hood[i][1] < min) {
-                console.log("minny: " + hood[i])
+        } else if (hood[i][1] < min) {
                 minVertex = hood[i][0];
                 min = hood[i][1];
-            }
         }
     }
     return [minVertex, min]
