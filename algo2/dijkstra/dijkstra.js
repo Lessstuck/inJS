@@ -59,14 +59,12 @@ while (vertexCount <= V.length) {
     vertexCount++;
 }
 
-// snooping
-for (let x = 1; x <= 200; x++)   {
-    if (X[x - 1] != 1000000) {
-        console.log(x + " " + X[x - 1])
-    }
+// Output for Problem Set
+let out = [7, 37, 59, 82, 99, 115, 133, 165, 188, 197];
+for (let i = 0; i < out.length - 1; i++) {
+    process.stdout.write(X[out[i]] + ",");
 }
-
-
+console.log(X[out[out.length - 1]]);
 
 // greedyChoose criterion
 function greedyChoose(V, v) {
