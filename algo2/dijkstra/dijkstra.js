@@ -60,15 +60,16 @@ for (let i = 1; i < V[0].length; i++)   {
     }
 }
 let minEdgeAdjacencyListEdge;
-// console.log("spanEdges: ");
-// console.log(spanEdges);
+console.log("spanEdges: ");
+console.log(spanEdges);
 // while (spanEdges.length) {
 greedyChoice = greedyChoose(spanEdges);
-// console.log("greedyChoice: ");
-// console.log(greedyChoice);
+console.log("greedyChoice: ");
+console.log(greedyChoice);
 
 updateSpanEdges(greedyChoice);
 // }
+console.log("post update spanEdges: ");
 console.log(spanEdges);
 
 function greedyChoose(spanEdges) {
@@ -83,25 +84,29 @@ function greedyChoose(spanEdges) {
 }
 
 function updateSpanEdges(minEdge) {
-     // add minEdge to X
-    pathLength = pathLength + minEdge[1];
-    X[minEdge[1] - 1] = pathLength;
-    // remove any edges pointing to same vertex as minEdge (including minEdge)
-    newSpanEdges = spanEdges.filter(function (el) { return el[1] != minEdge[1] });
-    spanEdges = [...newSpanEdges];
-    // console.log("spanEdges: ");
-    // console.log(spanEdges)
     // add minEdge[0] vertices not pointing to indices in X
     for (let i = 1; i < V[minEdge[1]].length; i++)  {
         minEdgeAdjacencyListEdge = V[minEdge[1] - 1][i];
-        // console.log(minEdge[1]);
-        // console.log(minEdgeAdjacencyListEdge[0]);
+        console.log(minEdge[1]);
+        console.log(minEdgeAdjacencyListEdge);
         // console.log(minEdgeAdjacencyListEdge[1]);
-        if (X[minEdgeAdjacencyListEdge[1] - 1] == 1000000) {
-            // console.log("copy: " + [minEdge[0], minEdgeAdjacencyListEdge[0], minEdgeAdjacencyListEdge[1]]);
+
+        console.log("copy: " + [minEdge[0], minEdgeAdjacencyListEdge[0], minEdgeAdjacencyListEdge[1]]);
+        console.log(minEdgeAdjacencyListEdge[1])
+        if (X[minEdgeAdjacencyListEdge[0] - 1] == 1000000) {
             spanEdges.push([minEdge[0], minEdgeAdjacencyListEdge[0], minEdgeAdjacencyListEdge[1]]);
         }
     }
+
+    // remove any edges pointing to same vertex as minEdge (including minEdge)
+    newSpanEdges = spanEdges.filter(function (el) { return el[1] != minEdge[1] });
+    spanEdges = [...newSpanEdges];
+    console.log("post filter out pointers to choice: ");
+    console.log(spanEdges)
+    // add minEdge to X
+    pathLength = pathLength + minEdge[2];
+    X[minEdge[1] - 1] = pathLength;
+    console.log(X);
 }
 
 
