@@ -34,7 +34,6 @@ let X = new Array; // vertices processed so far (starting at 1)
 for (let i = 0; i < fileNumberArrayLength; i++) {
     X[i] = 1000000; // ARBITRARY CONSTANT: initial length of shortest path to i
 }
-
 let V = new Array; // directed graph with positive lengths
 for (let i = 0; i < fileNumberArrayLength; i++)    {
     V[i] = fileNumberArray[i]
@@ -60,20 +59,13 @@ for (let i = 1; i < V[0].length; i++)   {
     }
 }
 let minEdgeAdjacencyListEdge;
-// console.log("spanEdges: ");
-// console.log(spanEdges);
 
-// while (spanEdges.length) {
-for (let x = 0; x < 7; x++) {
+// The main loop
+while (spanEdges.length) {
     greedyChoice = greedyChoose(spanEdges);
-    console.log("greedyChoice: ");
-    console.log(greedyChoice);
     updateSpanEdges(greedyChoice);
 }
-// }
-
-// console.log("post update spanEdges: ");
-// console.log(spanEdges);
+console.log(X)
 
 function greedyChoose(spanEdges) {
     min = 1000000;
@@ -87,39 +79,21 @@ function greedyChoose(spanEdges) {
 }
 
 function updateSpanEdges(minEdge) {
-    // calculate new path length to vertex minEdge[1];
-    pathLength = minEdge[2];
-    // pathLength = X[minEdge[0] - 1] + minEdge[2];
-    X[minEdge[1] - 1] = pathLength;
-    console.log("pathLength: " + pathLength + " to minEdge[1]: " + minEdge[1])
+
+    // calculate new path length to vertex minEdge[1] and insert into X;
+    X[minEdge[1] - 1] = minEdge[2];
+
     // add minEdge[0] vertices not pointing to indices in X
     for (let i = 1; i < V[minEdge[1] - 1].length; i++)  {
         minEdgeAdjacencyListEdge = V[minEdge[1] - 1][i];
-        // console.log(minEdge[1]);
-        // console.log(minEdgeAdjacencyListEdge);
-        console.log("minEdge: " + minEdgeAdjacencyListEdge);
-
-        // console.log("copy: " + [minEdge[0], minEdgeAdjacencyListEdge[0], minEdgeAdjacencyListEdge[1]]);
-        // console.log(minEdgeAdjacencyListEdge[1])
         if (X[minEdgeAdjacencyListEdge[0] - 1] == 1000000) {
-            spanEdges.push([minEdge[1], minEdgeAdjacencyListEdge[0], (minEdgeAdjacencyListEdge[1] + pathLength)]);
+            spanEdges.push([minEdge[1], minEdgeAdjacencyListEdge[0], (minEdgeAdjacencyListEdge[1] + minEdge[2])]);
         }
     }
-    console.log("postpathlength spanEdges: ");
-    console.log(spanEdges);
+
     // remove any edges pointing to same vertex as minEdge (including minEdge)
     newSpanEdges = spanEdges.filter(function (el) { return el[1] != minEdge[1] });
     spanEdges = [...newSpanEdges];
-    // console.log("post filter out pointers to choice: ");
-    // console.log(spanEdges)
-
-    // add minEdge to X
-    // pathlength = X[minEdge[0] - 1];
-    // pathLength = pathLength + minEdge[2];
-
-    // calculate new path length and add to X
-    X[minEdge[1] - 1] = X[minEdge[0] - 1] + minEdge[2];
-    console.log(X);
 }
 
 
