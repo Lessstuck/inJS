@@ -7,14 +7,14 @@ let fileStringLines = new Array;
 let fileStringArray = new Array;
 
 // read text file, convert to array of arrays of integers
-let fileText = fs.readFileSync('dijkstraData.txt');
+let fileText = fs.readFileSync('dijkstraDataTest.txt');
 let fileString = String(fileText);
 fileStringLines = fileString.split(/\n/);
-fileStringLinesLength = fileStringLines.length - 1;
+fileStringLinesLength = fileStringLines.length // - 1; // hack to remove final cr from file  <-- don't use on test.txt
 for (let i = 0; i < fileStringLinesLength; i++) {
     fileStringArray[i] = fileStringLines[i].split(sp);
     fileStringArray[i].pop();
-    fileStringArray[i].pop(); 
+    // fileStringArray[i].pop();   // one less pop for test.txt   <<----
     fileStringArray[i][0] = Number(fileStringArray[i][0]);
 }
 for (let i = 0; i < fileStringLinesLength; i++) {
@@ -51,20 +51,21 @@ let newVertex = 1;
 let pathLength = 0;
 X[0] = 0; // new! put path from 1 to 1 in X
 
-// array of edges: tail in X, head not in X, length
+// array of edges with tail in X, and head not in X - includes length
 // initialize first version of spanEdges, starting at vertex 1
 for (let i = 1; i < V[0].length; i++)   {
+    if (X[V[0][i][1]] == 1000000) {
         spanEdges.push([1, V[0][i][0], V[0][i][1]]); // tail, head, length
+    }
 }
-
 let minEdgeAdjacencyListEdge;
 
 // The main loop
 while (spanEdges.length) {
     greedyChoice = greedyChoose(spanEdges);
-
     updateSpanEdges(greedyChoice);
 }
+console.log(X)
 
 function greedyChoose(spanEdges) {
     min = 1000000;
@@ -95,10 +96,37 @@ function updateSpanEdges(minEdge) {
     spanEdges = [...newSpanEdges];
 }
 
-// // Output for Problem Set
-let out = [7, 37, 59, 82, 99, 115, 133, 165, 188, 197];
-for (let i = 0; i < out.length - 1; i++) {
-    process.stdout.write(X[out[i]] + ",");
-}
-console.log(X[out[out.length - 1]]);
+
+// }
+
+// // while (vertexCount <= V.length) {
+// //     min = 1000000;
+// //     minVertex = 1;
+// //     hood = V[newVertex - 1];
+// //     for (let i = 1; i < hood.length; i++) {
+// //         if (X[hood[i][0] - 1] != 1000000) {
+// //             continue;
+// //         } else if (hood[i][1] < min) {
+// //             minVertex = hood[i][0];
+// //             min = hood[i][1];
+// //         }
+// //     }
+// //     if (min == 1000000) {
+// //         vertexCount++;
+// //         continue;
+// //     }
+// //     newVertex = minVertex;
+// //     pathLength = pathLength + min;
+// //     X[newVertex - 1] = pathLength;
+// //     vertexCount++;
+// // }
+
+// console.log(X)
+
+// // Output for Problem Set                    <<----
+// let out = [7, 37, 59, 82, 99, 115, 133, 165, 188, 197];
+// for (let i = 0; i < out.length - 1; i++) {
+//     process.stdout.write(X[out[i]] + ",");
+// }
+// console.log(X[out[out.length - 1]]);
 
