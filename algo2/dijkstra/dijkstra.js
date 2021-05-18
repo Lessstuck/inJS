@@ -98,7 +98,7 @@ function updateSpanEdges(minEdge) {
 // // Output for Problem Set
 let out = [7, 37, 59, 82, 99, 115, 133, 165, 188, 197];
 for (let i = 0; i < out.length - 1; i++) {
-    process.stdout.write(X[out[i]] + ",");
+    process.stdout.write(X[out[i] - 1] + ",");
 }
-console.log(X[out[out.length - 1]]);
+console.log(X[out[out.length - 1] - 1]);
 
