@@ -1,3 +1,6 @@
+// running time = 5:17
+
+
 var fs = require("fs");
 
 // read text file, convert to array of arrays of integers
@@ -13,6 +16,7 @@ let streamArrayLength = streamArray.length;
 let runningMedian = 0
 let runningArray = [];
 
+console.log(Date())
 for (let i = 0; i < streamArrayLength; i++) {
 // for (let i = 0; i < 5; i++) {
     runningArray.push(streamArray[i]);
@@ -21,7 +25,7 @@ for (let i = 0; i < streamArrayLength; i++) {
 }
 console.log(runningMedian % 10000);
 // console.log(runningMedian)
-
+console.log(Date())
 
 function medianMaintainer(i) {
     if (i % 2 == 0) {
