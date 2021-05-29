@@ -10,7 +10,38 @@ for (let i = 0; i < fileStringLinesLength; i++) {
 }
 let streamArray = fileStringLines;
 let streamArrayLength = streamArray.length;
+let runningMedian = 0
+let runningArray = [];
 
-console.log(streamArrayLength)
-console.log(streamArray[0])
-console.log(streamArray[9999])
+for (let i = 0; i < streamArrayLength; i++) {
+// for (let i = 0; i < 5; i++) {
+    runningArray.push(streamArray[i]);
+    // console.log(medianMaintainer(i));
+    runningMedian = runningMedian + medianMaintainer(i);
+}
+console.log(runningMedian % 10000);
+// console.log(runningMedian)
+
+
+function medianMaintainer(i) {
+    if (i % 2 == 0) {
+        return bubbleSort(runningArray)[i / 2]
+    } else {
+        return (bubbleSort(runningArray)[i / 2 - 0.5])
+    }
+
+}
+
+function bubbleSort(a) {
+    for (let i = 0; i < a.length; i++)  {
+        for (let j = 0; j < a.length; j++)  {
+            if (a[j] > a[i]) {
+                var temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+    }
+    return a;
+}
+
