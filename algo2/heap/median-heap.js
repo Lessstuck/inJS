@@ -47,8 +47,21 @@ var minHeap = {
     size: function () {
         return a.length;
     },
-    insert: function(a, x) {
+    insert: function (a, x) {
         a.push(x);
+        function bubbleUp() {
+            let len = a.length;
+            let i = len;
+            while (i >= 2) {
+                let trunkier = a[i - 2];
+                let leafier = a[i - 1];
+                if (leafier < trunkier) {
+                    arraySwap(a, i - 1, i - 2);
+                };
+                i--;
+            }
+        };
+        bubbleUp();
         return a;
     },
     extractMin: function (a) {
@@ -56,13 +69,15 @@ var minHeap = {
     }
 };
 
-console.log(a)
-console.log(minHeap.size(a))
-console.log(minHeap.insert(a, 3))
+// console.log(a)
+// console.log(minHeap.size(a))
+console.log(minHeap.insert(a, 5))
+// console.log(arraySwap(a, 0, 1))
 console.log(minHeap.extractMin(a));
 
-function swap(a, b) {
-    let temp = a;
-    a = b;
-    b = temp;
+function arraySwap(a, x, y) {
+    let temp = a[x];
+    a[x] = a[y];
+    a[y] = temp;
+    return a;
 }
