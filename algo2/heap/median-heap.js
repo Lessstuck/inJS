@@ -1,4 +1,5 @@
-// running time = 5:17
+// running time of linear O(n^2) = 5:17
+// correct answer 1213
 
 
 var fs = require("fs");
@@ -15,36 +16,36 @@ let streamArray = fileStringLines;
 let streamArrayLength = streamArray.length;
 let favoriteChildIndex;
 let runningMedian = 0
-let runningArray = [];
+let runningArray = [0]; // Add zero at beginning so indices are easier
 
+/////////////////////////////////////// Running Median
 // console.log(Date())
-
-
-for (let i = 0; i < streamArrayLength; i++) {
-    // for (let i = 0; i < 5; i++) {
-    // runningArray.push(streamArray[i]);
-    // console.log(medianMaintainer(i));
-    // runningMedian = runningMedian + medianMaintainer(i);
-
+// for (let i = 0; i < streamArrayLength; i++) {
+for (let i = 0; i < 5; i++) {
+    runningArray.push(streamArray[i]);
+    console.log(medianMaintainer(i));
+    runningMedian = runningMedian + medianMaintainer(i);
 }
-// console.log(runningMedian % 10000);
-// console.log(runningMedian)
+console.log(runningMedian % 10000);
+console.log("runningMedian: " + runningMedian)
 // console.log(Date())
 
 function medianMaintainer(i) {
     if (i % 2 == 0) {
         // return bubbleSort(runningArray)[i / 2]
+        return 1;
     } else {
         // return (bubbleSort(runningArray)[i / 2 - 0.5])
+        return 1
     }
 
 }
 
 let parentIndex, childIndexL, childIndexR;
 
-// let a = streamArray;
+let a = streamArray;
 // let a = [0, 4, 4, 8, 9, 4, 12, 9, 11] 
-let a = [0, 13, 11, 12, 8, 9, 9, 4, 4, 4]
+// let a = [0, 13, 11, 12, 8, 9, 9, 4, 4, 4]
 // let a = [0];    // index starting at 1
 // a.push(6);      // initial root of heap
 
@@ -117,9 +118,6 @@ var maxHeap = {
                     arraySwap(a, parentIndex, i);
                 };
                 i--;
-                console.log("i: " + i)
-                console.log("a:")
-                console.log(a)
             }
         };
         bubbleUp();
@@ -151,11 +149,11 @@ var maxHeap = {
     }
 };
 
-console.log(a)
-maxHeap.insert(a, 15);
-console.log(a);
-console.log(maxHeap.extractMax(a));
-console.log(a);
+// console.log(a)
+// maxHeap.insert(a, 15);
+// console.log(a);
+// console.log(maxHeap.extractMax(a));
+// console.log(a);
 
 function arraySwap(a, x, y) {   // swaps 2 elements of array a, given their indices
     let temp = a[x];
