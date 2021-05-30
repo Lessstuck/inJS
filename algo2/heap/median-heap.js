@@ -42,6 +42,7 @@ function medianMaintainer(i) {
 
 let parentIndex, childIndexL, childIndexR;
 
+// let a = streamArray;
 let a = [0, 4, 4, 8, 9, 4, 12, 9, 11] 
 // let a = [0];    // index starting at 1
 // a.push(6);      // initial root of heap
@@ -73,16 +74,11 @@ var minHeap = {
         min = a[1];
         a[1] = a[a.length - 1];
         a.pop();
-        console.log(a);
         function bubbleDown() {
             let i = 1;
             while (i < Math.floor(Math.log2(a.length))) {
                 childIndexL = 2 * i;
                 childIndexR = 2 * i + 1;
-                if (a[i] < a[childIndexL] && a[i] < a[childIndexR]) {
-                    console.log("done: " + i);
-                    break;
-                }
                 if (a[childIndexL] < a[childIndexR]) {
                     favoriteChildIndex = childIndexL;
                 } else {
@@ -90,7 +86,6 @@ var minHeap = {
                 }
                 arraySwap(a, favoriteChildIndex, i);
                 i = favoriteChildIndex;
-                console.log("i: " + i)
             }
         };
         bubbleDown();
@@ -102,11 +97,10 @@ var minHeap = {
 };
 
 // console.log(a)
-// console.log(minHeap.size(a))
-minHeap.insert(a, 2);
-// console.log(arraySwap(a, 0, 1))
+minHeap.insert(a, 14);
+// console.log(a);
 console.log(minHeap.extractMin(a));
-console.log(a);
+// console.log(a);
 
 function arraySwap(a, x, y) {   // swaps 2 elements of array a, given their indices
     let temp = a[x];
