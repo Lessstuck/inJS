@@ -16,29 +16,34 @@ let streamArray = fileStringLines;
 let streamArrayLength = streamArray.length;
 let favoriteChildIndex;
 let runningMedian = 0
-let runningArray = [0]; // Add zero at beginning so indices are easier
+let bottomHeap = [0]; // Add zero at beginning so indices are easier
+let topHeap = [0];
+let lowMedian; // top of bottom
+let highMedian; // bottom of top
 
 /////////////////////////////////////// Running Median
 // console.log(Date())
 // for (let i = 0; i < streamArrayLength; i++) {
 for (let i = 0; i < 5; i++) {
-    runningArray.push(streamArray[i]);
-    console.log(medianMaintainer(i));
-    runningMedian = runningMedian + medianMaintainer(i);
+    newMedian = medianMaintainer(i));
+    runningMedian = runningMedian + newMedian;
 }
 console.log(runningMedian % 10000);
 console.log("runningMedian: " + runningMedian)
 // console.log(Date())
 
 function medianMaintainer(i) {
-    if (i % 2 == 0) {
-        // return bubbleSort(runningArray)[i / 2]
-        return 1;
-    } else {
-        // return (bubbleSort(runningArray)[i / 2 - 0.5])
-        return 1
+    lowMedian = maxHeap(bottomHeap).lookatMax;
+    highMedian = minHeap(topHeap).lookatMin();
+    if (i >= highMedian) {
+        minHeap(topHeap).insert(i);
+    else
+        maxHeap(bottomHeap).insert(i);
+    }
+ 
     }
 
+    
 }
 
 let parentIndex, childIndexL, childIndexR;
