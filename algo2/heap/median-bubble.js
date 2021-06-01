@@ -1,5 +1,5 @@
 // running time = 5:17
-
+// correct answer 1213
 
 var fs = require("fs");
 
@@ -18,13 +18,10 @@ let runningArray = [];
 
 console.log(Date())
 for (let i = 0; i < streamArrayLength; i++) {
-// for (let i = 0; i < 5; i++) {
     runningArray.push(streamArray[i]);
-    // console.log(medianMaintainer(i));
     runningMedian = runningMedian + medianMaintainer(i);
 }
 console.log(runningMedian % 10000);
-// console.log(runningMedian)
 console.log(Date())
 
 function medianMaintainer(i) {
@@ -48,4 +45,3 @@ function bubbleSort(a) {
     }
     return a;
 }
-
