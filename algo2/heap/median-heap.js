@@ -25,6 +25,7 @@ let heapBalancer // heap element passed to other heap to balance the two
 let parentIndex, childIndexL, childIndexR;
 let b = bottomHeap;
 let a = topHeap;
+let m; //median index combining both heaps
 
 
 //////////////////////////////////// minHeap
@@ -88,7 +89,7 @@ var maxHeap = {
                 } else {
                     parentIndex = Math.floor(i / 2);
                 };
-                if (b[parentIndex] < a[i]) {   //// change from > to <
+                if (b[parentIndex] < b[i]) {   //// change from > to <
                     arraySwap(b, parentIndex, i);
                 };
                 i--;
@@ -103,7 +104,7 @@ var maxHeap = {
         b.pop();
         function bubbleDown() {
             let i = 1;
-            while (i < Math.floor(Math.log2(a.length))) {
+            while (i < Math.floor(Math.log2(b.length))) {
                 childIndexL = 2 * i;
                 childIndexR = 2 * i + 1;
                 if (b[childIndexL] > b[childIndexR]) {  //// change from < to >
@@ -125,19 +126,15 @@ var maxHeap = {
 
 //////////////////////////////////// medianMaintainer
 function medianMaintainer(i) {
-    // topHeap.push(streamArray[i]);
-    // console.log("bottomHeap: " + " " + bottomHeap);
     lowMedian = maxHeap.lookatMax();
-    // console.log("topHeap: " + " " + topHeap);
     highMedian = minHeap.lookatMin();
-    // console.log(minHeap);
-    // console.log(maxHeap);
+    console.log(a);
+    console.log(b);
     if (streamArray[i] >= highMedian) {
         minHeap.insert(streamArray[i]);
     } else {
         maxHeap.insert(streamArray[i]);
     };
-    // console.log(minHeap + " " + maxHeap);
     heapInbalance = topHeap.length - bottomHeap.length;
     if (heapInbalance > 1) {
         heapBalancer = minHeap.extractMin();
@@ -146,9 +143,15 @@ function medianMaintainer(i) {
         heapBalancer = maxHeap.extractMax();
         minHeap.insert(heapBalancer);
     };
+    console.log(i);
+    if (i % 2 != 0) {
+        m = (i + 1) / 2;
+    } else {
+        m = i / 2;
+    }
+    ///////////////////////////////////    <<<<------ this might be a naive approach
     lowMedian = maxHeap.lookatMax();
     highMedian = minHeap.lookatMin();
-    // console.log("lowMedian: " + lowMedian + " " + "highMedian: " + highMedian);
     return Math.min(lowMedian, highMedian);
 };
 
@@ -162,10 +165,13 @@ if (streamArray[0] < streamArray[1]) {
     bottomHeap.push(streamArray[1]);
     topHeap.push(streamArray[0]);
 }
-for (let i = 2; i < streamArrayLength; i++) {
-// for (let i = 2; i < 5; i++) {
+// for (let i = 2; i < streamArrayLength; i++) {
+for (let i = 2; i < 20; i++) {
     newMedian = medianMaintainer(i);
     runningMedian = runningMedian + newMedian;
+    console.log("newMedian: " + newMedian);
+    console.log("runningMedian: " + runningMedian);
+    console.log();
 }
 console.log(runningMedian % 10000);
 console.log(Date());
