@@ -18,6 +18,7 @@ let favoriteChildIndex;
 let runningMedian = 0
 let bottomHeap = [0]; // Add zero at beginning so indices are easier
 let topHeap = [0];
+let bothHeapsSize = 0;  // size of bottomHeap and topHeap
 let lowMedian; // top of bottom
 let highMedian; // bottom of top
 let heapInbalance   // top heap length minus bottom heap length
@@ -25,7 +26,7 @@ let heapBalancer // heap element passed to other heap to balance the two
 let parentIndex, childIndexL, childIndexR;
 let b = bottomHeap;
 let a = topHeap;
-let m; //median index combining both heaps
+let bothMedianIndex; //median index combining both heaps
 
 
 //////////////////////////////////// minHeap
@@ -126,15 +127,17 @@ var maxHeap = {
 
 //////////////////////////////////// medianMaintainer
 function medianMaintainer(i) {
+    bothHeapsSize++;    // running total of items from streamArray - not the sum of the actual sizes (because [0])
     lowMedian = maxHeap.lookatMax();
     highMedian = minHeap.lookatMin();
-    console.log(a);
-    console.log(b);
+    // console.log(a);
+    // console.log(b);
     if (streamArray[i] >= highMedian) {
         minHeap.insert(streamArray[i]);
     } else {
         maxHeap.insert(streamArray[i]);
     };
+    // rebalance heaps
     heapInbalance = topHeap.length - bottomHeap.length;
     if (heapInbalance > 1) {
         heapBalancer = minHeap.extractMin();
@@ -143,16 +146,21 @@ function medianMaintainer(i) {
         heapBalancer = maxHeap.extractMax();
         minHeap.insert(heapBalancer);
     };
-    console.log(i);
-    if (i % 2 != 0) {
-        m = (i + 1) / 2;
+
+    // get median index of numbers passed so far
+    if (bothHeapsSize % 2 == 0) {
+        console.log(bothHeapsSize)
+        bothMedianIndex = bothHeapsSize / 2;
     } else {
-        m = i / 2;
+        bothMedianIndex = (bothHeapsSize + 1) / 2;
     }
-    ///////////////////////////////////    <<<<------ this might be a naive approach
-    lowMedian = maxHeap.lookatMax();
-    highMedian = minHeap.lookatMin();
-    return Math.min(lowMedian, highMedian);
+    // return value at that index
+    if (bothMedianIndex < b.length) {
+        return b[bothMedianIndex];
+    } else {
+        return a[bothMedianIndex - b.length + 1];
+
+    }
 };
 
 /////////////////////////////////////// Running Median
@@ -165,15 +173,18 @@ if (streamArray[0] < streamArray[1]) {
     bottomHeap.push(streamArray[1]);
     topHeap.push(streamArray[0]);
 }
-// for (let i = 2; i < streamArrayLength; i++) {
-for (let i = 2; i < 20; i++) {
+for (let i = 2; i < streamArrayLength + 2; i++) {
+// for (let i = 2; i < 20 + 2; i++) {
     newMedian = medianMaintainer(i);
+    console.log("bothHeapsSize: " + bothHeapsSize);
+    console.log("bothMedianIndex: " + bothMedianIndex);
+    console.log("newMedian: " + newMedian);
     runningMedian = runningMedian + newMedian;
     console.log("newMedian: " + newMedian);
     console.log("runningMedian: " + runningMedian);
     console.log();
 }
-console.log(runningMedian % 10000);
+console.log("problem set answer: " + runningMedian % 10000);
 console.log(Date());
 
 
