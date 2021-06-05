@@ -1,4 +1,5 @@
-// running time of linear O(n^2) = 5:17
+// running time of linear O(n^2) = about 5 minutes
+// running time of heap O(n * log2(n)) = less than 1 second!!
 // correct answer 1213
 
 
@@ -24,7 +25,6 @@ let highMedian; // bottom of top
 let heapInbalance   // top heap length minus bottom heap length
 let heapBalancer // heap element passed to other heap to balance the two
 let parentIndex, childIndexL, childIndexR;
-let bothMedianIndex; //median index combining both heaps
 
 
 //////////////////////////////////// minHeap
@@ -165,29 +165,14 @@ if (streamArray[0] < streamArray[1]) {
     a.push(streamArray[0]);
     runningMedian = streamArray[0] + streamArray[1];
 }
-// console.log(b)
-// console.log(a)
-// console.log("runningMedian after 2: " + runningMedian);
 
 let i = 2;  // size of b and a
 for (let i = 2; i < streamArrayLength; i++) {
 // for (let i = 2; i < 5 + 2; i++) {
-    // console.log("new element: " + i + " " + streamArray[i])
     newMedian = medianMaintainer(i);
-    // console.log("i: " + i);
-    // console.log("bothMedianIndex: " + bothMedianIndex);
-    // console.log("newMedian: " + newMedian);
     runningMedian = runningMedian + newMedian;
-    // console.log("newMedian: " + newMedian);
-    // console.log("runningMedian: " + runningMedian);
-    // console.log();
-    // console.log(b)
-    // console.log(a)
-    // console.log("newMedian: " + newMedian + " runningMedian: " + runningMedian)
 }
 console.log("problem set answer: " + runningMedian % 10000);
-// console.log(b)
-// console.log(a)
 console.log(Date());
 
 
