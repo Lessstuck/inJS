@@ -18,10 +18,12 @@ let runningArray = [];
 
 console.log(Date())
 // for (let i = 0; i < streamArrayLength; i++) {
-    for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 5; i++) {
+    console.log("new element: " + i + " " + streamArray[i])
     runningArray.push(streamArray[i]);
     newMedian = medianMaintainer(i);
     runningMedian = runningMedian + newMedian;
+    console.log(runningArray)
     console.log("newMedian: " + newMedian + " runningMedian: " + runningMedian)
 }
 console.log(runningMedian % 10000);

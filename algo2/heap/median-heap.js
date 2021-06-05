@@ -13,18 +13,17 @@ for (let i = 0; i < fileStringLinesLength; i++) {
     fileStringLines[i] = Number(fileStringLines[i])
 }
 let streamArray = [...fileStringLines];
-// let streamArrayLength = streamArray.length;
+let streamArrayLength = streamArray.length;
 let favoriteChildIndex;
 let runningMedian = 0
-let bottomHeap = [0]; // Add zero at beginning so indices are easier
-let topHeap = [0];
+// b is bottom heap, a is top heap
+let b = [0]; // Add zero at beginning so indices are easier
+let a = [0];
 let lowMedian; // top of bottom
 let highMedian; // bottom of top
 let heapInbalance   // top heap length minus bottom heap length
 let heapBalancer // heap element passed to other heap to balance the two
 let parentIndex, childIndexL, childIndexR;
-let b = bottomHeap;
-let a = topHeap;
 let bothMedianIndex; //median index combining both heaps
 
 
@@ -136,7 +135,7 @@ function medianMaintainer(i) {
         maxHeap.insert(streamArray[i]);
     };
     // rebalance heaps
-    heapInbalance = topHeap.length - bottomHeap.length;
+    heapInbalance = a.length - b.length;
     if (heapInbalance > 1) {
         heapBalancer = minHeap.extractMin();
         maxHeap.insert(heapBalancer);
@@ -144,36 +143,35 @@ function medianMaintainer(i) {
         heapBalancer = maxHeap.extractMax();
         minHeap.insert(heapBalancer);
     };
-
     // get median index of numbers passed so far
-    if (i % 2 == 0) {
-        // console.log(i)
-        bothMedianIndex = i / 2;
+    if (b.length >= a.length) {
+        return maxHeap.lookatMax();
     } else {
-        bothMedianIndex = (i + 1) / 2;
+        return minHeap.lookatMin();
     }
-    return streamArray[bothMedianIndex];
 };
 
 /////////////////////////////////////// Running Median
 console.log(Date())
 // Take care of first two elements
-let newMedian
+let newMedian;
 // fill first two new elements in low and high arrays
 if (streamArray[0] < streamArray[1]) {
-    bottomHeap.push(streamArray[0]);
-    topHeap.push(streamArray[1]);
+    b.push(streamArray[0]);
+    a.push(streamArray[1]);
     runningMedian = streamArray[0] + streamArray[0];
 } else {
-    bottomHeap.push(streamArray[1]);
-    topHeap.push(streamArray[0]);
+    b.push(streamArray[1]);
+    a.push(streamArray[0]);
     runningMedian = streamArray[0] + streamArray[1];
 }
-    console.log("runningMedian: " + runningMedian);
+// console.log(b)
+// console.log(a)
+// console.log("runningMedian after 2: " + runningMedian);
 
-let i = 2;  // size of bottomHeap and topHeap
-// for (let i = 2; i < streamArrayLength; i++) {
-for (let i = 2; i < 20 + 2; i++) {
+let i = 2;  // size of b and a
+for (let i = 2; i < streamArrayLength; i++) {
+// for (let i = 2; i < 5 + 2; i++) {
     // console.log("new element: " + i + " " + streamArray[i])
     newMedian = medianMaintainer(i);
     // console.log("i: " + i);
@@ -183,13 +181,13 @@ for (let i = 2; i < 20 + 2; i++) {
     // console.log("newMedian: " + newMedian);
     // console.log("runningMedian: " + runningMedian);
     // console.log();
-    // console.log(bottomHeap)
-    // console.log(topHeap)
-    console.log("newMedian: " + newMedian + " runningMedian: " + runningMedian)
+    // console.log(b)
+    // console.log(a)
+    // console.log("newMedian: " + newMedian + " runningMedian: " + runningMedian)
 }
 console.log("problem set answer: " + runningMedian % 10000);
-// console.log(bottomHeap)
-// console.log(topHeap)
+// console.log(b)
+// console.log(a)
 console.log(Date());
 
 
