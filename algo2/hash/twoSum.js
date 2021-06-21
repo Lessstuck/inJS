@@ -11,4 +11,17 @@ for (let i = 0; i < fileStringLinesLength; i++) {
 }
 let streamArray = fileStringLines;
 let streamArrayLength = streamArray.length;
+let count = 0;
 
+for (let t = -10000; t <= 10000; t++)   {
+// for (let t = -5; t <= 5; t++)   {
+    // for (let u = 0; u < streamArrayLength; u++) {
+    for (let u = 0; u < 1000; u++) {
+        for (let v = 0; v < 1000; v++)   {
+            if (streamArray[u] + streamArray[v] == t) {
+                count++;
+            }
+        }
+    }
+}
+console.log(count)
