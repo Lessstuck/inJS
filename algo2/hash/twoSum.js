@@ -12,16 +12,22 @@ for (let i = 0; i < fileStringLinesLength; i++) {
 let streamArray = fileStringLines;
 let streamArrayLength = streamArray.length;
 let count = 0;
+let t;
 
 for (let t = -10000; t <= 10000; t++)   {
 // for (let t = -5; t <= 5; t++)   {
-    // for (let u = 0; u < streamArrayLength; u++) {
-    for (let u = 0; u < 1000; u++) {
-        for (let v = 0; v < 1000; v++)   {
+    find2sum(t);
+}
+
+function find2sum(t) {
+    for (let u = 0; u < 100; u++) {
+        for (let v = 0; v < 100; v++) {
             if (streamArray[u] + streamArray[v] == t) {
                 count++;
+                return;
             }
         }
     }
 }
+
 console.log(count)
