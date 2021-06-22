@@ -15,20 +15,20 @@ let count = 0;
 let t;
 
 
-// for (let t = -10000; t <= 10000; t++)   {
-for (let t = -10000; t <= -9990; t++)   {
-    find2sum(t);
-}
+// // for (let t = -10000; t <= 10000; t++)   {
+// for (let t = -10000; t <= -9990; t++)   {
+//     find2sum(t);
+// }
 
-function find2sum(t) {
-    for (let u = 0; u < 5; u++) {
-        for (let v = 0; v < 5; v++) {
-            if (streamArray[u] + streamArray[v] == t) {
-                count++;
-                return;
-            }
-        }
-    }
-}
+// function find2sum(t) {
+//     for (let u = 0; u < 5; u++) {
+//         for (let v = 0; v < 5; v++) {
+//             if (streamArray[u] + streamArray[v] == t) {
+//                 count++;
+//                 return;
+//             }
+//         }
+//     }
+// }
 
 console.log(count)
