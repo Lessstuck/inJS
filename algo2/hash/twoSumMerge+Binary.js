@@ -14,30 +14,27 @@ let streamArrayLength = streamArray.length;
 let count = 0;
 let t;
 let complement;
-let cLength;
-let binarySplit, binaryLowSplit, binaryHighSplit;
-let firstElement;
 let arr, x, start, end;
 
-mergeSort(streamArray);
-// // for (let t = -10000; t <= 10000; t++)   {
-for (let t = -10000; t <= -9995; t++)   {
-    find2sum(t);
-}
+/////////////////////////////////////////////////// main
 
-function find2sum(t) {
-    for (let u = 0; u < 5; u++) {
-        complement = t - streamArray[u];
-        start = 0;
-        end = streamArrayLength;
-        if (binarySearch(streamArray, complement, start, end)) {
-            count++;
-        }
+mergeSort(streamArray);
+
+for (let t = -10000; t <= 10000; t++)   {
+    for (let u = 0; u < streamArrayLength; u++)  {
+            complement = t - streamArray[u];
+            start = u;
+            end = streamArrayLength - 1;
+            if (binarySearch(streamArray, complement, start, end)) {
+                count++;
+                continue;
+            }
     }
 }
 
 console.log(count)
 
+///////////////////////////////////////////////////// fun
 
 function mergeSort(C) {
     if (C.length < 2) {
@@ -80,10 +77,13 @@ function merge(left, right) {
     return merged;
 }
 
+// binary search sourced from geeksforgeeks.org
 function binarySearch(arr, x, start, end) {
     if (start > end) return false;
     let mid = Math.floor((start + end) / 2);
-    if (arr[mid] === x) return true;
+    if (arr[mid] === x) {
+        return true;
+    }
     if (arr[mid] > x)
         return binarySearch(arr, x, start, mid - 1);
     else

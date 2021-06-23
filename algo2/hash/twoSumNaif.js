@@ -21,7 +21,7 @@ for (let t = -10000; t <= -9990; t++)   {
 }
 
 function find2sum(t) {
-    for (let u = 0; u < 5; u++) {
+    for (let u = 0; u < streamArrayLength; u++) {
         for (let v = 0; v < 5; v++) {
             if (streamArray[u] + streamArray[v] == t) {
                 count++;
