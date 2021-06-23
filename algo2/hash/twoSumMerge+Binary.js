@@ -1,7 +1,7 @@
 var fs = require("fs");
 
 // read text file, convert to array of arrays of integers
-let fileText = fs.readFileSync('2sumSmall.txt');
+let fileText = fs.readFileSync('2sum.txt');
 let fileString = String(fileText);
 let fileStringLines = fileString.split(/\n/);
 fileStringLines.pop(); // remove trailing newline
@@ -21,12 +21,18 @@ let arr, x, start, end;
 mergeSort(streamArray);
 
 for (let t = -10000; t <= 10000; t++)   {
+// for (let t = 3; t <= 10; t++)    {
+// for (let t = 10; t < 11; t++) {
+    if (t % 100 == 0) {
+        console.log("t: " + t)
+    }
     for (let u = 0; u < streamArrayLength; u++)  {
             complement = t - streamArray[u];
-            start = u;
+            start = 0;
             end = streamArrayLength - 1;
             if (binarySearch(streamArray, complement, start, end)) {
                 count++;
+                console.log("t: " + t + " complement: " + complement + " u: " + u + " count: " + count)
                 continue;
             }
     }
