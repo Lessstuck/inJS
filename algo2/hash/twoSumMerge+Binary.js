@@ -9,36 +9,46 @@ fileStringLinesLength = fileStringLines.length;
 for (let i = 0; i < fileStringLinesLength; i++) {
     fileStringLines[i] = Number(fileStringLines[i])
 }
-let streamArray = fileStringLines;
-let streamArrayLength = streamArray.length;
 let count = 0;
 let t;
 let complement;
 let arr, x, start, end;
+let found;
 
 /////////////////////////////////////////////////// main
+console.log(Date());
 
-mergeSort(streamArray);
+let streamArray = mergeSort(fileStringLines);
+let streamArrayLength = streamArray.length;
+
 
 for (let t = -10000; t <= 10000; t++)   {
 // for (let t = 3; t <= 10; t++)    {
 // for (let t = 10; t < 11; t++) {
+    found = 0;
     if (t % 100 == 0) {
         console.log("t: " + t)
     }
     for (let u = 0; u < streamArrayLength; u++)  {
-            complement = t - streamArray[u];
-            start = 0;
-            end = streamArrayLength - 1;
-            if (binarySearch(streamArray, complement, start, end)) {
-                count++;
-                console.log("t: " + t + " complement: " + complement + " u: " + u + " count: " + count)
-                continue;
-            }
+        complement = t - streamArray[u];
+        if (complement == streamArray[u]) {
+            continue;
+        }
+        start = 0;
+        end = streamArrayLength - 1;
+        if (binarySearch(streamArray, complement, start, end)) {
+            found = 1;
+            // console.log("t: " + t + " streamArray[u]: " + streamArray[u] + " complement: " + complement + " count: " + count)
+            continue;
+        }
+        // console.log("t: " + t  + " streamArray[u]: " + streamArray[u] + " complement: " + complement)
+    }
+    if (found == 1) {
+        count++;
     }
 }
-
-console.log(count)
+console.log(Date());
+console.log(count);
 
 ///////////////////////////////////////////////////// fun
 
@@ -85,6 +95,7 @@ function merge(left, right) {
 
 // binary search sourced from geeksforgeeks.org
 function binarySearch(arr, x, start, end) {
+    // console.log("x: " + x + " start: " + start + " end:" + end);
     if (start > end) return false;
     let mid = Math.floor((start + end) / 2);
     if (arr[mid] === x) {
